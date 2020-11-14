@@ -1,0 +1,12 @@
+.title{
+    color: rgb(82, 37, 6);
+    text-align:center;
+    margin-top:15%;
+    font-size:37px;
+}
+
+.form-control:hover,
+.form-control:focus {
+  background-color: #e8e9e81a; 
+  width: 50%; 
+}
