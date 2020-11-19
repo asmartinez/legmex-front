@@ -1,7 +1,7 @@
 import React from 'react';
 import { BrowserRouter, Route, Switch, Redirect } from "react-router-dom";
 import Admin from './@pages/layouts/Admin';
-import Auth from './@pages/layouts/Auth';
+import Auth from './@pages/layouts/Auth/Auth';
 import Public from './@pages/layouts/Public';
 
 const App = () => {
