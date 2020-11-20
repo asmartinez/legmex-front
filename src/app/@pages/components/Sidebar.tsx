@@ -1,56 +1,86 @@
-import React, { useState } from 'react';
-import { Container, Nav, Navbar, NavbarBrand, NavItem, NavLink } from 'reactstrap';
-import { RouteCustom } from '../../../shared/interfaces';
+import React, { useEffect } from 'react';
 import { NavLink as NavLinkRRD } from "react-router-dom";
-import logo from '../../../assets/img/logooficial.svg';
+import { NavLink, UncontrolledTooltip } from 'reactstrap';
+import { RouteCustom, SidebarCustom } from '../../../shared/interfaces';
+import DropdownProfile from './DropdownProfile';
+import icon from '../../../assets/img/iconmini.svg';
 
-const Sidebar = (props: Array<RouteCustom>) => {
-   const [collapseOpen, setCollapseOpen] = useState(false);
-
-   const closeCollapse = () => {
-      setCollapseOpen(false);
-   }; 
-
+const SidebarItem = (route: RouteCustom) => {
    return (
-      <Navbar
-        className="navbar-vertical fixed-left navbar-light bg-white"
-        expand="md"
-        id="sidenav-main"
+      <NavLink
+       className='navbar-link'
+       to={route.layout + route.routerLink}
+       tag={NavLinkRRD}
+       activeClassName='active'
+       id={route.iconName+route.label}
       >
-        <Container fluid>
-            <NavbarBrand className="pt-0">
-              <img
-                alt={logo}
-                className="navbar-brand-img"
-                src={logo}
-              />
-            </NavbarBrand>
-            <Nav navbar>
-               <NavItem>
-                  <NavLink
-                   to='/admin/dashboard'
-                   tag={NavLinkRRD}
-                   onClick={closeCollapse}
-                   activeClassName="active"
-                  >
-                     <i className='ni ni-tv-2 text-jam' />
-                     Dashboard
-                  </NavLink>
-               </NavItem>
-               <NavItem>
-                  <NavLink
-                   to='/admin/dashboard'
-                   tag={NavLinkRRD}
-                   onClick={closeCollapse}
-                   activeClassName=''
-                  >
-                     <i className='ni ni-tv-2 text-jam' />
-                     Iniciar Sesión
-                  </NavLink>
-               </NavItem>
-            </Nav> 
-        </Container>
-      </Navbar>  
+         <i className={`${route.iconType} ${route.iconType}-${route.iconName} navbar-link-icon`}/>
+         {/*<span className='navbar-link-name'>{route.label}</span>*/}
+         <UncontrolledTooltip
+          delay={0}
+          placement="right"
+          target={route.iconName+route.label}
+         >
+            {route.label}
+         </UncontrolledTooltip>
+      </NavLink>
+   );
+};
+
+const Sidebar = (sidebarCustom: SidebarCustom) => {
+
+   const { layoutOption, items, logout } = sidebarCustom;
+
+   const showNavBar = (toggleId: string, navId: string, bodyId: string, headerId: string) => {
+      const toggle = document.getElementById(toggleId),
+      nav = document.getElementById(navId),
+      bodypd = document.getElementById(bodyId),
+      headerpd = document.getElementById(headerId);
+   
+      //validate that all variables exist
+      if (toggle && nav && bodypd && headerpd) {
+         toggle.addEventListener('click', () => {
+            //show navbar
+            nav.classList.toggle('show-sidebar');
+            //change icon
+            toggle.classList.toggle('bx-x');
+            //add padding to body
+            bodypd.classList.toggle('body-pd');
+            //add padding to header
+            headerpd.classList.toggle('body-pd');
+         })
+      }
+   }
+
+   useEffect( () => {
+      showNavBar('icon_toggle','navbar','body-pd','header');
+   });
+   
+   return (
+      <div className={`navbar-vertical sidebar-navbar s-${layoutOption}`} id='navbar'>
+         <nav className='nav-custom'>
+            <div>
+               <img alt='...' src={icon} className='w-170'/>
+               <div className='navbar-links'>
+                  {
+                     items.map( (item,index) => {
+                        const { label, iconType, iconName, layout, routerLink } = item;
+                        
+                        return <SidebarItem
+                               key={index}
+                               label={label}
+                               iconName={iconName}
+                               iconType={iconType}
+                               layout={layout}
+                               routerLink={routerLink}
+                               />
+                     })
+                  }
+               </div>
+            </div>
+            { logout && <DropdownProfile />}
+         </nav>
+      </div>
    )
 }
 

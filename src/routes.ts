@@ -1,39 +1,41 @@
 import { RouteCustom } from "./shared/interfaces";
-import Dashboard from './app/components/Dashboard';
-import Login from './app/components/FormLogin';
+import Dashboard from './app/components/Dashboard'; 
 import Land from './app/components/Admin/Admin';
 import Page from './app/components/Auth/Auth';
 
 
 const routes: Array<RouteCustom> = [
    {
-      path: '/dashboard',
-      name: 'Dashboard',
-      icon: 'ni ni-tv-2 text-primary',
+      label: 'Dashboard',
+      iconType: 'bx',
+      iconName: 'category',
       layout: '/admin',
+      routerLink: '/dashboard',
       component: Dashboard
-   },
+   }, 
    {
-      path: '/login',
-      name: 'Login',
-      icon: 'ni ni-tv-2 text-primary',
+      label: 'Land',
+      iconType: 'bx',
+      iconName: 'category',
       layout: '/admin',
-      component: Login
-   },
-   {
-      path: '/page',
-      name: 'Page',
-      icon: 'ni ni-tv-2 text-primary',
-      layout: '/admin',
-      component: Page
-   },
-   {
-      path: '/land',
-      name: 'Land',
-      icon: 'ni ni-tv-2 text-primary',
-      layout: '/admin',
+      routerLink: '/land',
       component: Land
-   },
+   }, 
+   {
+      label: 'Page',
+      iconType: 'bx',
+      iconName: 'category',
+      layout: '/admin',
+      routerLink: '/page',
+      component: Page
+   }, 
+   {
+      label: 'Usuarios',
+      iconType: 'bx',
+      iconName: 'user',
+      layout: '/admin',
+      routerLink: '/usuarios'
+   }
 ];
 
 export default routes;

@@ -5,18 +5,14 @@ import { RouteCustom } from '../../../shared/interfaces';
 
 const Public = (props: any) => {
    const getRoutes = (routes: Array<RouteCustom>) => {
-      return routes.map( (prop, key) => {
-         if (prop.layout === 'public') {
-            return (
-               <Route
-                path={prop.layout + prop.path}
-                component={prop.component}
-                key={key}
-               />
-            );
-         } else {
-            return null;
-         }
+      return routes.map( (route, key) => {
+         return (
+            <Route
+             path={route.layout + route.routerLink}
+             component={route.component}
+             key={key}
+            />
+         );
       });
    };
 
