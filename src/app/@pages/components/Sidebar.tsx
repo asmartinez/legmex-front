@@ -9,26 +9,8 @@ const Sidebar = (props: Array<RouteCustom>) => {
 
    const closeCollapse = () => {
       setCollapseOpen(false);
-   };
-   
-   /*const createLinks = (routes: Array<RouteCustom>) => {
-      return routes.map((prop, key) => {
-        return (
-            <NavItem key={key}>
-               <NavLink
-                to={prop.layout + prop.path}
-                tag={NavLinkRRD}
-                onClick={closeCollapse}
-                activeClassName='active'
-               >
-                  <i className={prop.icon} />
-                  {prop.name}
-               </NavLink>
-            </NavItem>
-         );
-      });
-   };*/
-   
+   }; 
+
    return (
       <Navbar
         className="navbar-vertical fixed-left navbar-light bg-white"
@@ -63,24 +45,10 @@ const Sidebar = (props: Array<RouteCustom>) => {
                    activeClassName=''
                   >
                      <i className='ni ni-tv-2 text-jam' />
-                     Tipos de documento
+                     Iniciar Sesión
                   </NavLink>
                </NavItem>
-            </Nav>
-            {/*
-               <Nav navbar>{createLinks(props)}</Nav>
-               <NavItem>
-                     <NavLink
-                      to='/admin/dashboard'
-                      tag={NavLinkRRD}
-                      onClick={closeCollapse}
-                      activeClassName="active"
-                      >
-                        <i className='ni ni-tv-2 text-jam' />
-                        Dashboard
-                     </NavLink>
-                  </NavItem>
-            */}
+            </Nav> 
         </Container>
       </Navbar>  
    )
