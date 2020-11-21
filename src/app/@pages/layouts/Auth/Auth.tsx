@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import FormLogin from './FormLogin';
-import ForgetPassword from './ForgetPassword';
+import ForgetPassword from './ForgetPassword'; 
 import './auth.css';
 import imgSession from '../../../../assets/img/image-session.svg';
 import imgFP from '../../../../assets/img/image-forget-password.svg';
@@ -26,7 +26,7 @@ const Auth = (props: any) => {
          <div className="forms-container">
             <div className="signin-forget-password">
                <FormLogin />
-               <ForgetPassword />
+               <ForgetPassword /> 
             </div>
          </div>
          <div className="panels-container">

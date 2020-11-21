@@ -11,7 +11,7 @@ const App = () => {
             <Route path="/public" render={ props => <Public {...props} />} />
             <Route path="/admin" render={ props => <Admin {...props} />} />
             <Route path="/auth" render={ props => <Auth {...props} />} />
-            <Redirect from="/" to="/admin/index" />
+            <Redirect from="/" to="/public/land" />
          </Switch>
       </BrowserRouter>
    );

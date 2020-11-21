@@ -22,7 +22,7 @@ const DropdownProfile = () => {
                <span>Mi perfil</span>
             </DropdownItem>
             <DropdownItem divider />
-            <DropdownItem href="#pablo" onClick={e => e.preventDefault()}>
+            <DropdownItem to="/land" href="#pablo" tag={Link} /* onClick={e => e.preventDefault()} */>
                <i className="ni ni-user-run" />
                <span>Cerrar sesión</span>
             </DropdownItem>

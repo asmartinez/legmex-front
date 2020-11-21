@@ -4,7 +4,17 @@ import Land from './app/components/Admin/Admin';
 import Page from './app/components/Auth/Auth';
 
 
-const routes: Array<RouteCustom> = [
+import Users from './app/components/Views/Users';
+
+const routes: Array<RouteCustom> = [ 
+   {
+      label: 'Land',
+      iconType: 'bx',
+      iconName: 'category',
+      layout: '/public',
+      routerLink: '/land',
+      component: Land
+   }, 
    {
       label: 'Dashboard',
       iconType: 'bx',
@@ -12,15 +22,7 @@ const routes: Array<RouteCustom> = [
       layout: '/admin',
       routerLink: '/dashboard',
       component: Dashboard
-   }, 
-   {
-      label: 'Land',
-      iconType: 'bx',
-      iconName: 'category',
-      layout: '/admin',
-      routerLink: '/land',
-      component: Land
-   }, 
+   },  
    {
       label: 'Page',
       iconType: 'bx',
@@ -30,12 +32,13 @@ const routes: Array<RouteCustom> = [
       component: Page
    }, 
    {
-      label: 'Usuarios',
+      label: 'Users',
       iconType: 'bx',
-      iconName: 'user',
+      iconName: 'users',
       layout: '/admin',
-      routerLink: '/usuarios'
-   }
+      routerLink: '/users',
+      component: Users
+   }, 
 ];
 
 export default routes;

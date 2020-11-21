@@ -9,6 +9,8 @@ import {
    Button
 } from 'reactstrap';
 import logo from '../../../../assets/img/logooficial.svg';
+import user from '../../../assets/img/user.png';
+import { Link } from 'react-router-dom';
 
 const FormLogin = () => {
    return (
@@ -42,7 +44,7 @@ const FormLogin = () => {
                Se te olvidó tu contraseña
             </Button>*/}
             <div className="text-center">
-               <Button className="my-4" color="default" type="button">
+               <Button className="my-4" to="/admin/page" tag={Link} color="default" type="button">
                   Ingresar
                </Button>
             </div>

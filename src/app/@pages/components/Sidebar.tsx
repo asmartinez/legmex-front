@@ -66,7 +66,8 @@ const Sidebar = (sidebarCustom: SidebarCustom) => {
                      items.map( (item,index) => {
                         const { label, iconType, iconName, layout, routerLink } = item;
                         
-                        return <SidebarItem
+                        return 
+                        <SidebarItem
                                key={index}
                                label={label}
                                iconName={iconName}
