@@ -10,7 +10,9 @@ const Users = () => {
             <Label for="exampleImage">Imagen</Label>
             <Input type="file" name="file" id="exampleFile"/>
             </FormGroup>
-        </Col> 
+        </Col>  
+      </Row> 
+      <Row>
       <Col md={4}>
           <FormGroup>
             <Label for="exampleName">Name</Label>
@@ -40,8 +42,8 @@ const Users = () => {
             <Label for="exampleCellphone">Cellphone</Label>
             <Input type="text" name="Cellphone" id="exampleCellphone" placeholder="Enter your phone number" bsSize="sm"/>
           </FormGroup>
-        </Col>   
-      </Row> 
+        </Col>  
+      </Row>
       <Button style={{background:'#663259', color:'#fff'}}>Submit</Button> 
     </Form>
   );
