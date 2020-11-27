@@ -1,5 +1,9 @@
-import React from 'react';
+import React, {useState} from 'react';
 import { Col, Row, Form, FormGroup, Label, Input, Button } from 'reactstrap';  
+import { initialState } from './constants';
+import { reducer } from './reducer';
+import { actions } from './actions';  
+import logo from '../../../../assets/img/no-image.png';
 
 const Users = () => {
   return ( 
@@ -7,6 +11,12 @@ const Users = () => {
       <Row form>
           <Col md={4}>
           <FormGroup> 
+            {
+              <img
+                      alt={'img'}
+                      src={logo}
+                      style={{ width: '150px', height: '150px', borderRadius:'50%'}}/>
+            }
             <Label for="exampleImage">Imagen</Label>
             <Input type="file" name="file" id="exampleFile"/>
             </FormGroup>
