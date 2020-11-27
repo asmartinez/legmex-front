@@ -1,4 +1,4 @@
-import React, { StrictMode } from 'react';
+import React from 'react';
 import ReactDOM from 'react-dom';
 import App from '../src/app/App';
 import '../src/assets/plugins/nucleo/css/nucleo.css';
@@ -7,8 +7,6 @@ import '../src/assets/css/argon-dashboard-react.css';
 import 'boxicons/css/boxicons.min.css';
 
 ReactDOM.render(
-   <StrictMode>
-      <App />
-   </StrictMode>,
+   <App />,
   document.getElementById('root')
 );

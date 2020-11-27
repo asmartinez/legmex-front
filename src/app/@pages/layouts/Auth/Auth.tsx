@@ -19,7 +19,7 @@ const Auth = (props: any) => {
          });
       }
       
-   }, []);
+   }, [container_login, sign_mode, forget_mode]);
 
    return (
       <div className="container-login">

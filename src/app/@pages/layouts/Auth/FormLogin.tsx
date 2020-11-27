@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
    Form,
    FormGroup,
@@ -9,8 +9,19 @@ import {
    Button
 } from 'reactstrap';
 import logo from '../../../../assets/img/logooficial.svg';
+import { initialState } from '../../../../shared/utils/constants';
+import { useAuth } from '../../../../shared/context/AuthContext';
 
 const FormLogin = () => {
+   
+   const [loginError, setLoginError] = useState();
+   const [emailError, setEmailError] = useState();
+   const [passwordError, setPasswordError] = useState();
+
+   const login = (e: any) => {
+      e.preventDefault();
+   }
+   
    return (
       <>
          <Form role="form" className="sign-in-form">
