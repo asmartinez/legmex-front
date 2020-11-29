@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { DropdownItem, DropdownMenu, DropdownToggle, Media, UncontrolledDropdown } from 'reactstrap';
-import profile from '../../../assets/img/profile.png';
+import profile from '../../../assets/img/profile.svg';
 
 const DropdownProfile = () => {
    return (

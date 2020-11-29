@@ -4,8 +4,6 @@ import routes from '../../../routes';
 import { RouteCustom } from '../../../shared/interfaces';
 import Header from '../components/Header';
 import Sidebar from '../components/Sidebar';
-import Footer from '../components/Footer';
-import { Container } from 'reactstrap';
 
 const Admin = (props: any) => {
 
@@ -26,15 +24,12 @@ const Admin = (props: any) => {
    return (
       <div className='body'>
          <Header/>
-         <Sidebar layoutOption='mini' items={routesAdmin} logout/>
+         <Sidebar layoutOption='mini' items={routesAdmin}/>
          <div className="main-content">
             <Switch>
                { getRoutes(routesAdmin) }
                <Redirect from="*" to="/admin/dashboard" />
             </Switch>
-            <Container fluid>
-               <Footer/>
-            </Container>
          </div>
       </div>
    )

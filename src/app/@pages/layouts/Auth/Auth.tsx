@@ -13,6 +13,8 @@ const Auth = (props: any) => {
    const container_login = document.querySelector(".container-login");
 
    useEffect( () => {
+      document.body.style.padding = '0';
+      
       if (sign_mode && forget_mode && container_login) {
          forget_mode.addEventListener("click", () => {
             container_login.classList.toggle("forget-mode");

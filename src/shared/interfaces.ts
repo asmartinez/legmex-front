@@ -15,5 +15,4 @@ export interface RouteCustom {
 export interface SidebarCustom {
    layoutOption: 'default' | 'mini';
    items: Array<RouteCustom>;
-   logout?: boolean;
 }
