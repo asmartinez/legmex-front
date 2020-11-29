@@ -8,9 +8,9 @@ import {
    Input,
    Button
 } from 'reactstrap';
-import logo from '../../../../assets/img/logooficial.svg';
-import { initialState } from '../../../../shared/utils/constants';
-import { useAuth } from '../../../../shared/context/AuthContext';
+import logo from '../../assets/img/logooficial.svg';
+import { initialState } from '../../shared/utils/constants';
+import { useAuth } from '../../shared/context/AuthContext';
 
 const FormLogin = () => {
    

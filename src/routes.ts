@@ -1,5 +1,5 @@
-import { RouteCustom } from "./shared/interfaces";
-import Dashboard from './app/components/Dashboard';
+import { RouteCustom } from "./shared/utils/interfaces";
+import Dashboard from './components/pages/Dashboard';
 
 const routes: Array<RouteCustom> = [
    {

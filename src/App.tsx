@@ -1,8 +1,8 @@
 import React from 'react';
 import { BrowserRouter, Route, Switch, Redirect } from "react-router-dom";
-import Admin from './@pages/layouts/Admin';
-import Auth from './@pages/layouts/Auth/Auth';
-import Public from './@pages/layouts/Public';
+import Admin from './routes/Admin';
+import Auth from './components/Auth/Auth';
+import Public from './routes/Public';
 
 const App = () => {
   return (

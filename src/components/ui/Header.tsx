@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Navbar, Nav, Container } from 'reactstrap';
 import DropdownProfile from './DropdownProfile';
-import logo from '../../../assets/img/logooficial.svg';
+import logo from '../../assets/img/logooficial.svg';
 import { useWindowSize } from 'react-use';
 
 const Header = () => {

@@ -1,7 +1,7 @@
 import React from 'react';
 import { Redirect, Route, Switch } from 'react-router-dom';
-import routes from '../../../routes';
-import { RouteCustom } from '../../../shared/interfaces';
+import routes from '../routes';
+import { RouteCustom } from '../shared/utils/interfaces';
 
 const Public = (props: any) => {
    const getRoutes = (routes: Array<RouteCustom>) => {

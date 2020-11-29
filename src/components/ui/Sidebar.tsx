@@ -1,8 +1,8 @@
 import React from 'react';
 import { NavLink as NavLinkRRD } from "react-router-dom";
 import { NavLink } from 'reactstrap';
-import { RouteCustom, SidebarCustom } from '../../../shared/interfaces';
-import logo from '../../../assets/img/logooficial.svg';
+import { RouteCustom, SidebarCustom } from '../../shared/utils/interfaces';
+import logo from '../../assets/img/logooficial.svg';
 
 const SidebarItem = (route: RouteCustom) => {
    return (

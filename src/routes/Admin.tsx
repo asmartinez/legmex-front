@@ -1,9 +1,9 @@
 import React from 'react';
 import { Redirect, Route, Switch } from 'react-router-dom';
-import routes from '../../../routes';
-import { RouteCustom } from '../../../shared/interfaces';
-import Header from '../components/Header';
-import Sidebar from '../components/Sidebar';
+import routes from '../routes';
+import { RouteCustom } from '../shared/utils/interfaces';
+import Header from '../components/ui/Header';
+import Sidebar from '../components/ui/Sidebar';
 
 const Admin = (props: any) => {
 
