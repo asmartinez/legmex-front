@@ -11,20 +11,24 @@ import {
 import logo from '../../assets/img/logooficial.svg';
 import { initialState } from '../../shared/utils/constants';
 import { useAuth } from '../../shared/context/AuthContext';
+import { useHistory } from 'react-router-dom';
 
 const FormLogin = () => {
+
+   const history = useHistory();
    
    const [loginError, setLoginError] = useState();
    const [emailError, setEmailError] = useState();
    const [passwordError, setPasswordError] = useState();
 
-   const login = (e: any) => {
+   const handleLogin = (e: any) => {
       e.preventDefault();
+      history.replace('/admin')
    }
    
    return (
       <>
-         <Form role="form" className="sign-in-form">
+         <Form role="form" className="sign-in-form" onSubmit={handleLogin}>
             <img src={logo} className="logo-session" alt="" />
             <h2 className="title">Iniciar sesión</h2>
             <FormGroup className="w-100 mb-3 m-width">
@@ -53,7 +57,7 @@ const FormLogin = () => {
                Se te olvidó tu contraseña
             </Button>*/}
             <div className="text-center">
-               <Button className="my-4" color="default" type="button">
+               <Button className="my-4" color="default" type='submit'>
                   Ingresar
                </Button>
             </div>

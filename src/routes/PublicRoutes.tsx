@@ -3,7 +3,7 @@ import { Redirect, Route, Switch } from 'react-router-dom';
 import routes from '../routes';
 import { RouteCustom } from '../shared/utils/interfaces';
 
-const Public = (props: any) => {
+const PublicRoutes = (props: any) => {
    const getRoutes = (routes: Array<RouteCustom>) => {
       return routes.map( (route, key) => {
          return (
@@ -28,4 +28,4 @@ const Public = (props: any) => {
    )
 }
 
-export default Public;
+export default PublicRoutes;

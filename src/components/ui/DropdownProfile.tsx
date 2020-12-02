@@ -1,9 +1,15 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import { DropdownItem, DropdownMenu, DropdownToggle, Media, UncontrolledDropdown } from 'reactstrap';
 import profile from '../../assets/img/profile.svg';
 
 const DropdownProfile = () => {
+   const history = useHistory();
+
+   const handleLogout = () => {
+      history.replace('/auth');
+   }
+
    return (
       <UncontrolledDropdown nav className='profile-icon'>
          <DropdownToggle className="pr-0" nav>
@@ -22,7 +28,7 @@ const DropdownProfile = () => {
                <span>Mi perfil</span>
             </DropdownItem>
             <DropdownItem divider />
-            <DropdownItem href="#pablo" onClick={e => e.preventDefault()}>
+            <DropdownItem href="#pablo" onClick={handleLogout}>
                <i className="ni ni-user-run" />
                <span>Cerrar sesión</span>
             </DropdownItem>

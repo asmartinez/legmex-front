@@ -21,6 +21,10 @@ const Auth = (props: any) => {
          });
       }
       
+      return () => {
+         document.body.style.padding = '';
+      };
+      
    }, [container_login, sign_mode, forget_mode]);
 
    return (

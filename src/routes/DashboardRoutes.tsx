@@ -5,7 +5,7 @@ import { RouteCustom } from '../shared/utils/interfaces';
 import Header from '../components/ui/Header';
 import Sidebar from '../components/ui/Sidebar';
 
-const Admin = (props: any) => {
+const DashboardRoutes = (props: any) => {
 
    const routesAdmin =  routes.filter( route => route.layout === '/admin' );
 
@@ -35,4 +35,4 @@ const Admin = (props: any) => {
    )
 }
 
-export default Admin;
+export default DashboardRoutes;

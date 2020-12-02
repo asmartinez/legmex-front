@@ -3,6 +3,7 @@ import { NavLink as NavLinkRRD } from "react-router-dom";
 import { NavLink } from 'reactstrap';
 import { RouteCustom, SidebarCustom } from '../../shared/utils/interfaces';
 import logo from '../../assets/img/logooficial.svg';
+import Footer from './Footer';
 
 const SidebarItem = (route: RouteCustom) => {
    return (
@@ -48,10 +49,7 @@ const Sidebar = (sidebarCustom: SidebarCustom) => {
                      }
                   </div>
                </div>
-               <div className="footer-line">
-                  <a href="https://biblioteca.colmex.mx/" className="nav__footer">© 2020 Biblioteca Daniel Cosío Villegas. </a>
-                  <span className="span__footer">El Colegio de México A.C.</span>
-               </div>
+               <Footer />
             </nav>
          </div>
          <div id="backdrop"></div>

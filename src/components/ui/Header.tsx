@@ -33,7 +33,7 @@ const Header = () => {
       return () => {
          setToggle(false);
       }
-   }, [toggle])
+   }, [toggle]);
 
    return (
       <>
