@@ -1,20 +1,17 @@
-import { RouteCustom } from "./shared/interfaces";
-import Dashboard from './app/components/Dashboard'; 
-import Land from './app/components/Admin/Admin';
-import Page from './app/components/Auth/Auth';
+import { RouteCustom } from "./shared/utils/interfaces";
+import Dashboard from './components/pages/admin_views/Dashboard';
+import Users from './components/pages/admin_views/Users';
+import Inicio from "./components/pages/public_views/Inicio";
 
-
-import Users from './app/components/Views/Users';
-
-const routes: Array<RouteCustom> = [ 
+const routes: Array<RouteCustom> = [
    {
-      label: 'Land',
+      label: 'Inicio',
       iconType: 'bx',
       iconName: 'category',
       layout: '/public',
-      routerLink: '/land',
-      component: Land
-   }, 
+      routerLink: '/inicio',
+      component: Inicio
+   },
    {
       label: 'Dashboard',
       iconType: 'bx',
@@ -22,17 +19,9 @@ const routes: Array<RouteCustom> = [
       layout: '/admin',
       routerLink: '/dashboard',
       component: Dashboard
-   },  
+   },
    {
-      label: 'Page',
-      iconType: 'bx',
-      iconName: 'category',
-      layout: '/admin',
-      routerLink: '/page',
-      component: Page
-   }, 
-   {
-      label: 'Users',
+      label: 'Usuarios',
       iconType: 'bx',
       iconName: 'users',
       layout: '/admin',

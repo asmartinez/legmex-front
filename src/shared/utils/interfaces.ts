@@ -13,7 +13,6 @@ export interface RouteCustom {
 }
 
 export interface SidebarCustom {
-   layoutOption: 'default' | 'mini';
+   backgroundOption: 'light-blue' | 'white';
    items: Array<RouteCustom>;
-   logout?: boolean;
 }

@@ -1,7 +1,7 @@
 import React from 'react';  
 import { Button } from 'reactstrap';
 
-const Admin = () => {
+const Inicio = () => {
    return (
       <>
       <h1     
@@ -23,4 +23,4 @@ const Admin = () => {
    )
 }
 
-export default Admin;
+export default Inicio;

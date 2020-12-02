@@ -1,13 +1,11 @@
 import React from 'react';
 import { Redirect, Route, Switch } from 'react-router-dom';
-import routes from '../../../routes';
-import { RouteCustom } from '../../../shared/interfaces';
-import Header from '../components/Header';
-import Sidebar from '../components/Sidebar';
-import Footer from '../components/Footer';
-import { Container } from 'reactstrap';
+import routes from '../routes';
+import { RouteCustom } from '../shared/utils/interfaces';
+import Header from '../components/ui/Header';
+import Sidebar from '../components/ui/Sidebar';
 
-const Admin = (props: any) => {
+const DashboardRoutes = (props: any) => {
 
    const routesAdmin =  routes.filter( route => route.layout === '/admin' );
 
@@ -26,18 +24,15 @@ const Admin = (props: any) => {
    return (
       <div className='body'>
          <Header/>
-         <Sidebar layoutOption='mini' items={routesAdmin} logout/>
+         <Sidebar backgroundOption='light-blue' items={routesAdmin}/>
          <div className="main-content">
             <Switch>
                { getRoutes(routesAdmin) }
                <Redirect from="*" to="/admin/dashboard" />
             </Switch>
-            <Container fluid>
-               <Footer/>
-            </Container>
          </div>
       </div>
    )
 }
 
-export default Admin;
+export default DashboardRoutes;

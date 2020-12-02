@@ -1,13 +1,12 @@
 import React from 'react';
 import { Redirect, Route, Switch } from 'react-router-dom';
-import routes from '../../../routes';
-import { RouteCustom } from '../../../shared/interfaces';
-import Header from '../components/Header';
-import NavBar from '../components/NavBar';
+import Sidebar from '../components/ui/Sidebar';
+import routes from '../routes';
+import { RouteCustom } from '../shared/utils/interfaces';
 
-const routesAdmin =  routes.filter( route => route.layout === '/public' );
+const publicRoutes =  routes.filter( route => route.layout === '/public' );
 
-const Public = (props: any) => {
+const PublicRoutes = (props: any) => {
    const getRoutes = (routes: Array<RouteCustom>) => {
       return routes.map( (route, key) => {
          return (
@@ -23,8 +22,7 @@ const Public = (props: any) => {
    return (
       <>
          <div className="main-content">
-         <Header/> 
-         <NavBar layoutOption='mini' items={routesAdmin} logout/>
+            <Sidebar backgroundOption='white' items={publicRoutes}/>
             <Switch>
                {getRoutes(routes)}
                <Redirect from="*" to="/public/inicio"/>
@@ -34,4 +32,4 @@ const Public = (props: any) => {
    )
 }
 
-export default Public;
+export default PublicRoutes;

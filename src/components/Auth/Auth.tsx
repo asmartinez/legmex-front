@@ -2,8 +2,8 @@ import React, { useEffect } from 'react';
 import FormLogin from './FormLogin';
 import ForgetPassword from './ForgetPassword'; 
 import './auth.css';
-import imgSession from '../../../../assets/img/image-session.svg';
-import imgFP from '../../../../assets/img/image-forget-password.svg';
+import imgSession from '../../assets/img/image-session.svg';
+import imgFP from '../../assets/img/image-forget-password.svg';
 
 
 const Auth = (props: any) => {
@@ -13,13 +13,19 @@ const Auth = (props: any) => {
    const container_login = document.querySelector(".container-login");
 
    useEffect( () => {
+      document.body.style.padding = '0';
+      
       if (sign_mode && forget_mode && container_login) {
          forget_mode.addEventListener("click", () => {
             container_login.classList.toggle("forget-mode");
          });
       }
       
-   }, []);
+      return () => {
+         document.body.style.padding = '';
+      };
+      
+   }, [container_login, sign_mode, forget_mode]);
 
    return (
       <div className="container-login">
