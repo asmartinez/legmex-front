@@ -9,8 +9,6 @@ import {
    Button
 } from 'reactstrap';
 import logo from '../../assets/img/logooficial.svg';
-import { initialState } from '../../shared/utils/constants';
-import { useAuth } from '../../shared/context/AuthContext';
 import { useHistory } from 'react-router-dom';
 
 const FormLogin = () => {

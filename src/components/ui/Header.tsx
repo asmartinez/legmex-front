@@ -43,7 +43,7 @@ const Header = () => {
                <button className="navbar-toggler" type="button" onClick={showSidebar}>
                   <span className="navbar-toggler-icon"/>
                </button>
-               { !displayNone && <span className="h4 mb-0 text-uppercase d-none d-lg-inline-block"> Dashboard </span> }
+               { !displayNone && <span className="h4 mb-0 text-uppercase d-none d-lg-inline-block"> {/*Dashboard*/} </span> }
                { displayNone && <img className="navbar-brand-img" src={logo} alt="..."/> }
                <Nav className={`align-items-center ${displayNone ? 'd-md-flex' : ''}`} navbar={!displayNone}>
                   <DropdownProfile />

@@ -22,11 +22,11 @@ const SidebarItem = (route: RouteCustom) => {
 
 const Sidebar = (sidebarCustom: SidebarCustom) => {
 
-   const { items } = sidebarCustom;
+   const { items, backgroundOption } = sidebarCustom;
    
    return (
       <>
-         <div className="lateral-nav" id="navbar">
+         <div className={`lateral-nav ${backgroundOption}-bg`} id="navbar">
             <nav className="navbar__custom">
                <div>
                   <div className="nav__brand">

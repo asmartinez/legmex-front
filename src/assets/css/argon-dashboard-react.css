@@ -14362,13 +14362,19 @@ a:hover {
   left: -30%;
   width: var(--nav-width);
   height: 100vh;
-  background-color: var(--bg-color);
   color: var(--gray-color);
   padding: 1.5rem 1rem 2rem;
   transition: .5s;
   z-index: var(--z-fixed);
 }
 
+.lateral-nav.white-bg {
+  background-color: var(--white);
+}
+
+.lateral-nav.light-blue-bg {
+  background-color: var(--bg-color);
+}
 /*Nav*/
 .navbar__custom {
   height: 100%;

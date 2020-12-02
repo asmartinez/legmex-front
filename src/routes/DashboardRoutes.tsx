@@ -24,7 +24,7 @@ const DashboardRoutes = (props: any) => {
    return (
       <div className='body'>
          <Header/>
-         <Sidebar layoutOption='mini' items={routesAdmin}/>
+         <Sidebar backgroundOption='light-blue' items={routesAdmin}/>
          <div className="main-content">
             <Switch>
                { getRoutes(routesAdmin) }
