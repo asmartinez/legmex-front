@@ -4,7 +4,7 @@ import { Button, Form, FormGroup, Input, InputGroup, InputGroupAddon, InputGroup
 const ForgetPassword = () => {
    return (
       <>
-         <Form role="form" className="forget-password-form">
+         <Form role="form" className="form-auth forget-password-form">
             <h2 className="title">Contraseña olvidada ?</h2>
             <p className="text-muted font-weight-bold font-size-h4">
                Ingrese su correo electrónico para restablecer su contraseña

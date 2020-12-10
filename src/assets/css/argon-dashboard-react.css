@@ -14514,7 +14514,41 @@ a:hover {
   height: 100vh;
 }
 
+/* Scroll */
+.modal::-webkit-scrollbar {
+  width: 4px;
+}
+
+.modal::-webkit-scrollbar-thumb {
+  background: #ccc;
+  border-radius: 4px;
+}
+
+.modal::-webkit-scrollbar-thumb:active {
+  background-color: #999999;
+}
+
+.modal::-webkit-scrollbar-thumb:hover {
+  background: #b3b3b3;
+  box-shadow: 0 0 2px 1px rgba(0, 0, 0, 0.2);
+}
+
+.modal::-webkit-scrollbar-track {
+  background: #e1e1e1;
+  border-radius: 4px;
+}
+
+.modal::-webkit-scrollbar-track:hover, 
+.modal::-webkit-scrollbar-track:active {
+  background: #d4d4d4;
+}
+/* Scroll */
+
 @media screen and (min-width: 768px) {
+  /* Scroll */
+  .modal::-webkit-scrollbar {
+    width: 8px;
+  }
   .lateral-nav {
     width: calc(var(--nav-width) + 9.25rem);
     left: 0;

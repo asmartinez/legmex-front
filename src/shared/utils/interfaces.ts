@@ -16,3 +16,16 @@ export interface SidebarCustom {
    backgroundOption: 'light-blue' | 'white';
    items: Array<RouteCustom>;
 }
+
+/*
+   Models
+*/
+export interface DescriptiveRecord {
+   id: string;
+   dispositionTitle: string;
+   date: string;
+   volume: string;
+   pageNumbers: number;
+   legislationTranscript: string;
+   place: string
+}
