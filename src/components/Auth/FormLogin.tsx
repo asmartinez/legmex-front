@@ -26,7 +26,7 @@ const FormLogin = () => {
    
    return (
       <>
-         <Form role="form" className="sign-in-form" onSubmit={handleLogin}>
+         <Form role="form" className="form-auth sign-in-form" onSubmit={handleLogin}>
             <img src={logo} className="logo-session" alt="" />
             <h2 className="title">Iniciar sesión</h2>
             <FormGroup className="w-100 mb-3 m-width">

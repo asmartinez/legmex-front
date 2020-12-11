@@ -3,6 +3,7 @@ import Dashboard from './components/pages/admin_views/Dashboard';
 import Users from './components/pages/admin_views/Users';
 import Inicio from "./components/pages/public_views/Inicio";
 import Panel from './components/pages/admin_views/Files'; 
+import Registry from "./components/pages/admin_views/Registry/Registry";
 
 const routes: Array<RouteCustom> = [
    {
@@ -36,6 +37,14 @@ const routes: Array<RouteCustom> = [
       layout: '/admin',
       routerLink: '/panel',
       component: Panel
+   },
+   {
+      label: 'Registros',
+      iconType: 'bx',
+      iconName: 'users',
+      layout: '/admin',
+      routerLink: '/registry',
+      component: Registry
    }
 ];
 
