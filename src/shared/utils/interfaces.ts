@@ -12,9 +12,13 @@ export interface RouteCustom {
    component?: React.FC;
 }
 
+export type TypeFooter = 'line' | 'card';
+
 export interface SidebarCustom {
    backgroundOption: 'light-blue' | 'white';
    items: Array<RouteCustom>;
+   showTitle?: boolean;
+   isFooterCard?: boolean;
 }
 
 /*
@@ -26,6 +30,9 @@ export interface DescriptiveRecord {
    date: string;
    volume: string;
    pageNumbers: number;
-   legislationTranscript: string;
-   place: string
+   legislationTranscriptOriginal: string;
+   legislationTranscriptCopy: string;
+   place: string;
+   dispositionType: string | number;
+   affair: string | number;
 }

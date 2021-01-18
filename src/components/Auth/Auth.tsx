@@ -7,25 +7,12 @@ import imgFP from '../../assets/img/image-forget-password.svg';
 
 
 const Auth = (props: any) => {
-
-   const forget_mode = document.getElementById("forget-mode");
-   const sign_mode = document.getElementById("sign-mode");
-   const container_login = document.querySelector(".container-login");
-
    useEffect( () => {
       document.body.style.padding = '0';
-      
-      if (sign_mode && forget_mode && container_login) {
-         forget_mode.addEventListener("click", () => {
-            container_login.classList.toggle("forget-mode");
-         });
-      }
-      
       return () => {
          document.body.style.padding = '';
       };
-      
-   }, [container_login, sign_mode, forget_mode]);
+   }, []);
 
    return (
       <div className="container-login">

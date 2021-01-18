@@ -20,7 +20,7 @@ import ReactDatetime from 'react-datetime';
 import { DescriptiveRecord } from '../../../../shared/utils/interfaces';
 import { Moment } from 'moment';
 
-const Registry = () => {
+const Descriptive = () => {
    const [toggleDialog, setToggleDialog] = useState<boolean>(false);
    const initDescriptiveRecord: DescriptiveRecord = {
       id: '',
@@ -28,8 +28,11 @@ const Registry = () => {
       date: '',
       volume: '',
       pageNumbers: 0,
-      legislationTranscript: '',
-      place: ''
+      legislationTranscriptOriginal: '',
+      legislationTranscriptCopy: '',
+      place: '',
+      dispositionType: '',
+      affair: ''
    }
    const [descriptiveRecord, setDescriptiveRecord] = useState<DescriptiveRecord>(initDescriptiveRecord);
    const [descriptiveRecords, setDescriptiveRecords] = useState<DescriptiveRecord[]>([]);
@@ -43,9 +46,9 @@ const Registry = () => {
    }
 
    const handleChangeDataPicker = (event: Moment | string) => {
+      descriptiveRecord.date = event.toString();
       setDescriptiveRecord( prevState =>({
-         ...prevState,
-         ['date']: event.toString()
+         ...prevState
       }));
    }
 
@@ -85,11 +88,15 @@ const Registry = () => {
                            </div>
                            <div className="col text-right">
                               <Button
+                               className="btn-icon btn-3"
                                color="primary"
                                size="sm"
                                onClick={() => openDialog()}
                               >
-                                 Nuevo
+                                 <span className="btn-inner--icon">
+                                    <i className="bx bx-plus" />
+                                 </span>
+                                 <span className="btn-inner--text">Agregar</span>
                               </Button>
                            </div>
                         </Row>
@@ -131,7 +138,7 @@ const Registry = () => {
                <Card className="bg-secondary shadow border-0">
                   <CardHeader className="bg-white border-0">
                      <Row className="align-items-center">
-                        <Col xs="8">
+                        <Col xs="12">
                            <h3 className="mb-0">Nuevo registro descriptivo</h3>
                         </Col>
                      </Row>
@@ -152,7 +159,7 @@ const Registry = () => {
                               />
                            </FormGroup>
                         </Col>
-                        <Col lg="12" md="12">
+                        <Col lg="6" md="6">
                            <FormGroup>
                               <label className="form-control-label">Fecha</label>
                               <InputGroup className="input-group-alternative">
@@ -172,7 +179,21 @@ const Registry = () => {
                               </InputGroup>
                            </FormGroup>
                         </Col>
-                        <Col>
+                        <Col lg="6" md="6">
+                           <FormGroup>
+                              <label className="form-control-label">Lugar</label>
+                              <Input
+                               className="form-control-alternative"
+                               placeholder="Ingrese el lugar"
+                               type="text"
+                               onChange={handleChange}
+                               name="place"
+                               value={descriptiveRecord.place}
+                               autoComplete="off"
+                              />
+                           </FormGroup>
+                        </Col>
+                        <Col lg="6" md="6">
                            <FormGroup>
                               <label className="form-control-label">Volumen</label>
                               <Input
@@ -186,7 +207,7 @@ const Registry = () => {
                               />
                            </FormGroup>
                         </Col>
-                        <Col>
+                        <Col lg="6" md="6">
                            <FormGroup>
                               <label className="form-control-label">No. de páginas</label>
                               <Input
@@ -202,20 +223,6 @@ const Registry = () => {
                         </Col>
                         <Col lg="12" md="12">
                            <FormGroup>
-                              <label className="form-control-label">Lugar</label>
-                              <Input
-                               className="form-control-alternative"
-                               placeholder="Ingrese el lugar"
-                               type="text"
-                               onChange={handleChange}
-                               name="place"
-                               value={descriptiveRecord.place}
-                               autoComplete="off"
-                              />
-                           </FormGroup>
-                        </Col>
-                        <Col lg="12" md="12">
-                           <FormGroup>
                               <label className="form-control-label">Transcripción de la legislación</label>
                               <Input
                                className="form-control-alternative"
@@ -225,15 +232,15 @@ const Registry = () => {
                                onChange={handleChange}
                                autoComplete="off"
                                name="legislationTranscript"
-                               value={descriptiveRecord.legislationTranscript}
+                               value={descriptiveRecord.legislationTranscriptOriginal}
                               />
                            </FormGroup>
                         </Col>
                      </Row>
                   </CardBody>
                   <CardFooter>
-                     <Button size="sm" type="button" color="secondary" onClick={onCancel}>Cancelar</Button>
                      <Button size="sm" type="button" color="primary" onClick={addElement}>Guardar</Button>
+                     <Button size="sm" type="button" color="secondary" onClick={onCancel}>Cancelar</Button>
                   </CardFooter>
                </Card>
             </div>
@@ -243,4 +250,4 @@ const Registry = () => {
 }
 
 
-export default Registry; 
+export default Descriptive; 

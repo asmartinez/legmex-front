@@ -1,6 +1,6 @@
 import React from 'react';
 import { Button, Form, FormGroup, Input, InputGroup, InputGroupAddon, InputGroupText } from 'reactstrap';
-
+import { handleForgetPassword } from '../../shared/utils/constants';
 const ForgetPassword = () => {
    return (
       <>
@@ -24,7 +24,7 @@ const ForgetPassword = () => {
                <Button className="my-4" color="default" type="button">
                   Enviar
                </Button>
-               <Button className="my-4" color="default" type="button" id="sign-mode">
+               <Button className="my-4" color="secundary" type="button" onClick={handleForgetPassword}>
                   Cancelar
                </Button>
             </div>

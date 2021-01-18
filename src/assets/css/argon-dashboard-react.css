@@ -33,7 +33,7 @@
     Color System Start
   */
   --first-color: #663259;
-  --first-color-light: #ca8abb;
+  --first-color-light: #f4e1f0;
   --white-color: #f2f3f7;
   /*
     Color System End
@@ -59,7 +59,7 @@
   --body-font: 'Poppins', sans-serif;
   --normal-font-size: 1rem;
   --small-font-size: .875rem;
-  --small-font-size-footer: .675rem;
+  --small-font-size-footer: .575rem;
   /*Z index*/
   --z-fixed: 100;
 
@@ -1730,25 +1730,25 @@ fieldset:disabled a.btn {
       box-shadow: none, 0 0 0 0 rgba(94, 114, 228, 0.5); }
 
 .btn-secondary {
-  color: #212529;
-  background-color: #f7fafc;
-  border-color: #f7fafc;
-  box-shadow: 0 4px 6px rgba(50, 50, 93, 0.11), 0 1px 3px rgba(0, 0, 0, 0.08); }
+  color: #3f4254;
+  background-color: #e4e6ef;
+  border-color: #e4e6ef;
+  /*box-shadow: 0 4px 6px rgba(50, 50, 93, 0.11), 0 1px 3px rgba(0, 0, 0, 0.08);*/ }
   .btn-secondary:hover {
-    color: #212529;
-    background-color: #f7fafc;
-    border-color: #f7fafc; }
+    color: #3f4254;
+    background-color: #d7dae7;
+    border-color: #d7dae7; }
   .btn-secondary:focus, .btn-secondary.focus {
     box-shadow: 0 4px 6px rgba(50, 50, 93, 0.11), 0 1px 3px rgba(0, 0, 0, 0.08), 0 0 0 0 rgba(247, 250, 252, 0.5); }
   .btn-secondary.disabled, .btn-secondary:disabled {
-    color: #212529;
-    background-color: #f7fafc;
-    border-color: #f7fafc; }
+    color: #3f4254;
+    background-color: #d7dae7;
+    border-color: #d7dae7; }
   .btn-secondary:not(:disabled):not(.disabled):active, .btn-secondary:not(:disabled):not(.disabled).active,
   .show > .btn-secondary.dropdown-toggle {
-    color: #212529;
-    background-color: #d2e3ee;
-    border-color: #f7fafc; }
+    color: #3f4254;
+    background-color: #d7dae7;
+    border-color: #d7dae7; }
     .btn-secondary:not(:disabled):not(.disabled):active:focus, .btn-secondary:not(:disabled):not(.disabled).active:focus,
     .show > .btn-secondary.dropdown-toggle:focus {
       box-shadow: none, 0 0 0 0 rgba(247, 250, 252, 0.5); }
@@ -9519,7 +9519,7 @@ button.section-darker:focus {
 .left-9 {
   left: 10rem; }
 
-.center {
+t- {
   left: 50%;
   transform: translateX(-50%); }
 
@@ -14390,11 +14390,12 @@ a:hover {
 }
 
 .nav__brand {
-  display: grid;
+  /*display: grid;
   grid-template-columns: max-content max-content;
   justify-content: space-between;
-  align-items: center;
-  margin-bottom: 2rem;
+  align-items: center;*/
+  display: block;
+  text-align: center;
 }
 
 .nav__toggle {
@@ -14403,8 +14404,29 @@ a:hover {
   cursor: pointer;
 }
 
-.nav__logo {
+.m-b-2 {
+  margin-bottom: 2rem;
+}
+
+.m-b-1 {
+  margin-bottom: 1rem;
+}
+
+.m-b-30 {
+  margin-bottom: 30px;
+}
+
+
+.wth-193 {
   width: 193px;
+}
+
+.wth-100 {
+  width: 100px;
+}
+
+.l-height {
+  line-height: 0.5;
 }
 
 .nav__link {
@@ -14415,7 +14437,7 @@ a:hover {
   padding: 0.75rem;
   color: var(--gray-color);
   border-radius: .5rem;
-  margin-bottom: 1rem;
+  margin-bottom: 0.2rem;
   transition: .3s;
   cursor: pointer;
 }
@@ -14435,6 +14457,15 @@ a:hover {
 
 .footer-line {
   line-height: 1;
+}
+
+.footer-card {
+  background: #fafafa;
+  width: 100%;
+  height: 125px;
+  padding: 1rem;
+  border-radius: 10%;
+  text-align: center;
 }
 
 .nav__footer {
@@ -14514,6 +14545,40 @@ a:hover {
   height: 100vh;
 }
 
+.text-index {
+  color: var(--first-color);
+  text-align: center;
+  font-size: 0.9rem;
+}
+
+.m-lr {
+  margin-left: 16%;
+  margin-right: 16%;
+}
+
+.pointer {
+  cursor: pointer;
+}
+
+.t-center {
+  text-align: center;
+}
+
+.t-justify {
+  text-align: justify;
+}
+
+.btn.btn-light-primary {
+  color: var(--first-color);
+  background-color: var(--first-color-light);
+  border-color: transparent;
+}
+.btn.btn-light-primary.focus:not(.btn-text), .btn.btn-light-primary:focus:not(.btn-text), .btn.btn-light-primary:hover:not(.btn-text):not(:disabled):not(.disabled) {
+  color: #fff;
+  background-color: var(--first-color);
+  border-color: transparent;
+}
+
 /* Scroll */
 .modal::-webkit-scrollbar {
   width: 4px;
@@ -14569,5 +14634,9 @@ a:hover {
 
   .container-fluid {
     padding: 0 30px;
+  }
+
+  .text-index {
+    font-size: 1.2rem;
   }
 }

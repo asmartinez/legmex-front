@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { FormEvent, useState } from 'react';
 import {
    Form,
    FormGroup,
@@ -10,6 +10,7 @@ import {
 } from 'reactstrap';
 import logo from '../../assets/img/logooficial.svg';
 import { useHistory } from 'react-router-dom';
+import { handleForgetPassword } from '../../shared/utils/constants';
 
 const FormLogin = () => {
 
@@ -19,8 +20,8 @@ const FormLogin = () => {
    const [emailError, setEmailError] = useState();
    const [passwordError, setPasswordError] = useState();
 
-   const handleLogin = (e: any) => {
-      e.preventDefault();
+   const handleLogin = (event: FormEvent<HTMLFormElement>) => {
+      event.preventDefault();
       history.replace('/admin')
    }
    
@@ -42,6 +43,18 @@ const FormLogin = () => {
             </FormGroup>
             <FormGroup className="w-100 mb-3 m-width">
                <label className="form-control-label">Contraseña</label>
+               {/*eslint-disable-next-line jsx-a11y/anchor-is-valid*/}
+               <a
+                className="text-jam"
+                style={{
+                  cursor: 'pointer',
+                  fontSize: '18px',
+                  float: 'right'
+                }}
+                id="forget-mode"
+                onClick={handleForgetPassword}>
+               <small>Se te olvidó tu contraseña</small>
+            </a>
                <InputGroup className="input-group-alternative">
                   <InputGroupAddon addonType="prepend">
                      <InputGroupText>
@@ -51,9 +64,6 @@ const FormLogin = () => {
                   <Input placeholder="Ingrese la contraseña" type="password"/>
                </InputGroup>
             </FormGroup>
-            {/*<Button className="my-4" color="secondary" type="button" id="forget-mode">
-               Se te olvidó tu contraseña
-            </Button>*/}
             <div className="text-center">
                <Button className="my-4" color="default" type='submit'>
                   Ingresar
