@@ -14416,6 +14416,10 @@ a:hover {
   margin-bottom: 30px;
 }
 
+.session {
+  margin-top: -120px;
+  margin-bottom: 100px;
+}
 
 .wth-193 {
   width: 193px;
@@ -14638,5 +14642,9 @@ a:hover {
 
   .text-index {
     font-size: 1.2rem;
+  }
+
+  .session {
+    margin-top: -80px;
   }
 }

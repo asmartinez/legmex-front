@@ -1,4 +1,5 @@
-import React from 'react';  
+import React from 'react';
+import { NavLink as NavLinkRRD } from "react-router-dom";
 import {
    Button,
    Col,
@@ -8,6 +9,7 @@ import {
    InputGroup,
    InputGroupAddon,
    InputGroupText,
+   NavLink,
    Row
 } from 'reactstrap';
 
@@ -15,6 +17,19 @@ const Index = () => {
    return (
       <>
          <Container>
+            <Row className="session">
+               <Col xl={10} md={9} xs={10}></Col>
+               <Col xl={2} md={3} xs={6}>
+                  <NavLink
+                   className="btn btn-light-primary btn-sm"
+                   to="/auth"
+                   tag={NavLinkRRD}
+                   id="login12">
+                     <i className="bx bx-log-in"/>
+                     <span className="nav__name">Iniciar Sesión</span>
+                  </NavLink>
+               </Col>
+            </Row>
             <Row>
                <Col xl={2} md={2}></Col>
                <Col>
