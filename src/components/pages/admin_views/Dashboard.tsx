@@ -5,10 +5,10 @@ import {
    Container,
    Row
 } from 'reactstrap';
-const api = require('zotero-api-client');
+//const api = require('zotero-api-client');
 
 const Dashboard = () => {
-   useEffect(() => {
+   /*useEffect(() => {
       async function anyNameFunction() {
          const response = await api().library('user', 7277480).collections('DRUATBZK').items().get();
          const items = response.getData();
@@ -16,7 +16,7 @@ const Dashboard = () => {
       }
       
       anyNameFunction();
-   }, [])
+   }, [])*/
    return (
       <>
          <Container className=" mt--7" fluid>
