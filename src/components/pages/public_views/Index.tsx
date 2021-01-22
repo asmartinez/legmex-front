@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { NavLink as NavLinkRRD } from "react-router-dom";
 import {
    Button,
@@ -12,8 +12,23 @@ import {
    NavLink,
    Row
 } from 'reactstrap';
+import axios from 'axios';
+import { DescriptiveRecord } from '../../../shared/utils/interfaces';
 
-const Index = () => { 
+const Index = () => {
+   const [searchBasic, setSearchBasic] = useState<string>('');
+   const [descriptiveRecords, setDescriptiveRecords] = useState<DescriptiveRecord[]>([]);
+
+
+   const searchDescriptiveRecords = () => {
+      axios.get<DescriptiveRecord[]>(`http://34.229.223.42/v1/buscar/?search="engine"`)
+      .then(response => {
+         console.log();
+         setDescriptiveRecords(response.data);
+      })
+      .catch(error => console.log(error));
+   };
+
    return (
       <>
          <Container>
@@ -39,7 +54,7 @@ const Index = () => {
                   <FormGroup>
                      <InputGroup className="input-group-alternative mb-4">
                         <InputGroupAddon addonType="prepend">
-                           <InputGroupText>
+                           <InputGroupText onClick={searchDescriptiveRecords}>
                               <i className="bx bx-search-alt pointer"/>
                            </InputGroupText>
                         </InputGroupAddon>
@@ -47,8 +62,7 @@ const Index = () => {
                          className="form-control-alternative"
                          placeholder="Search"
                          type="text"/>
-                     </InputGroup>
-                     
+                     </InputGroup>    
                   </FormGroup>
                   <div style={{marginTop: '-22px', textAlignLast: 'center'}}>
                      <Button
@@ -58,6 +72,13 @@ const Index = () => {
                </Col>
                <Col xl={2} md={2}></Col>
             </Row>
+            {
+               descriptiveRecords.map(resp => {
+                  return <Row key={resp.id+resp.date}>
+                     {resp.legislationTranscriptCopy}
+                  </Row> 
+               })
+            }
          </Container>
       </>
    )

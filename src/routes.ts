@@ -20,7 +20,6 @@ const routes: Array<RouteCustom> = [
       iconName: 'slideshow', //spreadsheet
       layout: '/public',
       routerLink: '/presentacion',
-      component: Index
    },
    {
       label: 'Guía de uso',
@@ -28,7 +27,6 @@ const routes: Array<RouteCustom> = [
       iconName: 'carousel',
       layout: '/public',
       routerLink: '/guia_de_uso',
-      component: Index
    },
    {
       label: 'Volúmenes',
@@ -36,7 +34,6 @@ const routes: Array<RouteCustom> = [
       iconName: 'library',
       layout: '/public',
       routerLink: '/volumenes',
-      component: Index
    },
    {
       label: 'Tipos de documentos',
@@ -44,7 +41,6 @@ const routes: Array<RouteCustom> = [
       iconName: 'blanket',
       layout: '/public',
       routerLink: '/tipos_de_documentos',
-      component: Index
    },
    {
       label: 'Asuntos',
@@ -52,7 +48,6 @@ const routes: Array<RouteCustom> = [
       iconName: 'outline',
       layout: '/public',
       routerLink: '/asuntos',
-      component: Index
    },
    {
       label: 'Descargar Corpus',
@@ -60,23 +55,20 @@ const routes: Array<RouteCustom> = [
       iconName: 'book-bookmark',
       layout: '/public',
       routerLink: '/corpus',
-      component: Index
    },
    {
       label: 'Publicaciones',
       iconType: 'bx',
       iconName: 'book-reader',
       layout: '/public',
-      routerLink: '/publicaciones',
-      component: Index
+      routerLink: '/publicaciones'
    },
    {
       label: 'Contacto',
       iconType: 'bx',
       iconName: 'envelope',
       layout: '/public',
-      routerLink: '/contacto',
-      component: Index
+      routerLink: '/contacto'
    },
    {
       label: 'Dashboard',
