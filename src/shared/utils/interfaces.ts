@@ -21,6 +21,11 @@ export interface SidebarCustom {
    isFooterCard?: boolean;
 }
 
+export interface BadgeCustom {
+   title: string;
+   value: string | number;
+}
+
 /*
    Models
 */
@@ -33,6 +38,6 @@ export interface DescriptiveRecord {
    legislationTranscriptOriginal: string;
    legislationTranscriptCopy: string;
    place: string;
-   dispositionType: string | number;
-   affair: string | number;
+   dispositionTypeId: string | number;
+   affairId: string | number;
 }

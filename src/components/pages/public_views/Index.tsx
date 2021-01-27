@@ -1,7 +1,9 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { NavLink as NavLinkRRD } from "react-router-dom";
 import {
    Button,
+   Card,
+   CardBody,
    Col,
    Container,
    FormGroup,
@@ -14,19 +16,24 @@ import {
 } from 'reactstrap';
 import axios from 'axios';
 import { DescriptiveRecord } from '../../../shared/utils/interfaces';
+import Badge from '../../ui/common/Badge';
 
 const Index = () => {
    const [searchBasic, setSearchBasic] = useState<string>('');
    const [descriptiveRecords, setDescriptiveRecords] = useState<DescriptiveRecord[]>([]);
+   const url = 'http://34.229.223.42';
 
 
    const searchDescriptiveRecords = () => {
-      axios.get<DescriptiveRecord[]>(`http://34.229.223.42/v1/buscar/?search="engine"`)
-      .then(response => {
-         console.log();
-         setDescriptiveRecords(response.data);
-      })
-      .catch(error => console.log(error));
+      setSearchBasic('Engine')
+      if (searchBasic) {
+         axios.get<DescriptiveRecord[]>(`${url}/v1/buscar/?search=${searchBasic}`)
+            .then(response => {
+               console.log();
+               setDescriptiveRecords(response.data);
+            })
+            .catch(error => console.log(error));
+      }
    };
 
    return (
@@ -61,6 +68,7 @@ const Index = () => {
                         <Input
                          className="form-control-alternative"
                          placeholder="Search"
+                         onKeyUp={searchDescriptiveRecords}
                          type="text"/>
                      </InputGroup>    
                   </FormGroup>
@@ -74,8 +82,32 @@ const Index = () => {
             </Row>
             {
                descriptiveRecords.map(resp => {
-                  return <Row key={resp.id+resp.date}>
-                     {resp.legislationTranscriptCopy}
+                  return <Row key={resp.id+resp.date} style={{marginTop: '40px'}}>
+                     <Col xl={12} md={12} xs={12}>
+                        <Card className="card-lift--hover shadow">
+                           <CardBody>
+                              <h4 className="h3 text-uppercase">
+                                 {resp.dispositionTitle}
+                              </h4>
+                              <div>
+                                 <Badge title="Disposición No:" value="2305"/>
+                                 <Badge title="Tipo de Disposición:" value="Decreto"/>
+                                 <Badge title="Lugar:" value={resp.place}/>
+                                 <Badge title="Fecha:" value={resp.date}/>
+                                 <Badge title="Vol:" value={resp.volume}/>
+                                 <Badge title="Páginas:" value={resp.pageNumbers}/>
+                              </div>
+                              <p className="description mt-3">
+                                 {resp.legislationTranscriptCopy}
+                              </p>
+                              <div>
+                                 <a href={`${url}${resp.legislationTranscriptOriginal}`}>
+                                    Ver Legislación Original
+                                 </a>
+                              </div>
+                           </CardBody>
+                        </Card>
+                     </Col>
                   </Row> 
                })
             }
