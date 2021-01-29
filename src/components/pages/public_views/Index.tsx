@@ -16,7 +16,6 @@ import {
 import axios from 'axios';
 import { DescriptiveRecord } from '../../../shared/utils/interfaces';
 import { useForm } from '../../../shared/hooks/useForm';
-import { API } from '../../../shared/utils/constants';
 import CardSearch from '../../ui/common/CardSearch';
 
 const Index = () => {
@@ -32,7 +31,7 @@ const Index = () => {
    const handleSearch = (event: FormEvent<HTMLFormElement>) => {
       event.preventDefault();
       history.push(`?q=${searchText}`);
-      axios.get<DescriptiveRecord[]>(`${API}/v1/search/?search=${searchText}`)
+      axios.get<DescriptiveRecord[]>(`${process.env.REACT_APP_API_URL}/v1/search/?search=${searchText}`)
             .then(response => {
                setDescriptiveRecords(response.data);
             })

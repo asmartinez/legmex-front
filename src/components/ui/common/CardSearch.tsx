@@ -1,6 +1,5 @@
 import React from 'react';
 import { Card, CardBody, Col, Row } from 'reactstrap';
-import { API } from '../../../shared/utils/constants';
 import { DescriptiveRecord } from '../../../shared/utils/interfaces';
 import Badge from './Badge';
 
@@ -31,7 +30,7 @@ const CardSearch = (item: DescriptiveRecord) => {
                         { item.legislationTranscriptCopy }
                      </p>
                      <div>
-                        <a href={`${API}${item.legislationTranscriptOriginal}`}>
+                        <a href={`${process.env.REACT_APP_API_URL}${item.legislationTranscriptOriginal}`}>
                            Ver Legislación Original
                         </a>
                      </div>

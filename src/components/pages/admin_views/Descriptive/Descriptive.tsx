@@ -17,7 +17,7 @@ import {
    Table
 } from 'reactstrap';
 import ReactDatetime from 'react-datetime';
-import { DescriptiveRecord } from '../../../../shared/utils/interfaces';
+import { DescriptiveRecord, HTMLEvent } from '../../../../shared/utils/interfaces';
 import { Moment } from 'moment';
 
 const Descriptive = () => {
@@ -37,7 +37,7 @@ const Descriptive = () => {
    const [descriptiveRecord, setDescriptiveRecord] = useState<DescriptiveRecord>(initDescriptiveRecord);
    const [descriptiveRecords, setDescriptiveRecords] = useState<DescriptiveRecord[]>([]);
 
-   const handleChange = (event: ChangeEvent<HTMLInputElement>)=>{
+   const handleChange = (event: HTMLEvent)=>{
       const { name, value } = event.target;
       setDescriptiveRecord( values =>({
         ...values,
