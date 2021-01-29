@@ -1,3 +1,5 @@
+import { ChangeEvent } from 'react';
+
 export interface RouteCustom {
    label: string;
    iconType: 'bx' | 'ni';
@@ -13,6 +15,8 @@ export interface RouteCustom {
 }
 
 export type TypeFooter = 'line' | 'card';
+
+export type HTMLEvent = ChangeEvent<HTMLInputElement>;
 
 export interface SidebarCustom {
    backgroundOption: 'light-blue' | 'white';

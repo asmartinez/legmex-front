@@ -1,11 +1,10 @@
-import React, { useState } from 'react';
-import { NavLink as NavLinkRRD } from "react-router-dom";
+import React, { FormEvent, useState } from 'react';
+import { NavLink as NavLinkRRD, useHistory } from 'react-router-dom';
 import {
    Button,
-   Card,
-   CardBody,
    Col,
    Container,
+   Form,
    FormGroup,
    Input,
    InputGroup,
@@ -16,25 +15,29 @@ import {
 } from 'reactstrap';
 import axios from 'axios';
 import { DescriptiveRecord } from '../../../shared/utils/interfaces';
-import Badge from '../../ui/common/Badge';
+import { useForm } from '../../../shared/hooks/useForm';
+import { API } from '../../../shared/utils/constants';
+import CardSearch from '../../ui/common/CardSearch';
 
 const Index = () => {
-   const [searchBasic, setSearchBasic] = useState<string>('');
+   const history = useHistory();
    const [descriptiveRecords, setDescriptiveRecords] = useState<DescriptiveRecord[]>([]);
-   const url = 'http://34.229.223.42';
 
+   const [formValues, handleInputChange] = useForm({
+      searchText: ''
+   });
 
-   const searchDescriptiveRecords = () => {
-      setSearchBasic('Engine')
-      if (searchBasic) {
-         axios.get<DescriptiveRecord[]>(`${url}/v1/buscar/?search=${searchBasic}`)
+   const { searchText } = formValues;
+
+   const handleSearch = (event: FormEvent<HTMLFormElement>) => {
+      event.preventDefault();
+      history.push(`?q=${searchText}`);
+      axios.get<DescriptiveRecord[]>(`${API}/v1/search/?search=${searchText}`)
             .then(response => {
-               console.log();
                setDescriptiveRecords(response.data);
             })
             .catch(error => console.log(error));
-      }
-   };
+   }
 
    return (
       <>
@@ -58,57 +61,55 @@ const Index = () => {
                   <h4 className ="text-index">
                      16,890 disposiciones numeradas, ordenadas cronológicamente, cuya cobertura va de 1687 a 1902. Dedica tres de sus volúmenes a Códigos, Ordenanzas y Reglamentos del Ejército y Armada de la República Mexicana.
                   </h4>
-                  <FormGroup>
-                     <InputGroup className="input-group-alternative mb-4">
-                        <InputGroupAddon addonType="prepend">
-                           <InputGroupText onClick={searchDescriptiveRecords}>
-                              <i className="bx bx-search-alt pointer"/>
-                           </InputGroupText>
-                        </InputGroupAddon>
-                        <Input
-                         className="form-control-alternative"
-                         placeholder="Search"
-                         onKeyUp={searchDescriptiveRecords}
-                         type="text"/>
-                     </InputGroup>    
-                  </FormGroup>
-                  <div style={{marginTop: '-22px', textAlignLast: 'center'}}>
-                     <Button
-                      type="button"
-                      className="btn btn-light-primary btn-sm">Búsqueda avanzada</Button>
-                  </div>
+                  <Form role="form" onSubmit={handleSearch}>
+                     <FormGroup>
+                        <InputGroup className="input-group-alternative mb-4">
+                           <InputGroupAddon addonType="prepend">
+                              <InputGroupText>
+                                 <i className="bx bx-search-alt"/>
+                              </InputGroupText>
+                           </InputGroupAddon>
+                           <Input
+                            className="form-control-alternative"
+                            placeholder="Search"
+                            autoComplete="off"
+                            name="searchText"
+                            value={ searchText }
+                            onChange={ handleInputChange }
+                            type="text"/>
+                           <Button
+                            type="submit"
+                            className="btn btn-light-primary btn-sm"
+                            disabled={ !searchText || searchText.length < 3}>
+                              Buscar
+                           </Button>
+                        </InputGroup>    
+                     </FormGroup>
+                     <div style={{marginTop: '-22px', textAlignLast: 'center'}}>
+                        <Button
+                         type="button"
+                         className="btn btn-light-primary btn-sm">
+                           Búsqueda avanzada
+                        </Button>
+                     </div>
+                  </Form>
                </Col>
                <Col xl={2} md={2}></Col>
             </Row>
             {
-               descriptiveRecords.map(resp => {
-                  return <Row key={resp.id+resp.date} style={{marginTop: '40px'}}>
-                     <Col xl={12} md={12} xs={12}>
-                        <Card className="card-lift--hover shadow">
-                           <CardBody>
-                              <h4 className="h3 text-uppercase">
-                                 {resp.dispositionTitle}
-                              </h4>
-                              <div>
-                                 <Badge title="Disposición No:" value="2305"/>
-                                 <Badge title="Tipo de Disposición:" value="Decreto"/>
-                                 <Badge title="Lugar:" value={resp.place}/>
-                                 <Badge title="Fecha:" value={resp.date}/>
-                                 <Badge title="Vol:" value={resp.volume}/>
-                                 <Badge title="Páginas:" value={resp.pageNumbers}/>
-                              </div>
-                              <p className="description mt-3">
-                                 {resp.legislationTranscriptCopy}
-                              </p>
-                              <div>
-                                 <a href={`${url}${resp.legislationTranscriptOriginal}`}>
-                                    Ver Legislación Original
-                                 </a>
-                              </div>
-                           </CardBody>
-                        </Card>
-                     </Col>
-                  </Row> 
+               descriptiveRecords.map(descriptiveRecord => {
+                  return <CardSearch
+                           key={ descriptiveRecord.id + descriptiveRecord.date } 
+                           id={ descriptiveRecord.id }
+                           dispositionTitle={ descriptiveRecord.dispositionTitle }
+                           date={ descriptiveRecord.date }
+                           volume= { descriptiveRecord.volume }
+                           pageNumbers={ descriptiveRecord.pageNumbers }
+                           legislationTranscriptOriginal={ descriptiveRecord.legislationTranscriptOriginal }
+                           legislationTranscriptCopy={ descriptiveRecord.legislationTranscriptCopy }
+                           place={ descriptiveRecord.place }
+                           dispositionTypeId={ descriptiveRecord.dispositionTypeId }
+                           affairId={ descriptiveRecord.affairId }/>
                })
             }
          </Container>

@@ -5,7 +5,6 @@ import './auth.css';
 import imgSession from '../../assets/img/image-session.svg';
 import imgFP from '../../assets/img/image-forget-password.svg';
 
-
 const Auth = (props: any) => {
    useEffect( () => {
       document.body.style.padding = '0';

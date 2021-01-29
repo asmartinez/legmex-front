@@ -18,6 +18,7 @@
     "chart.js": "^2.9.3",
     "classnames": "^2.2.6",
     "moment": "^2.24.0",
+    "pdfjs-dist": "^2.6.347",
     "react": "^17.0.1",
     "react-chartjs-2": "^2.9.0",
     "react-copy-to-clipboard": "^5.0.2",
@@ -37,10 +38,7 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject",
-    "compile-sass": "node-sass src/assets/scss/argon-dashboard-react.scss src/assets/css/argon-dashboard-react.css",
-    "minify-sass": "node-sass src/assets/scss/argon-dashboard-react.scss src/assets/css/argon-dashboard-react.min.css --output-style compressed",
-    "map-sass": "node-sass src/assets/scss/argon-dashboard-react.scss src/assets/css/argon-dashboard-react.css --source-map true"
+    "eject": "react-scripts eject"
   },
   "eslintConfig": {
     "extends": [
