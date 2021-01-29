@@ -16,7 +16,7 @@ const AppRouter = () => {
             <Route path="/public" render={ props => <PublicRoutes {...props} />} />
             <Route path="/admin" render={ props => <DashboardRoutes {...props} />} />
             <Route path="/auth" render={ props => <Auth {...props} />} />
-            <Redirect from="/" to="/admin/index" />
+            <Redirect from="/" to="/public" />
          </Switch>
       </Router>
    );

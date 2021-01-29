@@ -1,3 +1,5 @@
+import { ChangeEvent } from 'react';
+
 export interface RouteCustom {
    label: string;
    iconType: 'bx' | 'ni';
@@ -12,7 +14,34 @@ export interface RouteCustom {
    component?: React.FC;
 }
 
+export type TypeFooter = 'line' | 'card';
+
+export type HTMLEvent = ChangeEvent<HTMLInputElement>;
+
 export interface SidebarCustom {
    backgroundOption: 'light-blue' | 'white';
    items: Array<RouteCustom>;
+   showTitle?: boolean;
+   isFooterCard?: boolean;
+}
+
+export interface BadgeCustom {
+   title: string;
+   value: string | number;
+}
+
+/*
+   Models
+*/
+export interface DescriptiveRecord {
+   id: string;
+   dispositionTitle: string;
+   date: string;
+   volume: string;
+   pageNumbers: number;
+   legislationTranscriptOriginal: string;
+   legislationTranscriptCopy: string;
+   place: string;
+   dispositionTypeId: string | number;
+   affairId: string | number;
 }

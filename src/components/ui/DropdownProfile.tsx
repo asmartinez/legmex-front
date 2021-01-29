@@ -24,12 +24,12 @@ const DropdownProfile = () => {
                <h6 className="text-overflow m-0">Bienvenido!</h6>
             </DropdownItem>
             <DropdownItem to="/admin/user-profile" tag={Link}>
-               <i className="ni ni-single-02" />
+               <i className="bx bx-user" />
                <span>Mi perfil</span>
             </DropdownItem>
             <DropdownItem divider />
-            <DropdownItem href="#pablo" onClick={handleLogout}>
-               <i className="ni ni-user-run" />
+            <DropdownItem onClick={handleLogout}>
+               <i className="bx bx-log-out" />
                <span>Cerrar sesión</span>
             </DropdownItem>
          </DropdownMenu>

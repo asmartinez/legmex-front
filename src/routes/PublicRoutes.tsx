@@ -22,7 +22,7 @@ const PublicRoutes = (props: any) => {
    return (
       <>
          <div className="main-content">
-            <Sidebar backgroundOption='white' items={publicRoutes}/>
+            <Sidebar backgroundOption="white" items={publicRoutes} isFooterCard showTitle/>
             <Switch>
                {getRoutes(routes)}
                <Redirect from="*" to="/public/inicio"/>
