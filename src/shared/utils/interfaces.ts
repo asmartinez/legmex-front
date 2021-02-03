@@ -1,5 +1,10 @@
 import { ChangeEvent } from 'react';
 
+export type TypeFooter = 'line' | 'card';
+
+export type HTMLEvent = ChangeEvent<HTMLInputElement>;
+
+export type TypeLayout = '/admin' | '/auth' | '/public';
 export interface RouteCustom {
    label: string;
    iconType: 'bx' | 'ni';
@@ -9,14 +14,10 @@ export interface RouteCustom {
    * @see https://demos.creative-tim.com/argon-dashboard-react/?_ga=2.226579357.1613467959.1605477559-291815678.1604883519#/documentation/icons for `ni`
    */
    iconName: string;
-   layout: '/admin' | '/auth' | '/public' ;
+   layout: TypeLayout;
    routerLink?: string;
    component?: React.FC;
 }
-
-export type TypeFooter = 'line' | 'card';
-
-export type HTMLEvent = ChangeEvent<HTMLInputElement>;
 
 export interface SidebarCustom {
    backgroundOption: 'light-blue' | 'white';

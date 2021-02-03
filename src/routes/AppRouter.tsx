@@ -13,8 +13,8 @@ const AppRouter = () => {
    return (
       <Router>
          <Switch>
-            <Route path="/public" render={ props => <PublicRoutes {...props} />} />
-            <Route path="/admin" render={ props => <DashboardRoutes {...props} />} />
+            <Route path="/public" render={ props => <PublicRoutes/>} />
+            <Route path="/admin" render={ props => <DashboardRoutes/>} />
             <Route path="/auth" render={ props => <Auth {...props} />} />
             <Redirect from="/" to="/public" />
          </Switch>

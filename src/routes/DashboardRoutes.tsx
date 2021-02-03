@@ -1,33 +1,21 @@
 import React from 'react';
-import { Redirect, Route, Switch } from 'react-router-dom';
+import { Redirect, Switch } from 'react-router-dom';
 import routes from '../routes';
-import { RouteCustom } from '../shared/utils/interfaces';
 import Header from '../components/ui/Header';
 import Sidebar from '../components/ui/Sidebar';
+import { filterRoute } from '../shared/utils/filter';
+import { getRoutes } from './get-route';
 
-const DashboardRoutes = (props: any) => {
-
-   const routesAdmin =  routes.filter( route => route.layout === '/admin' );
-
-   const getRoutes = (routes: Array<RouteCustom>) => {
-      return routes.map( (route, key) => {
-         return (
-            <Route
-             path={route.layout + route.routerLink}
-             component={route.component}
-             key={key}
-            />
-         );
-      });
-   };
+const DashboardRoutes = () => {
+   const privateRoutes = filterRoute(routes, '/admin');
 
    return (
       <div className='body'>
          <Header/>
-         <Sidebar backgroundOption="light-blue" items={routesAdmin}/>
+         <Sidebar backgroundOption="light-blue" items={privateRoutes}/>
          <div className="main-content">
             <Switch>
-               { getRoutes(routesAdmin) }
+               { getRoutes(privateRoutes) }
                <Redirect from="*" to="/admin/dashboard" />
             </Switch>
          </div>
