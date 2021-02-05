@@ -1,24 +1,27 @@
-import React from 'react';
+import React, { lazy, Suspense } from 'react';
 import {
    BrowserRouter as Router,
    Route,
    Switch,
    Redirect
-} from "react-router-dom";
-import DashboardRoutes from './DashboardRoutes';
-import Auth from '../components/Auth/Auth';
-import PublicRoutes from './PublicRoutes';
+} from 'react-router-dom';
+
+const DashboardRoutes = lazy(() => import('./DashboardRoutes'));
+const PublicRoutes = lazy(() => import('./PublicRoutes'));
+const Auth = lazy(() => import('../components/Auth/Auth'));
 
 const AppRouter = () => {
    return (
-      <Router>
-         <Switch>
-            <Route path="/public" render={ props => <PublicRoutes/>} />
-            <Route path="/admin" render={ props => <DashboardRoutes/>} />
-            <Route path="/auth" render={ props => <Auth {...props} />} />
-            <Redirect from="/" to="/public" />
-         </Switch>
-      </Router>
+      <Suspense fallback={<div>Loading...</div>}>
+         <Router>
+            <Switch>
+               <Route path="/public" component={PublicRoutes} />
+               <Route path="/admin" component={DashboardRoutes} />
+               <Route path="/auth" component={Auth} />
+               <Redirect from="/" to="/public" />
+            </Switch>
+         </Router>
+      </Suspense>
    );
 }
 

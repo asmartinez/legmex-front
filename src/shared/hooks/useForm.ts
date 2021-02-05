@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { HTMLEvent } from '../utils/interfaces';
 
-export const useForm = (initialState: any = {}) => {
+export const useForm = <T>(initialState: T) => {
    const [values, setValues] = useState(initialState);
 
    const reset = () => {
@@ -16,5 +16,5 @@ export const useForm = (initialState: any = {}) => {
       })
    }
 
-   return [values, handleInputChange, reset];
+   return { values, handleInputChange, reset };
 }

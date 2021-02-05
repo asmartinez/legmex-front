@@ -1,10 +1,19 @@
-import { ChangeEvent } from 'react';
+import { ChangeEvent, FormEvent } from 'react';
 
 export type TypeFooter = 'line' | 'card';
 
 export type HTMLEvent = ChangeEvent<HTMLInputElement>;
 
 export type TypeLayout = '/admin' | '/auth' | '/public';
+
+export interface Search {
+   searchText: string;
+}
+
+export interface FSearch {
+   handleSearch(event: FormEvent<HTMLFormElement>): void
+}
+
 export interface RouteCustom {
    label: string;
    iconType: 'bx' | 'ni';
