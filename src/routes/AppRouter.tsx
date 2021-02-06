@@ -5,14 +5,14 @@ import {
    Switch,
    Redirect
 } from 'react-router-dom';
-
+import Loader from '../components/ui/common/Loader';
 const DashboardRoutes = lazy(() => import('./DashboardRoutes'));
 const PublicRoutes = lazy(() => import('./PublicRoutes'));
 const Auth = lazy(() => import('../components/Auth/Auth'));
 
 const AppRouter = () => {
    return (
-      <Suspense fallback={<div>Loading...</div>}>
+      <Suspense fallback={<Loader />}>
          <Router>
             <Switch>
                <Route path="/public" component={PublicRoutes} />

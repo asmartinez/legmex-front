@@ -17,8 +17,6 @@ import axios from 'axios';
 import { DescriptiveRecord, Search } from '../../../shared/utils/interfaces';
 import { useForm } from '../../../shared/hooks/useForm';
 import CardSearch from '../../ui/common/CardSearch';
-import FormSearch from '../../ui/common/FormSearch';
-
 const Index = () => {
    const history = useHistory();
    const [descriptiveRecords, setDescriptiveRecords] = useState<DescriptiveRecord[]>([]);
@@ -31,13 +29,12 @@ const Index = () => {
 
    const handleSearch = (event: FormEvent<HTMLFormElement>) => {
       event.preventDefault();
-      /*history.push(`?q=${searchText}`);
+      history.push(`?q=${searchText}`);
       axios.get<DescriptiveRecord[]>(`${process.env.REACT_APP_API_URL}/v1/search/?search=${searchText}`)
          .then(response => {
             setDescriptiveRecords(response.data);
          })
-         .catch(error => console.log(error));*/
-         console.log(event)
+         .catch(error => console.log(error));
    }
 
    return (
@@ -94,7 +91,6 @@ const Index = () => {
                         </Button>
                      </div>
                   </Form>
-                  <FormSearch handleSearch={handleSearch}></FormSearch>
                </Col>
                <Col xl={2} md={2}></Col>
             </Row>

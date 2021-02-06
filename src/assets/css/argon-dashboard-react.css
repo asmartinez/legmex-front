@@ -14583,6 +14583,16 @@ a:hover {
   border-color: transparent;
 }
 
+#loader {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: white;
+  color: var(--dark-primary-color);
+}
+
 /* Scroll */
 .modal::-webkit-scrollbar {
   width: 4px;

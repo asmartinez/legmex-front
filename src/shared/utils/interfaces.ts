@@ -1,4 +1,4 @@
-import { ChangeEvent, FormEvent } from 'react';
+import { ChangeEvent } from 'react';
 
 export type TypeFooter = 'line' | 'card';
 
@@ -8,10 +8,6 @@ export type TypeLayout = '/admin' | '/auth' | '/public';
 
 export interface Search {
    searchText: string;
-}
-
-export interface FSearch {
-   handleSearch(event: FormEvent<HTMLFormElement>): void
 }
 
 export interface RouteCustom {
@@ -40,6 +36,10 @@ export interface BadgeCustom {
    value: string | number;
 }
 
+export interface IControlViewer {
+   pageNumber: number;
+   numberPages: number;
+}
 /*
    Models
 */
