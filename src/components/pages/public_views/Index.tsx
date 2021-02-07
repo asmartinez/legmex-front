@@ -1,41 +1,25 @@
-import React, { FormEvent, useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import { NavLink as NavLinkRRD, useHistory } from 'react-router-dom';
-import {
-   Button,
-   Col,
-   Container,
-   Form,
-   FormGroup,
-   Input,
-   InputGroup,
-   InputGroupAddon,
-   InputGroupText,
-   NavLink,
-   Row
-} from 'reactstrap';
+import { Col, Container, NavLink, Row } from 'reactstrap';
 import axios from 'axios';
-import { DescriptiveRecord, Search } from '../../../shared/utils/interfaces';
-import { useForm } from '../../../shared/hooks/useForm';
-import CardSearch from '../../ui/common/CardSearch';
+import { DescriptiveRecord, Search } from 'shared/utils/interfaces';
+import CardSearch from 'components/ui/common/CardSearch';
+import SearchForm from 'components/ui/common/SearchForm';
 const Index = () => {
    const history = useHistory();
    const [descriptiveRecords, setDescriptiveRecords] = useState<DescriptiveRecord[]>([]);
 
-   const { values, handleInputChange } = useForm<Search>({
-      searchText: ''
-   });
-
-   const { searchText } = values;
-
-   const handleSearch = (event: FormEvent<HTMLFormElement>) => {
-      event.preventDefault();
-      history.push(`?q=${searchText}`);
-      axios.get<DescriptiveRecord[]>(`${process.env.REACT_APP_API_URL}/v1/search/?search=${searchText}`)
+   const handleSearch = useCallback(
+      ({ searchText }: Search) => {
+         history.push(`?q=${searchText}`);
+         axios.get<DescriptiveRecord[]>(`${process.env.REACT_APP_API_URL}/v1/search/?search=${searchText}`)
          .then(response => {
             setDescriptiveRecords(response.data);
          })
          .catch(error => console.log(error));
-   }
+      },
+      [history]
+   )
 
    return (
       <>
@@ -59,38 +43,7 @@ const Index = () => {
                   <h4 className ="text-index">
                      16,890 disposiciones numeradas, ordenadas cronológicamente, cuya cobertura va de 1687 a 1902. Dedica tres de sus volúmenes a Códigos, Ordenanzas y Reglamentos del Ejército y Armada de la República Mexicana.
                   </h4>
-                  <Form role="form" onSubmit={handleSearch}>
-                     <FormGroup>
-                        <InputGroup className="input-group-alternative mb-4">
-                           <InputGroupAddon addonType="prepend">
-                              <InputGroupText>
-                                 <i className="bx bx-search-alt"/>
-                              </InputGroupText>
-                           </InputGroupAddon>
-                           <Input
-                            className="form-control-alternative"
-                            placeholder="Search"
-                            autoComplete="off"
-                            name="searchText"
-                            value={ searchText }
-                            onChange={ handleInputChange }
-                            type="text"/>
-                           <Button
-                            type="submit"
-                            className="btn btn-light-primary btn-sm"
-                            disabled={ !searchText || searchText.length < 3}>
-                              Buscar
-                           </Button>
-                        </InputGroup>    
-                     </FormGroup>
-                     <div style={{marginTop: '-22px', textAlignLast: 'center'}}>
-                        <Button
-                         type="button"
-                         className="btn btn-light-primary btn-sm">
-                           Búsqueda avanzada
-                        </Button>
-                     </div>
-                  </Form>
+                  <SearchForm onSubmit={handleSearch}/>
                </Col>
                <Col xl={2} md={2}></Col>
             </Row>

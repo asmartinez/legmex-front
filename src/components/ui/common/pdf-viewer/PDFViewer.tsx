@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Document, Page, pdfjs } from 'react-pdf';
-import Loader from '../Loader';
-import ControlViewer from './ControlViewer';
+import Loader from 'components/ui/common/Loader';
+import ControlViewer from 'components/ui/common/pdf-viewer/ControlViewer';
 pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`;
 
 const PDFViewer = () => {

@@ -51,7 +51,7 @@
 
   /*Colores*/
   --first-color: #5b2b51;
-  --bg-color: #f3f8fb;
+  --bg-color: #f7f8fa;
   --white-color: #ffffff;
   --gray-color: #99b2c6;
 
@@ -1691,7 +1691,7 @@ textarea.form-control {
   .btn:focus, .btn.focus {
     outline: 0;
     box-shadow: 0 7px 14px rgba(50, 50, 93, 0.1), 0 3px 6px rgba(0, 0, 0, 0.08); }
-  .btn.disabled, .btn:disabled {
+  .btn.disabled, .btn:disabled, .btn:disabled.btn:hover {
     opacity: 0.65;
     box-shadow: none; }
   .btn:not(:disabled):not(.disabled) {
@@ -2633,7 +2633,7 @@ input[type="button"].btn-block {
   .input-group > .form-control:focus,
   .input-group > .custom-select:focus,
   .input-group > .custom-file .custom-file-input:focus ~ .custom-file-label {
-    z-index: 3; }
+    /*z-index: 3;*/ }
   .input-group > .custom-file .custom-file-input:focus {
     z-index: 4; }
   .input-group > .form-control:not(:last-child),
@@ -14591,6 +14591,16 @@ a:hover {
   height: 100vh;
   background-color: white;
   color: var(--dark-primary-color);
+}
+
+.btn-search {
+  width: 100px;
+  height: 40px;
+  top: 3px;
+  right: 3px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 /* Scroll */
