@@ -8,6 +8,7 @@ export type TypeLayout = '/admin' | '/auth' | '/public';
 
 export interface Search {
    searchText: string;
+   fields: string[];
 }
 
 export interface RouteCustom {
@@ -52,6 +53,7 @@ export interface DescriptiveRecord {
    legislationTranscriptOriginal: string;
    legislationTranscriptCopy: string;
    place: string;
+   dispositionNumber: string;
    dispositionTypeId: string | number;
    affairId: string | number;
 }

@@ -31,6 +31,7 @@ const Descriptive = () => {
       legislationTranscriptOriginal: '',
       legislationTranscriptCopy: '',
       place: '',
+      dispositionNumber: '',
       dispositionTypeId: '',
       affairId: ''
    }

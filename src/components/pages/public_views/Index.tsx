@@ -10,9 +10,9 @@ const Index = () => {
    const [descriptiveRecords, setDescriptiveRecords] = useState<DescriptiveRecord[]>([]);
 
    const handleSearch = useCallback(
-      ({ searchText }: Search) => {
-         history.push(`?q=${searchText}`);
-         axios.get<DescriptiveRecord[]>(`${process.env.REACT_APP_API_URL}/v1/search/?search=${searchText}`)
+      (search: Search) => {
+         history.push(`?q=${search.searchText}`);
+         axios.get<DescriptiveRecord[]>(`${process.env.REACT_APP_API_URL}/v1/search/?search=${search.searchText}`)
          .then(response => {
             setDescriptiveRecords(response.data);
          })
@@ -24,8 +24,7 @@ const Index = () => {
    return (
       <>
          <Container>
-            <Row className="session">
-               <Col xl={10} md={9} xs={10}></Col>
+            <Row className="session justify-content-end">
                <Col xl={2} md={3} xs={6}>
                   <NavLink
                    className="btn btn-light-primary btn-sm"
@@ -37,15 +36,13 @@ const Index = () => {
                   </NavLink>
                </Col>
             </Row>
-            <Row>
-               <Col xl={2} md={2}></Col>
-               <Col>
+            <Row className="justify-content-center">
+               <Col xl={8} md={8} xs={12}>
                   <h4 className ="text-index">
                      16,890 disposiciones numeradas, ordenadas cronológicamente, cuya cobertura va de 1687 a 1902. Dedica tres de sus volúmenes a Códigos, Ordenanzas y Reglamentos del Ejército y Armada de la República Mexicana.
                   </h4>
                   <SearchForm onSubmit={handleSearch}/>
                </Col>
-               <Col xl={2} md={2}></Col>
             </Row>
             {
                descriptiveRecords.map(descriptiveRecord => {
@@ -59,6 +56,7 @@ const Index = () => {
                            legislationTranscriptOriginal={ descriptiveRecord.legislationTranscriptOriginal }
                            legislationTranscriptCopy={ descriptiveRecord.legislationTranscriptCopy }
                            place={ descriptiveRecord.place }
+                           dispositionNumber= {descriptiveRecord.dispositionNumber}
                            dispositionTypeId={ descriptiveRecord.dispositionTypeId }
                            affairId={ descriptiveRecord.affairId }/>
                })

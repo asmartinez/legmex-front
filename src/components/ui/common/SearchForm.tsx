@@ -1,12 +1,16 @@
-import React, { FormEvent } from 'react';
+import React, { FormEvent, useState } from 'react';
 import {
    Button,
+   Card,
+   Col,
    Form,
    FormGroup,
    Input,
    InputGroup,
    InputGroupAddon,
-   InputGroupText
+   InputGroupText,
+   Label,
+   Row
 } from 'reactstrap';
 import { useForm } from 'shared/hooks/useForm';
 import { Search } from 'shared/utils/interfaces';
@@ -14,16 +18,25 @@ interface IFormSearch {
    onSubmit: Function
 }
 
+const initialStateSearch: Search = {
+   searchText: '',
+   fields: []
+}
+
+const styleAdvancedSearch = {
+   height: '200px',
+   top: '5px'
+}
+
 const SearchForm = ({ onSubmit }: IFormSearch) => {
-   const { values, handleInputChange } = useForm<Search>({
-      searchText: ''
-   });
+   const { values, handleInputChange } = useForm<Search>(initialStateSearch);
+   const [active, setActive] = useState(false);
 
    const { searchText } = values;
    
    const handleSearch = (event: FormEvent<HTMLFormElement>) => {
       event.preventDefault();
-      onSubmit({searchText})
+      onSubmit(values);
    }
 
    return (
@@ -58,6 +71,37 @@ const SearchForm = ({ onSubmit }: IFormSearch) => {
                Búsqueda avanzada
             </Button>
          </div>
+         <Card className="border-0" style={styleAdvancedSearch}>
+            <Row className="justify-content-center">
+               <Col xl={8} md={8} xs={12}>
+                  <FormGroup check inline>
+                     <Label check>
+                        <Input type="checkbox" /> Lugar
+                     </Label>
+                  </FormGroup>
+                  <FormGroup check inline>
+                     <Label check>
+                        <Input type="checkbox" /> Texto
+                     </Label>
+                  </FormGroup>
+                  <FormGroup check inline>
+                     <Label check>
+                        <Input type="checkbox" /> Asunto
+                     </Label>
+                  </FormGroup>
+                  <FormGroup check inline>
+                     <Label check>
+                        <Input type="checkbox" /> Titulo
+                     </Label>
+                  </FormGroup>
+                  <FormGroup check inline>
+                     <Label check>
+                        <Input type="checkbox" /> No. de Disposición
+                     </Label>
+                  </FormGroup>
+               </Col>
+            </Row>
+         </Card>
       </Form>
    )
 }
