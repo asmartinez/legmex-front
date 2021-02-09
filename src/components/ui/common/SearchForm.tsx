@@ -20,12 +20,20 @@ interface IFormSearch {
 
 const initialStateSearch: Search = {
    searchText: '',
-   fields: []
+   fields: ''
 }
 
 const styleAdvancedSearch = {
    height: '200px',
-   top: '5px'
+   top: '-12px'
+}
+
+const styleClose = {
+   top: '60px'
+}
+
+const backgroundInputGroup = {
+   background: 'White'
 }
 
 const SearchForm = ({ onSubmit }: IFormSearch) => {
@@ -39,10 +47,14 @@ const SearchForm = ({ onSubmit }: IFormSearch) => {
       onSubmit(values);
    }
 
+   const handleActive = () => {
+      setActive(!active);
+   }
+
    return (
       <Form role="form" onSubmit={handleSearch}>
          <FormGroup>
-            <InputGroup className="input-group-alternative mb-4" style={{background: 'White'}}>
+            <InputGroup className="input-group-alternative mb-4" style={backgroundInputGroup}>
                <InputGroupAddon addonType="prepend">
                   <InputGroupText>
                      <i className="bx bx-search-alt"/>
@@ -64,44 +76,57 @@ const SearchForm = ({ onSubmit }: IFormSearch) => {
                   </Button>
             </InputGroup>    
          </FormGroup>
-         <div style={{marginTop: '-22px', textAlignLast: 'center'}}>
-            <Button
-             type="button"
-             className="btn btn-light-primary btn-sm">
-               Búsqueda avanzada
-            </Button>
-         </div>
-         <Card className="border-0" style={styleAdvancedSearch}>
-            <Row className="justify-content-center">
-               <Col xl={8} md={8} xs={12}>
-                  <FormGroup check inline>
-                     <Label check>
-                        <Input type="checkbox" /> Lugar
-                     </Label>
-                  </FormGroup>
-                  <FormGroup check inline>
-                     <Label check>
-                        <Input type="checkbox" /> Texto
-                     </Label>
-                  </FormGroup>
-                  <FormGroup check inline>
-                     <Label check>
-                        <Input type="checkbox" /> Asunto
-                     </Label>
-                  </FormGroup>
-                  <FormGroup check inline>
-                     <Label check>
-                        <Input type="checkbox" /> Titulo
-                     </Label>
-                  </FormGroup>
-                  <FormGroup check inline>
-                     <Label check>
-                        <Input type="checkbox" /> No. de Disposición
-                     </Label>
-                  </FormGroup>
-               </Col>
-            </Row>
-         </Card>
+         { !active &&
+            <div style={{marginTop: '-22px', textAlignLast: 'center'}}>
+               <Button
+                type="button"
+                className="btn btn-light-primary btn-sm"
+                onClick={handleActive}>
+                  Búsqueda avanzada
+               </Button>
+            </div>
+         }
+         { active &&
+            <Card className="border-0" style={styleAdvancedSearch}>
+               <Row className="justify-content-center m-3">
+                  <label>Limitar Búsqueda</label>
+                  <Col xl={12} md={12} xs={12}>
+                     <FormGroup check inline>
+                        <Label check>
+                           <Input type="checkbox" /> Lugar
+                        </Label>
+                     </FormGroup>
+                     <FormGroup check inline>
+                        <Label check>
+                           <Input type="checkbox" /> Texto
+                        </Label>
+                     </FormGroup>
+                     <FormGroup check inline>
+                        <Label check>
+                           <Input type="checkbox" /> Asunto
+                        </Label>
+                     </FormGroup>
+                     <FormGroup check inline>
+                        <Label check>
+                           <Input type="checkbox" /> Titulo
+                        </Label>
+                     </FormGroup>
+                     <FormGroup check inline>
+                        <Label check>
+                           <Input type="checkbox" /> No. de Disposición
+                        </Label>
+                     </FormGroup>
+                  </Col>
+               </Row>
+               <Button
+                type="button"
+                className="btn btn-light-primary btn-sm"
+                onClick={handleActive}
+                style={styleClose}>
+                  Cerrar
+               </Button>
+            </Card>
+         }
       </Form>
    )
 }

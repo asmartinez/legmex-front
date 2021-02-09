@@ -1,22 +1,14 @@
-import React, { useCallback, useState } from 'react';
+import React, { useCallback } from 'react';
 import { NavLink as NavLinkRRD, useHistory } from 'react-router-dom';
 import { Col, Container, NavLink, Row } from 'reactstrap';
-import axios from 'axios';
-import { DescriptiveRecord, Search } from 'shared/utils/interfaces';
-import CardSearch from 'components/ui/common/CardSearch';
+import { Search } from 'shared/utils/interfaces';
 import SearchForm from 'components/ui/common/SearchForm';
 const Index = () => {
    const history = useHistory();
-   const [descriptiveRecords, setDescriptiveRecords] = useState<DescriptiveRecord[]>([]);
 
    const handleSearch = useCallback(
       (search: Search) => {
-         history.push(`?q=${search.searchText}`);
-         axios.get<DescriptiveRecord[]>(`${process.env.REACT_APP_API_URL}/v1/search/?search=${search.searchText}`)
-         .then(response => {
-            setDescriptiveRecords(response.data);
-         })
-         .catch(error => console.log(error));
+         history.push(`/public/search?q=${search.searchText}`);
       },
       [history]
    )
@@ -44,23 +36,6 @@ const Index = () => {
                   <SearchForm onSubmit={handleSearch}/>
                </Col>
             </Row>
-            {
-               descriptiveRecords.map(descriptiveRecord => {
-                  return <CardSearch
-                           key={ descriptiveRecord.id + descriptiveRecord.date } 
-                           id={ descriptiveRecord.id }
-                           dispositionTitle={ descriptiveRecord.dispositionTitle }
-                           date={ descriptiveRecord.date }
-                           volume= { descriptiveRecord.volume }
-                           pageNumbers={ descriptiveRecord.pageNumbers }
-                           legislationTranscriptOriginal={ descriptiveRecord.legislationTranscriptOriginal }
-                           legislationTranscriptCopy={ descriptiveRecord.legislationTranscriptCopy }
-                           place={ descriptiveRecord.place }
-                           dispositionNumber= {descriptiveRecord.dispositionNumber}
-                           dispositionTypeId={ descriptiveRecord.dispositionTypeId }
-                           affairId={ descriptiveRecord.affairId }/>
-               })
-            }
          </Container>
       </>
    )

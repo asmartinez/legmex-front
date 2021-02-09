@@ -8,7 +8,7 @@ export type TypeLayout = '/admin' | '/auth' | '/public';
 
 export interface Search {
    searchText: string;
-   fields: string[];
+   fields: string;
 }
 
 export interface RouteCustom {
