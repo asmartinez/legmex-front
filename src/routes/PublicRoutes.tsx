@@ -17,7 +17,7 @@ const PublicRoutes = () => {
                {getRoutes(publicRoutes)}
                {/** Route Temporary */}
                <Route exact path="/public/search" component={ SearchScreen }/>
-               <Route exact path="/public/:dispositionId" component={ DispositionScreen }/>
+               <Route exact path="/public/document/:dispositionId" component={ DispositionScreen }/>
                <Redirect from="*" to="/public/inicio"/>
             </Switch>
          </div>

@@ -15,7 +15,7 @@ import {
 import { useForm } from 'shared/hooks/useForm';
 import { Search } from 'shared/utils/interfaces';
 interface IFormSearch {
-   onSubmit: Function
+   onSubmit(search: Search): void
 }
 
 const initialStateSearch: Search = {

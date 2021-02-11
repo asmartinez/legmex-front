@@ -40,7 +40,13 @@ export interface BadgeCustom {
 export interface IControlViewer {
    pageNumber: number;
    numberPages: number;
+   setPageNumber: number;
 }
+
+export interface IPDFViewer {
+   path: string;
+}
+
 /*
    Models
 */

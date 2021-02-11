@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import { Card, CardBody, Col, Row } from 'reactstrap';
 import { DescriptiveRecord } from '../../../shared/utils/interfaces';
 import Badge from './Badge';
@@ -30,9 +31,7 @@ const CardSearch = (item: DescriptiveRecord) => {
                         { item.legislationTranscriptCopy }
                      </p>
                      <div>
-                        <a href={`${process.env.REACT_APP_API_URL}${item.legislationTranscriptOriginal}`}>
-                           Ver Legislación Original
-                        </a>
+                        <Link to={`/public/document/${item.id}`}>Leer más</Link>
                      </div>
                   </CardBody>
                </Card>

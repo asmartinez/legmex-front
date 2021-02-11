@@ -6,6 +6,7 @@ import { Col, Container, Row } from 'reactstrap';
 import SearchForm from './SearchForm';
 import CardSearch from './CardSearch';
 import axios from 'axios';
+
 const SearchScreen = () => {
    const location = useLocation();
    const history = useHistory();
@@ -27,7 +28,7 @@ const SearchScreen = () => {
          getDescriptiveRecord(search);
       },
       [history]
-   )
+   );
 
    useEffect(() => {
       if (q){
