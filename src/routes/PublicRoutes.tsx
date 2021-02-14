@@ -1,13 +1,21 @@
 import SearchScreen from 'components/ui/common/SearchScreen';
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Redirect, Route, Switch } from 'react-router-dom';
 import DispositionScreen from 'components/ui/common/DispositionScreen';
 import Sidebar from 'components/ui/Sidebar';
 import routes from 'routes';
 import { filterRoute } from 'shared/utils/filter';
 import { getRoutes } from './get-route';
+import { Gray } from 'shared/utils/constants';
 
 const PublicRoutes = () => {
+   useEffect( () => {
+      document.body.style.background = Gray;
+      return () => {
+         document.body.style.background = '';
+      };
+   }, []);
+
    const publicRoutes = filterRoute(routes, '/public');
    return (
       <>

@@ -12,7 +12,7 @@ const DashboardRoutes = () => {
    return (
       <div className='body'>
          <Header/>
-         <Sidebar backgroundOption="light-blue" items={privateRoutes}/>
+         <Sidebar backgroundOption="white" items={privateRoutes}/>
          <div className="main-content">
             <Switch>
                { getRoutes(privateRoutes) }

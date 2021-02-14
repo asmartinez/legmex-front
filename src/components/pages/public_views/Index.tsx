@@ -2,7 +2,9 @@ import React, { useCallback } from 'react';
 import { NavLink as NavLinkRRD, useHistory } from 'react-router-dom';
 import { Col, Container, NavLink, Row } from 'reactstrap';
 import { Search } from 'shared/utils/interfaces';
+import { Title } from 'shared/utils/constants';
 import SearchForm from 'components/ui/common/SearchForm';
+
 const Index = () => {
    const history = useHistory();
 
@@ -21,7 +23,7 @@ const Index = () => {
                   <NavLink
                    className="btn btn-light-primary btn-sm"
                    to="/auth"
-                   tag={NavLinkRRD}
+                   tag={ NavLinkRRD }
                    id="login12">
                      <i className="bx bx-log-in"/>
                      <span className="nav__name">Iniciar Sesión</span>
@@ -30,10 +32,8 @@ const Index = () => {
             </Row>
             <Row className="justify-content-center">
                <Col xl={8} md={8} xs={12}>
-                  <h4 className ="text-index">
-                     16,890 disposiciones numeradas, ordenadas cronológicamente, cuya cobertura va de 1687 a 1902. Dedica tres de sus volúmenes a Códigos, Ordenanzas y Reglamentos del Ejército y Armada de la República Mexicana.
-                  </h4>
-                  <SearchForm onSubmit={handleSearch}/>
+                  <h4 className ="text-index">{ Title }</h4>
+                  <SearchForm onSubmit={ handleSearch }/>
                </Col>
             </Row>
          </Container>

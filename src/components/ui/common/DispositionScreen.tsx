@@ -3,7 +3,7 @@ import { Container } from 'reactstrap';
 import PDFViewer from './pdf-viewer/PDFViewer';
 
 const DispositionScreen = () => {
-   const pathname = '/uploads/art%C3%ADculo_2o.pdf';
+   const pathname = '/uploads/mockup1.pdf';
    return (
       <>
          <Container>
