@@ -47,11 +47,17 @@ export interface IPDFViewer {
    path: string;
 }
 
+export interface FieldLimitSearch {
+   key: string;
+   label: string;
+   isChecked: boolean
+}
+
 /*
    Models
 */
 export interface DescriptiveRecord {
-   id: string;
+   id: number;
    dispositionTitle: string;
    date: string;
    volume: string;

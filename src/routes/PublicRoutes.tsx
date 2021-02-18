@@ -1,4 +1,4 @@
-import SearchScreen from 'components/ui/common/SearchScreen';
+import SearchScreen from 'components/pages/public_views/SearchScreen';
 import React, { useEffect } from 'react';
 import { Redirect, Route, Switch } from 'react-router-dom';
 import DispositionScreen from 'components/ui/common/DispositionScreen';

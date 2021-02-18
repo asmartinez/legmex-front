@@ -3,8 +3,8 @@ import queryString from 'query-string';
 import { useHistory, useLocation } from 'react-router-dom';
 import { DescriptiveRecord, Search } from 'shared/utils/interfaces';
 import { Col, Container, Row } from 'reactstrap';
-import SearchForm from './SearchForm';
-import CardSearch from './CardSearch';
+import SearchForm from '../../ui/common/SearchForm';
+import CardSearch from '../../ui/common/CardSearch';
 import axios from 'axios';
 
 const SearchScreen = () => {
@@ -24,7 +24,8 @@ const SearchScreen = () => {
 
    const handleSearch = useCallback(
       (search: Search) => {
-         history.push(`/public/search?q=${search.searchText}`);
+         const searchByFields = `&fields=${search.fields}`;
+         history.push(`/public/search?q=${search.searchText}${ search.fields.length > 0 ? searchByFields : '' }`);
          getDescriptiveRecord(search);
       },
       [history]

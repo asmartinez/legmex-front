@@ -13,7 +13,7 @@ import {
    Row
 } from 'reactstrap';
 import { useForm } from 'shared/hooks/useForm';
-import { Search } from 'shared/utils/interfaces';
+import { FieldLimitSearch, HTMLEvent, Search } from 'shared/utils/interfaces';
 interface IFormSearch {
    onSubmit(search: Search): void
 }
@@ -22,6 +22,40 @@ const initialStateSearch: Search = {
    searchText: '',
    fields: ''
 }
+
+/**
+ * Fields for advanced search
+ * 
+ * `Limitar Busqueda`
+ * 
+ */
+const initialLimitSearch: FieldLimitSearch[] = [
+   {
+      key: 'dispositionTitle',
+      label: 'Título',
+      isChecked: false
+   },
+   {
+      key: 'place',
+      label: 'Lugar',
+      isChecked: false
+   },
+   {
+      key: 'affairId',
+      label: 'Asunto',
+      isChecked: false
+   },
+   {
+      key: 'legislationTranscriptCopy',
+      label: 'Texto',
+      isChecked: false
+   },
+   {
+      key: 'dispositionNumber',
+      label: 'No. de Disposición',
+      isChecked: false
+   }
+];
 
 const styleAdvancedSearch = {
    height: '200px',
@@ -39,16 +73,33 @@ const backgroundInputGroup = {
 const SearchForm = ({ onSubmit }: IFormSearch) => {
    const { values, handleInputChange } = useForm<Search>(initialStateSearch);
    const [active, setActive] = useState(false);
+   const [fieldsLS, setFieldsLS] = useState<FieldLimitSearch[]>(initialLimitSearch);
 
    const { searchText } = values;
    
    const handleSearch = (event: FormEvent<HTMLFormElement>) => {
       event.preventDefault();
+      const fields = fieldsLS.filter(f => f.isChecked).map(f => f.key).toString();
+      values.fields = fields;
+      console.log(values);
+      console.log(fields);
       onSubmit(values);
    }
 
    const handleActive = () => {
       setActive(!active);
+   }
+
+   const handleChange = (event: HTMLEvent) => {
+      const { name, checked } = event.target;
+
+      const newFieldLimit = fieldsLS.map(field => {
+         if (field.key === name)
+            field.isChecked = checked;
+         return field
+      })
+
+      setFieldsLS(newFieldLimit);
    }
 
    return (
@@ -81,7 +132,7 @@ const SearchForm = ({ onSubmit }: IFormSearch) => {
                <Button
                 type="button"
                 className="btn btn-light-primary btn-sm"
-                onClick={handleActive}>
+                onClick={ handleActive }>
                   Búsqueda avanzada
                </Button>
             </div>
@@ -91,37 +142,27 @@ const SearchForm = ({ onSubmit }: IFormSearch) => {
                <Row className="justify-content-center m-3">
                   <label>Limitar Búsqueda</label>
                   <Col xl={12} md={12} xs={12}>
-                     <FormGroup check inline>
-                        <Label check>
-                           <Input type="checkbox" /> Lugar
-                        </Label>
-                     </FormGroup>
-                     <FormGroup check inline>
-                        <Label check>
-                           <Input type="checkbox" /> Texto
-                        </Label>
-                     </FormGroup>
-                     <FormGroup check inline>
-                        <Label check>
-                           <Input type="checkbox" /> Asunto
-                        </Label>
-                     </FormGroup>
-                     <FormGroup check inline>
-                        <Label check>
-                           <Input type="checkbox" /> Titulo
-                        </Label>
-                     </FormGroup>
-                     <FormGroup check inline>
-                        <Label check>
-                           <Input type="checkbox" /> No. de Disposición
-                        </Label>
-                     </FormGroup>
+                     {
+                        fieldsLS.map((field, index) => {
+                           return <FormGroup check inline key={index}>
+                                    <Label check>
+                                       <Input
+                                        type="checkbox"
+                                        name={field.key}
+                                        value={field.key}
+                                        checked={field.isChecked}
+                                        onChange={ handleChange }/>
+                                        {field.label}
+                                    </Label>
+                                 </FormGroup>
+                        })
+                     }
                   </Col>
                </Row>
                <Button
                 type="button"
                 className="btn btn-light-primary btn-sm"
-                onClick={handleActive}
+                onClick={ handleActive }
                 style={styleClose}>
                   Cerrar
                </Button>

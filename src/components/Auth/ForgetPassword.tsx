@@ -1,6 +1,8 @@
 import React from 'react';
 import { Button, Form, FormGroup, Input, InputGroup, InputGroupAddon, InputGroupText } from 'reactstrap';
-import { handleForgetPassword } from '../../shared/utils/constants';
+import { handleForgetPassword } from 'shared/utils/forgetPasswordFunction';
+
+
 const ForgetPassword = () => {
    return (
       <>

@@ -1,4 +1,4 @@
-import React, { ChangeEvent, useState } from 'react';
+import React, { useState } from 'react';
 import {
    Button,
    Card,
@@ -23,7 +23,7 @@ import { Moment } from 'moment';
 const Descriptive = () => {
    const [toggleDialog, setToggleDialog] = useState<boolean>(false);
    const initDescriptiveRecord: DescriptiveRecord = {
-      id: '',
+      id: 0,
       dispositionTitle: '',
       date: '',
       volume: '',
@@ -66,7 +66,7 @@ const Descriptive = () => {
    }
 
    const addElement = () => {
-      descriptiveRecord.id = `${Math.random()}hfkhsfks94`
+      descriptiveRecord.id = 1
       setDescriptiveRecords([
          ...descriptiveRecords,
          descriptiveRecord,
