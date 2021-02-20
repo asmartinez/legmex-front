@@ -10,10 +10,11 @@ const Index = () => {
 
    const handleSearch = useCallback(
       (search: Search) => {
-         history.push(`/public/search?q=${search.searchText}`);
+         const searchByFields = `&fields=${search.fields}`;
+         history.push(`/public/search?q=${search.searchText}${ search.fields.length > 0 ? searchByFields : '' }`);
       },
       [history]
-   )
+   );
 
    return (
       <>

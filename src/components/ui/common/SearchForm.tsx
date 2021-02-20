@@ -81,8 +81,6 @@ const SearchForm = ({ onSubmit }: IFormSearch) => {
       event.preventDefault();
       const fields = fieldsLS.filter(f => f.isChecked).map(f => f.key).toString();
       values.fields = fields;
-      console.log(values);
-      console.log(fields);
       onSubmit(values);
    }
 
