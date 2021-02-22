@@ -13,13 +13,13 @@ import {
    Row
 } from 'reactstrap';
 import { useForm } from 'shared/hooks/useForm';
-import { FieldLimitSearch, HTMLEvent, Search } from 'shared/utils/interfaces';
+import { FieldLimitSearch, HTMLEvent, SearchOptions } from 'shared/utils/interfaces';
 interface IFormSearch {
-   onSubmit(search: Search): void
+   onSubmit(search: SearchOptions): void
 }
 
-const initialStateSearch: Search = {
-   searchText: '',
+const initialStateSearch: SearchOptions = {
+   globalText: '',
    fields: ''
 }
 
@@ -71,11 +71,11 @@ const backgroundInputGroup = {
 }
 
 const SearchForm = ({ onSubmit }: IFormSearch) => {
-   const { values, handleInputChange } = useForm<Search>(initialStateSearch);
+   const { values, handleInputChange } = useForm<SearchOptions>(initialStateSearch);
    const [active, setActive] = useState(false);
    const [fieldsLS, setFieldsLS] = useState<FieldLimitSearch[]>(initialLimitSearch);
 
-   const { searchText } = values;
+   const { globalText } = values;
    
    const handleSearch = (event: FormEvent<HTMLFormElement>) => {
       event.preventDefault();
@@ -113,14 +113,14 @@ const SearchForm = ({ onSubmit }: IFormSearch) => {
                    className="form-control-alternative"
                    placeholder="Search"
                    autoComplete="off"
-                   name="searchText"
-                   value={ searchText }
+                   name="globalText"
+                   value={ globalText }
                    onChange={ handleInputChange }
                    type="text"/>
                   <Button
                    type="submit"
                    className="btn btn-light-primary btn-sm btn-search"
-                   disabled={ !searchText || searchText.length < 3}>
+                   disabled={ !globalText || globalText.length < 3}>
                      Buscar
                   </Button>
             </InputGroup>    

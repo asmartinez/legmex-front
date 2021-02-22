@@ -17,6 +17,7 @@ const PublicRoutes = () => {
    }, []);
 
    const publicRoutes = filterRoute(routes, '/public');
+
    return (
       <>
          <div className="main-content">

@@ -32,7 +32,7 @@
   /*
     Color System Start
   */
-  --first-color: #663259;
+  --first-color: #7b213d/*#663259*/;
   --first-color-light: #f4e1f099/*#f4e1f0*/;
   --white-color: #f2f3f7;
   /*
@@ -50,7 +50,7 @@
   --nav-width: 92px;
 
   /*Colores*/
-  --first-color: #5b2b51;
+  --first-color: #7b213d;
   --bg-color: #f7f8fa;
   --white-color: #ffffff;
   --gray-color: #99b2c6;
@@ -63,8 +63,8 @@
   /*Z index*/
   --z-fixed: 100;
 
-  --primary-color: #663259;
-  --dark-primary-color: #58244b;
+  --primary-color: #7b213d;
+  --dark-primary-color: #6d2c4a;
 }
 
 *,
@@ -3091,6 +3091,11 @@ input[type="button"].btn-block {
 .tab-content > .active {
   display: block; }
 
+.tab-pane.active {
+  background-color: var(--white-color);
+  color: #090909;
+}
+
 .navbar {
   position: relative;
   display: flex;
@@ -3659,7 +3664,8 @@ input[type="button"].btn-block {
 .badge-pill {
   padding-right: 0.875em;
   padding-left: 0.875em;
-  border-radius: 10rem; }
+  /*border-radius: 10rem;*/
+}
 
 .badge-primary {
   color: #2643e9;
@@ -11135,12 +11141,12 @@ textarea[resize="horizontal"] {
   background-color: #fff;
   transition: all 0.15s ease; }
   .nav-pills .nav-link:hover {
-    color: #485fe0; }
+    color: var(--white); }
 
 .nav-pills .nav-link.active,
 .nav-pills .show > .nav-link {
   color: #fff;
-  background-color: #5e72e4; }
+  background-color: var(--first-color); }
 
 @media (max-width: 575.98px) {
   .nav-pills .nav-item {
@@ -14510,6 +14516,15 @@ a:hover {
   z-index: var(--z-fixed);
 }
 
+.react-pdf__Document {
+  user-select: none;
+  overflow: auto;
+}
+
+.height-86 {
+  height: 86vh;
+}
+
 /*collapse*/
 .collapse {
   grid-template-columns: 20px max-content 1fr;
@@ -14559,6 +14574,7 @@ a:hover {
   margin-left: 16%;
   margin-right: 16%;
 }
+
 
 .pointer {
   cursor: pointer;

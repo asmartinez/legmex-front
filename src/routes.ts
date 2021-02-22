@@ -1,8 +1,6 @@
 import { RouteCustom } from "./shared/utils/interfaces";
 import Dashboard from './components/pages/admin_views/Dashboard';
-import Users from './components/pages/admin_views/Users';
 import Index from "./components/pages/public_views/Index";
-import Panel from './components/pages/admin_views/Files'; 
 import Descriptive from "./components/pages/admin_views/Descriptive/Descriptive";
 
 const routes: Array<RouteCustom> = [
@@ -92,15 +90,13 @@ const routes: Array<RouteCustom> = [
       iconName: 'collection',
       layout: '/admin',
       routerLink: '/panel',
-      component: Panel
    },
    {
       label: 'Usuarios',
       iconType: 'bx',
       iconName: 'user',
       layout: '/admin',
-      routerLink: '/users',
-      component: Users
+      routerLink: '/users'
    }
 ];
 

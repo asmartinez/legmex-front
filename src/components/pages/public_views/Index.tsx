@@ -1,7 +1,7 @@
 import React, { useCallback } from 'react';
 import { NavLink as NavLinkRRD, useHistory } from 'react-router-dom';
 import { Col, Container, NavLink, Row } from 'reactstrap';
-import { Search } from 'shared/utils/interfaces';
+import { SearchOptions } from 'shared/utils/interfaces';
 import { Title } from 'shared/utils/constants';
 import SearchForm from 'components/ui/common/SearchForm';
 
@@ -9,9 +9,9 @@ const Index = () => {
    const history = useHistory();
 
    const handleSearch = useCallback(
-      (search: Search) => {
+      (search: SearchOptions) => {
          const searchByFields = `&fields=${search.fields}`;
-         history.push(`/public/search?q=${search.searchText}${ search.fields.length > 0 ? searchByFields : '' }`);
+         history.push(`/public/search?q=${search.globalText}${ search.fields && search.fields.length > 0 ? searchByFields : '' }`);
       },
       [history]
    );

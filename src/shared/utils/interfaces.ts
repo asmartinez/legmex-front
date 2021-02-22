@@ -6,9 +6,17 @@ export type HTMLEvent = ChangeEvent<HTMLInputElement>;
 
 export type TypeLayout = '/admin' | '/auth' | '/public';
 
-export interface Search {
-   searchText: string;
-   fields: string;
+export type TextViewer = {
+   text: string
+};
+
+export interface SearchOptions {
+   globalText: string;
+   fields?: string;
+}
+
+export interface ListResponse<T> {
+   entities: T[];
 }
 
 export interface RouteCustom {

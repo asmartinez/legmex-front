@@ -1,6 +1,6 @@
-import React from "react";
-import { Route } from "react-router-dom";
-import { RouteCustom } from "../shared/utils/interfaces";
+import React from 'react';
+import { Route } from 'react-router-dom';
+import { RouteCustom } from 'shared/utils/interfaces';
 
 export const getRoutes = (routes: RouteCustom[]) => {
    return routes.map( (route, key) => {

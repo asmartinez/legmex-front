@@ -10,7 +10,7 @@ const DashboardRoutes = () => {
    const privateRoutes = filterRoute(routes, '/admin');
 
    return (
-      <div className='body'>
+      <div className="body">
          <Header/>
          <Sidebar backgroundOption="white" items={privateRoutes}/>
          <div className="main-content">

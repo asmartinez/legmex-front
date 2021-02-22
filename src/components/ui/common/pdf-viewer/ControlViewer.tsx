@@ -3,9 +3,7 @@ import { Button, Card, Col, Row } from 'reactstrap';
 import { IControlViewer } from 'shared/utils/interfaces';
 
 const style = {
-   height: '64px',
-   width: '610px',
-   top: '-12px'
+   height: '64px'
 }
 
 const ControlViewer = (item: IControlViewer) => {
@@ -13,7 +11,7 @@ const ControlViewer = (item: IControlViewer) => {
    
    return (
       <>
-         <Card className="border-0" style={style}>
+         <Card style={style}>
             <Row className="justify-content-center m-3">
                <Col xl={12} md={12} xs={12}>
                   <Button className="btn-icon btn-2" color="primary" type="button" size="sm">

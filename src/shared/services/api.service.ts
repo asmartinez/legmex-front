@@ -1,18 +1,85 @@
 import axios from 'axios';
-import { GenericResponse } from './generic-response';
+import { ListResponse, SearchOptions } from 'shared/utils/interfaces';
 
 export default class ApiService {
-   private static baseURL: string = 'http://localhost:4000';
-   private readonly api: string = '/api';
+   /**
+    * 
+    * @param root 
+    * @param search 
+    *  * **Example:**
+    * 
+    * ```ts
+    * export const MyComponent = () => {
+    *    const { entities, loading, error } = useList<DescriptiveRecord[]>('search', { search: 'engine' } );
+    *    ...
+    * }
+    * ```
+    */
+   public static list = async <T>(root: string, search?: SearchOptions): Promise<ListResponse<T>> => {
+      const params: string[] = [];
+   
+      if (search) {
+         const { globalText, fields } = search;
+         params.push(`?search=${globalText}`);
+         params.push(fields ? `&fields=${fields}` : '');
+      }
+   
+      const uri = `${process.env.REACT_APP_API_URL}/v1/${root}/${params.length > 0 ? params.toString() : ''}`;
+   
+      try {
+         const { data } = await axios.get<T[]>(uri);
+         return {
+            entities: data
+         }
+      }
+      catch {
+         return {
+            entities: []
+         };
+      }
+   }
 
-   public static async getAll<T>(url: string): Promise<GenericResponse<T>> {
-      const response = await axios.get<Array<T>>(this.baseURL + url)
-         .then( response => {
-            return new GenericResponse<T>(true,<Array<T>> response.data, 'success', "")
-         })
-         .catch( error => {
-            return new GenericResponse<T>(true, [], 'error', error)
-         });
-      return response;
+   public static single = async <T>(root: string, id: number): Promise<T> => {
+      const uri = `${process.env.REACT_APP_API_URL}/v1/${root}/${id}/`;
+      try {
+         const { data } = await axios.get<T>(uri);
+         return data;
+      }
+      catch {
+         return {} as T;
+      }
+   }
+
+   public static store = async <T>(root: string, entity: T): Promise<T> => {
+      const uri = `${process.env.REACT_APP_API_URL}/v1/${root}`;
+      try {
+         const { data } = await axios.post<T>(uri, entity);
+         return data;
+      }
+      catch {
+         return {} as T;
+      }
+   }
+
+   public static update = async <T>(root: string, id: number, entity: T): Promise<T> => {
+      const uri = `${process.env.REACT_APP_API_URL}/v1/${root}/${id}`;
+      try {
+         const { data } = await axios.post<T>(uri, entity);
+         return data;
+      }
+      catch {
+         return {} as T;
+      }
+   }
+
+   public static destroy = async <T>(root: string, id: number): Promise<T> => {
+      const uri = `${process.env.REACT_APP_API_URL}/v1/${root}/${id}`;
+      try {
+         const { data } = await axios.delete<T>(uri);
+         return data;
+      }
+      catch {
+         return {} as T;
+      }
    }
 }

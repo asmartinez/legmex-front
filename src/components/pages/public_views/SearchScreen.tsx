@@ -1,40 +1,41 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import queryString from 'query-string';
 import { useHistory, useLocation } from 'react-router-dom';
-import { DescriptiveRecord, Search } from 'shared/utils/interfaces';
+import { DescriptiveRecord, SearchOptions } from 'shared/utils/interfaces';
 import { Col, Container, Row } from 'reactstrap';
 import SearchForm from '../../ui/common/SearchForm';
 import CardSearch from '../../ui/common/CardSearch';
-import axios from 'axios';
+import ApiService from 'shared/services/api.service';
 
 const SearchScreen = () => {
    const location = useLocation();
    const history = useHistory();
    const { q = '', fields = ''} = queryString.parse(location.search);
+   const [isLoading, setIsLoading] = useState(true);
    const [descriptiveRecords, setDescriptiveRecords] = useState<DescriptiveRecord[]>([]);
 
-   const getDescriptiveRecord = ({ searchText, fields }: Search) => {
-      const searchByFields = `&fields=${fields}`;
-      axios.get<DescriptiveRecord[]>(`${process.env.REACT_APP_API_URL}/v1/search/?search=${searchText}${fields ? searchByFields: ''}`)
-         .then(response => {
-            setDescriptiveRecords(response.data);
-         })
-         .catch(error => console.log(error));
+
+   const getDescriptiveRecord = (search: SearchOptions) => {
+      ApiService.list<DescriptiveRecord>('search', search).then(response => {
+         setDescriptiveRecords(response.entities);
+         setIsLoading(false);
+      }).catch(error => console.log(error));
    }
 
    const handleSearch = useCallback(
-      (search: Search) => {
+      (search: SearchOptions) => {
          const searchByFields = `&fields=${search.fields}`;
-         history.push(`/public/search?q=${search.searchText}${ search.fields.length > 0 ? searchByFields : '' }`);
+         history.push(`/public/search?q=${search.globalText}${ search.fields && search.fields.length > 0 ? searchByFields : '' }`);
          getDescriptiveRecord(search);
+         
       },
       [history]
    );
 
    useEffect(() => {
       if (q){
-         const search: Search = {
-            searchText: q as string,
+         const search: SearchOptions = {
+            globalText: q as string,
             fields: fields as string
          }
          getDescriptiveRecord(search);
@@ -51,6 +52,7 @@ const SearchScreen = () => {
                   <SearchForm onSubmit={handleSearch}/>
                </Col>
             </Row>
+            { isLoading ? <div>Loafing</div> : null }
             {
                descriptiveRecords.map(descriptiveRecord => {
                   return <CardSearch
