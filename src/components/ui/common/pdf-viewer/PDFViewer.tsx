@@ -24,7 +24,7 @@ const PDFViewer = (item: IPDFViewer) => {
           onLoadSuccess={onDocumentLoadSuccess}>
             <Page pageNumber={pageNumber} scale={1.0} width={500}/>
          </Document>
-         <ControlViewer pageNumber={pageNumber} numberPages={numPages} setPageNumber={1}/>
+         <ControlViewer pageNumber={pageNumber} numberPages={numPages} setPageNumber={setPageNumber}/>
       </div>
    )
 }

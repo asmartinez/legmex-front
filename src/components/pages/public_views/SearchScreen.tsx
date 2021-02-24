@@ -6,6 +6,7 @@ import { Col, Container, Row } from 'reactstrap';
 import SearchForm from '../../ui/common/SearchForm';
 import CardSearch from '../../ui/common/CardSearch';
 import { descriptiveRecordService } from 'services';
+import Loader from 'components/ui/common/Loader';
 
 const SearchScreen = () => {
    const location = useLocation();
@@ -51,23 +52,25 @@ const SearchScreen = () => {
                   <SearchForm onSubmit={handleSearch}/>
                </Col>
             </Row>
-            { isLoading ? <div>Loafing</div> : null }
-            {
-               descriptiveRecords.map(descriptiveRecord => {
-                  return <CardSearch
-                           key={ descriptiveRecord.id } 
-                           id={ descriptiveRecord.id }
-                           dispositionTitle={ descriptiveRecord.dispositionTitle }
-                           date={ descriptiveRecord.date }
-                           volume= { descriptiveRecord.volume }
-                           pageNumbers={ descriptiveRecord.pageNumbers }
-                           legislationTranscriptOriginal={ descriptiveRecord.legislationTranscriptOriginal }
-                           legislationTranscriptCopy={ descriptiveRecord.legislationTranscriptCopy }
-                           place={ descriptiveRecord.place }
-                           dispositionNumber= {descriptiveRecord.dispositionNumber}
-                           dispositionTypeId={ descriptiveRecord.dispositionTypeId }
-                           affairId={ descriptiveRecord.affairId }/>
-               })
+            { isLoading
+               ?
+                  (<Loader />)
+               :
+                  (descriptiveRecords.map(descriptiveRecord => {
+                     return <CardSearch
+                              key={ descriptiveRecord.id } 
+                              id={ descriptiveRecord.id }
+                              dispositionTitle={ descriptiveRecord.dispositionTitle }
+                              date={ descriptiveRecord.date }
+                              volume= { descriptiveRecord.volume }
+                              pageNumbers={ descriptiveRecord.pageNumbers }
+                              legislationTranscriptOriginal={ descriptiveRecord.legislationTranscriptOriginal }
+                              legislationTranscriptCopy={ descriptiveRecord.legislationTranscriptCopy }
+                              place={ descriptiveRecord.place }
+                              dispositionNumber= {descriptiveRecord.dispositionNumber}
+                              dispositionTypeId={ descriptiveRecord.dispositionTypeId }
+                              affairId={ descriptiveRecord.affairId }/>
+                  }))
             }
          </Container>
       </>

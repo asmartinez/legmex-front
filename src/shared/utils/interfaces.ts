@@ -48,7 +48,7 @@ export interface BadgeCustom {
 export interface IControlViewer {
    pageNumber: number;
    numberPages: number;
-   setPageNumber: number;
+   setPageNumber: React.Dispatch<React.SetStateAction<number>>;
 }
 
 export interface IPDFViewer {
