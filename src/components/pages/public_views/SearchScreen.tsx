@@ -5,7 +5,7 @@ import { DescriptiveRecord, SearchOptions } from 'shared/utils/interfaces';
 import { Col, Container, Row } from 'reactstrap';
 import SearchForm from '../../ui/common/SearchForm';
 import CardSearch from '../../ui/common/CardSearch';
-import ApiService from 'shared/services/api.service';
+import { descriptiveRecordService } from 'services';
 
 const SearchScreen = () => {
    const location = useLocation();
@@ -16,7 +16,7 @@ const SearchScreen = () => {
 
 
    const getDescriptiveRecord = (search: SearchOptions) => {
-      ApiService.list<DescriptiveRecord>('document', search).then(response => {
+      descriptiveRecordService.list(search).then(response => {
          setDescriptiveRecords(response.entities);
          setIsLoading(false);
       }).catch(error => console.log(error));
@@ -27,7 +27,6 @@ const SearchScreen = () => {
          const searchByFields = `&fields=${search.fields}`;
          history.push(`/public/search?q=${search.globalText}${ search.fields && search.fields.length > 0 ? searchByFields : '' }`);
          getDescriptiveRecord(search);
-         
       },
       [history]
    );

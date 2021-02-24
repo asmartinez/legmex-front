@@ -3,6 +3,7 @@ import { Document, Page, pdfjs } from 'react-pdf';
 import Loader from 'components/ui/common/Loader';
 import ControlViewer from 'components/ui/common/pdf-viewer/ControlViewer';
 import { IPDFViewer } from 'shared/utils/interfaces';
+import { descriptiveRecordService } from 'services';
 pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`;
 
 const PDFViewer = (item: IPDFViewer) => {
@@ -19,7 +20,7 @@ const PDFViewer = (item: IPDFViewer) => {
       <div style={{marginTop: '10px'}}>
          {isLoading && <Loader /> }
          <Document
-          file={{ url: `${process.env.REACT_APP_API_URL}${item.path}`, mode: 'no-cors'}}
+          file={{ url: descriptiveRecordService.getDocumentPDF(item.path), mode: 'no-cors'}}
           onLoadSuccess={onDocumentLoadSuccess}>
             <Page pageNumber={pageNumber} scale={1.0} width={500}/>
          </Document>

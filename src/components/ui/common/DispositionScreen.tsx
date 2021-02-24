@@ -2,7 +2,7 @@ import classnames from 'classnames';
 import React, { useEffect, useState } from 'react';
 import { Redirect, useParams } from 'react-router-dom';
 import { Card, CardBody, Col, Container, Nav, NavItem, NavLink, Row, TabContent, TabPane } from 'reactstrap';
-import ApiService from 'shared/services/api.service';
+import { descriptiveRecordService } from 'services';
 import { DescriptiveRecord } from 'shared/utils/interfaces';
 import Badge from './Badge';
 import EditorViewer from './editor-viewer/EditorViewer';
@@ -20,7 +20,7 @@ const DispositionScreen = () => {
    };
 
    useEffect(() => {
-      ApiService.single<DescriptiveRecord>('document', dispositionId)
+      descriptiveRecordService.single(dispositionId)
        .then(response => setDescriptiveRecord(response))
        .catch(error => console.log(error));
    }, [dispositionId]);

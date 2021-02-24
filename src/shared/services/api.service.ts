@@ -1,8 +1,34 @@
 import axios from 'axios';
 import { ListResponse, SearchOptions } from 'shared/utils/interfaces';
 
-export default class ApiService {
-   public static list = async <T>(root: string, search?: SearchOptions): Promise<ListResponse<T>> => {
+export default abstract class ApiService<T> {
+   private readonly api: string = '/api';
+
+   public abstract root(): string;
+
+   /**
+   * This getter takes the default `api` const string (on top of this class) and the
+   * `root()` to create the api uri to make requests.
+   * @internal
+   */
+   protected get uri(): string {
+      return `${process.env.REACT_APP_API_URL}${this.api}/${this.root()}/`;
+   }
+   
+   /**
+    * 
+    * @param root 
+    * @param search 
+    *  * **Example:**
+    * 
+    * ```ts
+    * export const MyComponent = () => {
+    *    const { entities, loading, error } = useList<DescriptiveRecord[]>('search', { search: 'engine' } );
+    *    ...
+    * }
+    * ```
+    */
+   public list = async (search?: SearchOptions): Promise<ListResponse<T>> => {
       const params: string[] = [];
    
       if (search) {
@@ -11,10 +37,8 @@ export default class ApiService {
          params.push(fields ? `&fields=${fields}` : '');
       }
    
-      const uri = `${process.env.REACT_APP_API_URL}/api/${root}/${params.length > 0 ? params.toString() : ''}`;
-   
       try {
-         const { data } = await axios.get<T[]>(uri);
+         const { data } = await axios.get<T[]>(`${this.uri}${params.length > 0 ? params.toString() : ''}`);
          return {
             entities: data
          }
@@ -26,10 +50,9 @@ export default class ApiService {
       }
    }
 
-   public static single = async <T>(root: string, id: number): Promise<T> => {
-      const uri = `${process.env.REACT_APP_API_URL}/api/${root}/${id}/`;
+   public single = async (id: number): Promise<T> => {
       try {
-         const { data } = await axios.get<T>(uri);
+         const { data } = await axios.get<T>(`${this.uri}${id}/`);
          return data;
       }
       catch {
@@ -37,10 +60,9 @@ export default class ApiService {
       }
    }
 
-   public static store = async <T>(root: string, entity: T): Promise<T> => {
-      const uri = `${process.env.REACT_APP_API_URL}/api/${root}`;
+   public store = async (entity: T): Promise<T> => {
       try {
-         const { data } = await axios.post<T>(uri, entity);
+         const { data } = await axios.post<T>(this.uri, entity);
          return data;
       }
       catch {
@@ -48,10 +70,9 @@ export default class ApiService {
       }
    }
 
-   public static update = async <T>(root: string, id: number, entity: T): Promise<T> => {
-      const uri = `${process.env.REACT_APP_API_URL}/api/${root}/${id}`;
+   public update = async (id: number, entity: T): Promise<T> => {
       try {
-         const { data } = await axios.post<T>(uri, entity);
+         const { data } = await axios.post<T>(`${this.uri}${id}`, entity);
          return data;
       }
       catch {
@@ -59,10 +80,9 @@ export default class ApiService {
       }
    }
 
-   public static destroy = async <T>(root: string, id: number): Promise<T> => {
-      const uri = `${process.env.REACT_APP_API_URL}/api/${root}/${id}`;
+   public destroy = async (id: number): Promise<T> => {
       try {
-         const { data } = await axios.delete<T>(uri);
+         const { data } = await axios.delete<T>(`${this.uri}${id}`);
          return data;
       }
       catch {
