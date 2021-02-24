@@ -2,19 +2,6 @@ import axios from 'axios';
 import { ListResponse, SearchOptions } from 'shared/utils/interfaces';
 
 export default class ApiService {
-   /**
-    * 
-    * @param root 
-    * @param search 
-    *  * **Example:**
-    * 
-    * ```ts
-    * export const MyComponent = () => {
-    *    const { entities, loading, error } = useList<DescriptiveRecord[]>('search', { search: 'engine' } );
-    *    ...
-    * }
-    * ```
-    */
    public static list = async <T>(root: string, search?: SearchOptions): Promise<ListResponse<T>> => {
       const params: string[] = [];
    
