@@ -1,13 +1,18 @@
 import axios from 'axios';
 import { ListResponse, SearchOptions } from 'shared/utils/interfaces';
 
-export abstract class ApiService<T> {
-   private readonly api: string = '/v1';
+export default abstract class ApiService<T> {
+   private readonly api: string = '/api';
 
    public abstract root(): string;
 
+   /**
+   * This getter takes the default `api` const string (on top of this class) and the
+   * `root()` to create the api uri to make requests.
+   * @internal
+   */
    protected get uri(): string {
-      return `${process.env.REACT_APP_API_URL}/${this.root()}`;
+      return `${process.env.REACT_APP_API_URL}/${this.api}/${this.root()}/`;
    }
    
    /**
@@ -23,7 +28,7 @@ export abstract class ApiService<T> {
     * }
     * ```
     */
-   public list = async (search?: SearchOptions): Promise<ListResponse<T>> => {
+   public list = async (root: string, search?: SearchOptions): Promise<ListResponse<T>> => {
       const params: string[] = [];
    
       if (search) {
@@ -32,14 +37,11 @@ export abstract class ApiService<T> {
          params.push(fields ? `&fields=${fields}` : '');
       }
    
-      const uri = `${process.env.REACT_APP_API_URL}/v1/${''}/${params.length > 0 ? params.toString() : ''}`;
-   
       try {
-         const { data } = await axios.get<T[]>(uri);
-   
+         const { data } = await axios.get<T[]>(`${this.uri}${params.length > 0 ? params.toString() : ''}`);
          return {
             entities: data
-         };
+         }
       }
       catch {
          return {
@@ -48,23 +50,44 @@ export abstract class ApiService<T> {
       }
    }
 
-   /*public single = async (id: number): Promise<EntityResponse<T>> => {
-      const uri = `${process.env.REACT_APP_API_URL}/v1/${''}/${id}`;
+   public single = async (root: string, id: number): Promise<T> => {
+      const uri = `${process.env.REACT_APP_API_URL}/v1/${root}/${id}/`;
       try {
          const { data } = await axios.get<T>(uri);
-   
-         return {
-            entity: data,
-            loading: false,
-            error: ''
-         };
+         return data;
       }
       catch {
-         return {
-            entity: {} as T,
-            loading: false,
-            error: 'Error'
-         };
+         return {} as T;
       }
-   }*/
+   }
+
+   public store = async (entity: T): Promise<T> => {
+      try {
+         const { data } = await axios.post<T>(this.uri, entity);
+         return data;
+      }
+      catch {
+         return {} as T;
+      }
+   }
+
+   public update = async (id: number, entity: T): Promise<T> => {
+      try {
+         const { data } = await axios.post<T>(`${this.uri}/${id}`, entity);
+         return data;
+      }
+      catch {
+         return {} as T;
+      }
+   }
+
+   public destroy = async (id: number): Promise<T> => {
+      try {
+         const { data } = await axios.delete<T>(`${this.uri}/${id}`);
+         return data;
+      }
+      catch {
+         return {} as T;
+      }
+   }
 }

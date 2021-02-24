@@ -24,7 +24,7 @@ export default class ApiService {
          params.push(fields ? `&fields=${fields}` : '');
       }
    
-      const uri = `${process.env.REACT_APP_API_URL}/v1/${root}/${params.length > 0 ? params.toString() : ''}`;
+      const uri = `${process.env.REACT_APP_API_URL}/api/${root}/${params.length > 0 ? params.toString() : ''}`;
    
       try {
          const { data } = await axios.get<T[]>(uri);
@@ -40,7 +40,7 @@ export default class ApiService {
    }
 
    public static single = async <T>(root: string, id: number): Promise<T> => {
-      const uri = `${process.env.REACT_APP_API_URL}/v1/${root}/${id}/`;
+      const uri = `${process.env.REACT_APP_API_URL}/api/${root}/${id}/`;
       try {
          const { data } = await axios.get<T>(uri);
          return data;
@@ -51,7 +51,7 @@ export default class ApiService {
    }
 
    public static store = async <T>(root: string, entity: T): Promise<T> => {
-      const uri = `${process.env.REACT_APP_API_URL}/v1/${root}`;
+      const uri = `${process.env.REACT_APP_API_URL}/api/${root}`;
       try {
          const { data } = await axios.post<T>(uri, entity);
          return data;
@@ -62,7 +62,7 @@ export default class ApiService {
    }
 
    public static update = async <T>(root: string, id: number, entity: T): Promise<T> => {
-      const uri = `${process.env.REACT_APP_API_URL}/v1/${root}/${id}`;
+      const uri = `${process.env.REACT_APP_API_URL}/api/${root}/${id}`;
       try {
          const { data } = await axios.post<T>(uri, entity);
          return data;
@@ -73,7 +73,7 @@ export default class ApiService {
    }
 
    public static destroy = async <T>(root: string, id: number): Promise<T> => {
-      const uri = `${process.env.REACT_APP_API_URL}/v1/${root}/${id}`;
+      const uri = `${process.env.REACT_APP_API_URL}/api/${root}/${id}`;
       try {
          const { data } = await axios.delete<T>(uri);
          return data;

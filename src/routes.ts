@@ -77,7 +77,7 @@ const routes: Array<RouteCustom> = [
       component: Dashboard
    },
    {
-      label: 'Descriptivos',
+      label: 'Documentos',
       iconType: 'bx',
       iconName: 'bookmarks',
       layout: '/admin',

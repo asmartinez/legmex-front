@@ -16,7 +16,7 @@ const SearchScreen = () => {
 
 
    const getDescriptiveRecord = (search: SearchOptions) => {
-      ApiService.list<DescriptiveRecord>('search', search).then(response => {
+      ApiService.list<DescriptiveRecord>('document', search).then(response => {
          setDescriptiveRecords(response.entities);
          setIsLoading(false);
       }).catch(error => console.log(error));
