@@ -12,7 +12,7 @@ const SearchScreen = () => {
    const location = useLocation();
    const history = useHistory();
    const { q = '', fields = ''} = queryString.parse(location.search);
-   const [isLoading, setIsLoading] = useState(true);
+   const [isLoading, setIsLoading] = useState<boolean>(true);
    const [descriptiveRecords, setDescriptiveRecords] = useState<DescriptiveRecord[]>([]);
 
 

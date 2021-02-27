@@ -32,8 +32,8 @@ const Descriptive = () => {
       legislationTranscriptCopy: '',
       place: '',
       dispositionNumber: '',
-      dispositionTypeId: '',
-      affairId: ''
+      dispositionTypeId: 0,
+      affairId: 0
    }
    const [descriptiveRecord, setDescriptiveRecord] = useState<DescriptiveRecord>(initDescriptiveRecord);
    const [descriptiveRecords, setDescriptiveRecords] = useState<DescriptiveRecord[]>([]);

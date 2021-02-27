@@ -9,7 +9,7 @@ pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/$
 const PDFViewer = (item: IPDFViewer) => {
    const [numPages, setNumPages] = useState(0);
    const [pageNumber, setPageNumber] = useState(1);
-   const [isLoading, setIsLoading] = useState(true);
+   const [isLoading, setIsLoading] = useState<boolean>(true);
 
    const onDocumentLoadSuccess = ({ numPages }: any) => {
       setNumPages(numPages);

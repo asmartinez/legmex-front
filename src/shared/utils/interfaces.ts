@@ -74,6 +74,6 @@ export interface DescriptiveRecord {
    legislationTranscriptCopy: string;
    place: string;
    dispositionNumber: string;
-   dispositionTypeId: string | number;
-   affairId: string | number;
+   dispositionTypeId: number;
+   affairId: number;
 }
