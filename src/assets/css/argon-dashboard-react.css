@@ -14521,6 +14521,27 @@ a:hover {
   overflow: auto;
 }
 
+.control-v-group {
+  color: var(--gray-color);
+}
+
+.control-v-group i {
+  font-size: 23px;
+}
+
+.control-v-group span {
+  font-size: 14px;
+}
+
+.c-clickeable {
+  cursor: pointer;
+}
+
+.c-disabled {
+  cursor: no-drop;
+  color: #ccdeed;
+}
+
 .height-86 {
   height: 86vh;
 }

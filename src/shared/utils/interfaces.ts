@@ -1,4 +1,4 @@
-import { ChangeEvent } from 'react';
+import { ChangeEvent, Dispatch, SetStateAction } from 'react';
 
 export type TypeFooter = 'line' | 'card';
 
@@ -46,9 +46,11 @@ export interface BadgeCustom {
 }
 
 export interface IControlViewer {
+   scale: number;
    pageNumber: number;
    numberPages: number;
-   setPageNumber: React.Dispatch<React.SetStateAction<number>>;
+   setPageNumber: Dispatch<SetStateAction<number>>;
+   setScale: Dispatch<SetStateAction<number>>;
 }
 
 export interface IPDFViewer {

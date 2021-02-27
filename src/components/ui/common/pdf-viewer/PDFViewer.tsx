@@ -9,6 +9,7 @@ pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/$
 const PDFViewer = (item: IPDFViewer) => {
    const [numPages, setNumPages] = useState(0);
    const [pageNumber, setPageNumber] = useState(1);
+   const [scale, setScale] = useState(0.75);
    const [isLoading, setIsLoading] = useState<boolean>(true);
 
    const onDocumentLoadSuccess = ({ numPages }: any) => {
@@ -17,14 +18,19 @@ const PDFViewer = (item: IPDFViewer) => {
    }
 
    return (
-      <div style={{marginTop: '10px'}}>
-         {isLoading && <Loader /> }
+      <div className="d-flex flex-column align-items-center w-100" style={{marginTop: '10px'}}>
+         {/* isLoading && <Loader /> */}
          <Document
           file={{ url: descriptiveRecordService.getDocumentPDF(item.path), mode: 'no-cors'}}
           onLoadSuccess={onDocumentLoadSuccess}>
-            <Page pageNumber={pageNumber} scale={1.0} width={500}/>
+            <Page pageNumber={pageNumber} scale={scale} width={500}/>
          </Document>
-         <ControlViewer pageNumber={pageNumber} numberPages={numPages} setPageNumber={setPageNumber}/>
+         <ControlViewer
+          scale={scale}
+          pageNumber={pageNumber}
+          numberPages={numPages}
+          setPageNumber={setPageNumber}
+          setScale={setScale}/>
       </div>
    )
 }
