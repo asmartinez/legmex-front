@@ -1,4 +1,6 @@
-import React, { FormEvent, useState } from 'react';
+import React, { FormEvent, useEffect, useState } from 'react';
+import { useLocation } from 'react-router-dom';
+import queryString from 'query-string';
 import {
    Button,
    Card,
@@ -76,6 +78,24 @@ const SearchForm = ({ onSubmit }: IFormSearch) => {
    const [fieldsLS, setFieldsLS] = useState<FieldLimitSearch[]>(initialLimitSearch);
 
    const { globalText } = values;
+
+   const location = useLocation();
+   const { q = '', fields = ''} = queryString.parse(location.search);
+
+   useEffect(() => {
+      if (fields && fields.length > 0) {
+         const fd = fields as string;
+         setFieldsLS(fieldsLS.map(f => 
+            (fd.split(',').includes(f.key))
+            ? { ...f, isChecked: true }
+            : f
+         ));
+      }
+
+      if (q) values.globalText = q as string;
+   // eslint-disable-next-line react-hooks/exhaustive-deps
+   }, []);
+
    
    const handleSearch = (event: FormEvent<HTMLFormElement>) => {
       event.preventDefault();
