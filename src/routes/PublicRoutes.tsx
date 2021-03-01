@@ -1,30 +1,32 @@
-import React from 'react';
+import SearchScreen from 'components/pages/public_views/SearchScreen';
+import React, { useEffect } from 'react';
 import { Redirect, Route, Switch } from 'react-router-dom';
-import Sidebar from '../components/ui/Sidebar';
-import routes from '../routes';
-import { RouteCustom } from '../shared/utils/interfaces';
+import DispositionScreen from 'components/ui/common/DispositionScreen';
+import Sidebar from 'components/ui/Sidebar';
+import routes from 'routes';
+import { filterRoute } from 'shared/utils/filter';
+import { getRoutes } from './get-route';
+import { Gray } from 'shared/utils/constants';
 
-const publicRoutes =  routes.filter( route => route.layout === '/public' );
+const PublicRoutes = () => {
+   useEffect( () => {
+      document.body.style.background = Gray;
+      return () => {
+         document.body.style.background = '';
+      };
+   }, []);
 
-const PublicRoutes = (props: any) => {
-   const getRoutes = (routes: Array<RouteCustom>) => {
-      return routes.map( (route, key) => {
-         return (
-            <Route
-             path={route.layout + route.routerLink}
-             component={route.component}
-             key={key}
-            />
-         );
-      });
-   };
+   const publicRoutes = filterRoute(routes, '/public');
 
    return (
       <>
          <div className="main-content">
             <Sidebar backgroundOption="white" items={publicRoutes} isFooterCard showTitle/>
             <Switch>
-               {getRoutes(routes)}
+               {getRoutes(publicRoutes)}
+               {/** Route Temporary */}
+               <Route exact path="/public/search" component={ SearchScreen }/>
+               <Route exact path="/public/document/:dispositionId" component={ DispositionScreen }/>
                <Redirect from="*" to="/public/inicio"/>
             </Switch>
          </div>

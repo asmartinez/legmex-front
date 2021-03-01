@@ -11,7 +11,7 @@
   --green: #2dce89;
   --teal: #11cdef;
   --cyan: #2bffc6;
-  --white: #fff;
+  --white: #ffffff;
   --gray: #8898aa;
   --gray-dark: #32325d;
   --light: #ced4da;
@@ -32,8 +32,8 @@
   /*
     Color System Start
   */
-  --first-color: #663259;
-  --first-color-light: #f4e1f0;
+  --first-color: #7b213d/*#663259*/;
+  --first-color-light: #f4e1f099/*#f4e1f0*/;
   --white-color: #f2f3f7;
   /*
     Color System End
@@ -50,8 +50,8 @@
   --nav-width: 92px;
 
   /*Colores*/
-  --first-color: #5b2b51;
-  --bg-color: #f3f8fb;
+  --first-color: #7b213d;
+  --bg-color: #f7f8fa;
   --white-color: #ffffff;
   --gray-color: #99b2c6;
 
@@ -63,8 +63,8 @@
   /*Z index*/
   --z-fixed: 100;
 
-  --primary-color: #663259;
-  --dark-primary-color: #58244b;
+  --primary-color: #7b213d;
+  --dark-primary-color: #6d2c4a;
 }
 
 *,
@@ -94,7 +94,7 @@ body {
   line-height: 1.5;
   color: #525f7f;
   text-align: left;
-  background-color: var(--bg-color);
+  background-color: var(--white);
   transition: .5s;
 }
 
@@ -1691,7 +1691,7 @@ textarea.form-control {
   .btn:focus, .btn.focus {
     outline: 0;
     box-shadow: 0 7px 14px rgba(50, 50, 93, 0.1), 0 3px 6px rgba(0, 0, 0, 0.08); }
-  .btn.disabled, .btn:disabled {
+  .btn.disabled, .btn:disabled, .btn:disabled.btn:hover {
     opacity: 0.65;
     box-shadow: none; }
   .btn:not(:disabled):not(.disabled) {
@@ -2633,7 +2633,7 @@ input[type="button"].btn-block {
   .input-group > .form-control:focus,
   .input-group > .custom-select:focus,
   .input-group > .custom-file .custom-file-input:focus ~ .custom-file-label {
-    z-index: 3; }
+    /*z-index: 3;*/ }
   .input-group > .custom-file .custom-file-input:focus {
     z-index: 4; }
   .input-group > .form-control:not(:last-child),
@@ -3090,6 +3090,11 @@ input[type="button"].btn-block {
 
 .tab-content > .active {
   display: block; }
+
+.tab-pane.active {
+  background-color: var(--white-color);
+  color: #090909;
+}
 
 .navbar {
   position: relative;
@@ -3659,7 +3664,8 @@ input[type="button"].btn-block {
 .badge-pill {
   padding-right: 0.875em;
   padding-left: 0.875em;
-  border-radius: 10rem; }
+  /*border-radius: 10rem;*/
+}
 
 .badge-primary {
   color: #2643e9;
@@ -11135,12 +11141,12 @@ textarea[resize="horizontal"] {
   background-color: #fff;
   transition: all 0.15s ease; }
   .nav-pills .nav-link:hover {
-    color: #485fe0; }
+    color: var(--white); }
 
 .nav-pills .nav-link.active,
 .nav-pills .show > .nav-link {
   color: #fff;
-  background-color: #5e72e4; }
+  background-color: var(--first-color); }
 
 @media (max-width: 575.98px) {
   .nav-pills .nav-item {
@@ -14506,8 +14512,44 @@ a:hover {
   left: 0;
   width: 100%;
   height: 100%;
-  background: rgb(71 71 82 / 50%);
+  background: rgba(0,0,0,.1);
   z-index: var(--z-fixed);
+}
+
+.react-pdf__Document {
+  user-select: none;
+  overflow: auto;
+  display: flex;
+  height: 522px;
+  width: 100%;
+  max-width: 100%;
+  position: relative;
+  justify-content: center;
+}
+
+.control-v-group {
+  color: var(--gray-color);
+}
+
+.control-v-group i {
+  font-size: 23px;
+}
+
+.control-v-group span {
+  font-size: 14px;
+}
+
+.c-clickeable {
+  cursor: pointer;
+}
+
+.c-disabled {
+  cursor: no-drop;
+  color: #ccdeed;
+}
+
+.height-86 {
+  height: 86vh;
 }
 
 /*collapse*/
@@ -14545,7 +14587,7 @@ a:hover {
 
 .body {
   background: var(--white);
-  border-radius: .5rem;
+  border-radius: .4rem;
   height: 100vh;
 }
 
@@ -14559,6 +14601,7 @@ a:hover {
   margin-left: 16%;
   margin-right: 16%;
 }
+
 
 .pointer {
   cursor: pointer;
@@ -14581,6 +14624,26 @@ a:hover {
   color: #fff;
   background-color: var(--first-color);
   border-color: transparent;
+}
+
+#loader {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: white;
+  color: var(--dark-primary-color);
+}
+
+.btn-search {
+  width: 100px;
+  height: 40px;
+  top: 3px;
+  right: 3px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 /* Scroll */
@@ -14633,6 +14696,7 @@ a:hover {
 
   .body {
     margin-right: 1rem;
+    background: var(--bg-color);
     height: 95vh;
   }
 

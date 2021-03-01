@@ -1,4 +1,4 @@
-import React, { ChangeEvent, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
    Button,
    Card,
@@ -17,13 +17,13 @@ import {
    Table
 } from 'reactstrap';
 import ReactDatetime from 'react-datetime';
-import { DescriptiveRecord, HTMLEvent } from '../../../../shared/utils/interfaces';
 import { Moment } from 'moment';
+import { DescriptiveRecord, HTMLEvent } from 'shared/utils/interfaces';
+import { affairService/*, descriptiveRecordService*/ } from 'services';
 
 const Descriptive = () => {
    const [toggleDialog, setToggleDialog] = useState<boolean>(false);
    const initDescriptiveRecord: DescriptiveRecord = {
-      id: '',
       dispositionTitle: '',
       date: '',
       volume: '',
@@ -31,9 +31,10 @@ const Descriptive = () => {
       legislationTranscriptOriginal: '',
       legislationTranscriptCopy: '',
       place: '',
-      dispositionTypeId: '',
-      affairId: ''
-   }
+      dispositionNumber: '',
+      dispositionTypeId: 0,
+      affairId: 0
+   };
    const [descriptiveRecord, setDescriptiveRecord] = useState<DescriptiveRecord>(initDescriptiveRecord);
    const [descriptiveRecords, setDescriptiveRecords] = useState<DescriptiveRecord[]>([]);
 
@@ -44,6 +45,12 @@ const Descriptive = () => {
         [name]: value
       }));
    }
+
+   useEffect(() => {
+      affairService.list()
+       .then(response => console.log(response))
+       .catch(error => console.log(error));
+   }, []);
 
    const handleChangeDataPicker = (event: Moment | string) => {
       descriptiveRecord.date = event.toString();
@@ -65,14 +72,13 @@ const Descriptive = () => {
    }
 
    const addElement = () => {
-      descriptiveRecord.id = `${Math.random()}hfkhsfks94`
+      descriptiveRecord.id = 1
       setDescriptiveRecords([
          ...descriptiveRecords,
          descriptiveRecord,
       ]);
       setDescriptiveRecord(initDescriptiveRecord);
       setToggleDialog(false);
-      console.log(descriptiveRecords)
    }
 
    return (
@@ -84,7 +90,7 @@ const Descriptive = () => {
                      <CardHeader className="border-0">
                         <Row className="align-items-center">
                            <div className="col">
-                              <h3 className="mb-0">Registros</h3>
+                              <h3 className="mb-0">Lista de documentos</h3>
                            </div>
                            <div className="col text-right">
                               <Button

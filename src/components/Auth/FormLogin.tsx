@@ -8,9 +8,9 @@ import {
    Input,
    Button
 } from 'reactstrap';
-import logo from '../../assets/img/logooficial.svg';
+import logo from 'assets/img/logooficial.svg';
 import { useHistory } from 'react-router-dom';
-import { handleForgetPassword } from '../../shared/utils/constants';
+import { handleForgetPassword } from 'shared/utils/forgetPasswordFunction';
 
 const FormLogin = () => {
 

@@ -1,9 +1,8 @@
 import { RouteCustom } from "./shared/utils/interfaces";
 import Dashboard from './components/pages/admin_views/Dashboard';
-import Users from './components/pages/admin_views/Users';
 import Index from "./components/pages/public_views/Index";
-import Panel from './components/pages/admin_views/Files'; 
 import Descriptive from "./components/pages/admin_views/Descriptive/Descriptive";
+import AffairComponent from "components/pages/admin_views/affair/affair.component";
 
 const routes: Array<RouteCustom> = [
    {
@@ -79,7 +78,7 @@ const routes: Array<RouteCustom> = [
       component: Dashboard
    },
    {
-      label: 'Descriptivos',
+      label: 'Documentos',
       iconType: 'bx',
       iconName: 'bookmarks',
       layout: '/admin',
@@ -87,20 +86,26 @@ const routes: Array<RouteCustom> = [
       component: Descriptive
    },
    {
+      label: 'Asuntos',
+      iconType: 'bx',
+      iconName: 'bookmarks',
+      layout: '/admin',
+      routerLink: '/affair',
+      component: AffairComponent
+   },
+   /*{
       label: 'Colecciones',
       iconType: 'bx',
       iconName: 'collection',
       layout: '/admin',
       routerLink: '/panel',
-      component: Panel
-   },
+   },*/
    {
       label: 'Usuarios',
       iconType: 'bx',
       iconName: 'user',
       layout: '/admin',
-      routerLink: '/users',
-      component: Users
+      routerLink: '/users'
    }
 ];
 
