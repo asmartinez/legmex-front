@@ -103,7 +103,7 @@ const DispositionScreen = () => {
                               <PDFViewer path={descriptiveRecord.legislationTranscriptOriginal}/>
                            </TabPane>
                            <TabPane tabId="tabs2">
-                              <EditorViewer text={descriptiveRecord.legislationTranscriptCopy}/>;
+                              <EditorViewer text={descriptiveRecord.legislationTranscriptCopy}/>
                            </TabPane>
                            </TabContent>
                      </CardBody>

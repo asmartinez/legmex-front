@@ -14519,6 +14519,12 @@ a:hover {
 .react-pdf__Document {
   user-select: none;
   overflow: auto;
+  display: flex;
+  height: 522px;
+  width: 100%;
+  max-width: 100%;
+  position: relative;
+  justify-content: center;
 }
 
 .control-v-group {

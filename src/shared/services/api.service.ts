@@ -80,7 +80,7 @@ export default abstract class ApiService<T> {
       }
    }
 
-   public destroy = async (id: number): Promise<T> => {
+   public delete = async (id: number): Promise<T> => {
       try {
          const { data } = await axios.delete<T>(`${this.uri}${id}`);
          return data;

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
    Button,
    Card,
@@ -17,13 +17,13 @@ import {
    Table
 } from 'reactstrap';
 import ReactDatetime from 'react-datetime';
-import { DescriptiveRecord, HTMLEvent } from '../../../../shared/utils/interfaces';
 import { Moment } from 'moment';
+import { DescriptiveRecord, HTMLEvent } from 'shared/utils/interfaces';
+import { affairService/*, descriptiveRecordService*/ } from 'services';
 
 const Descriptive = () => {
    const [toggleDialog, setToggleDialog] = useState<boolean>(false);
    const initDescriptiveRecord: DescriptiveRecord = {
-      id: 0,
       dispositionTitle: '',
       date: '',
       volume: '',
@@ -34,7 +34,7 @@ const Descriptive = () => {
       dispositionNumber: '',
       dispositionTypeId: 0,
       affairId: 0
-   }
+   };
    const [descriptiveRecord, setDescriptiveRecord] = useState<DescriptiveRecord>(initDescriptiveRecord);
    const [descriptiveRecords, setDescriptiveRecords] = useState<DescriptiveRecord[]>([]);
 
@@ -45,6 +45,12 @@ const Descriptive = () => {
         [name]: value
       }));
    }
+
+   useEffect(() => {
+      affairService.list()
+       .then(response => console.log(response))
+       .catch(error => console.log(error));
+   }, []);
 
    const handleChangeDataPicker = (event: Moment | string) => {
       descriptiveRecord.date = event.toString();
@@ -73,7 +79,6 @@ const Descriptive = () => {
       ]);
       setDescriptiveRecord(initDescriptiveRecord);
       setToggleDialog(false);
-      console.log(descriptiveRecords)
    }
 
    return (

@@ -1,15 +1,20 @@
 import { useRef, useState, useEffect } from 'react';
 
-export const useHover = () => {
-  const [value, setValue] = useState<boolean>(false);
-  const ref = useRef<HTMLDivElement>(null);
+interface IHover {
+   hoverRef: React.RefObject<HTMLDivElement>,
+   isHovered: boolean
+}
 
-  const handleMouseOver = () => setValue(true);
-  const handleMouseOut = () => setValue(false);
+export const useHover = (): IHover => {
+  const [isHovered, setIsHovered] = useState<boolean>(false);
+  const hoverRef = useRef<HTMLDivElement>(null);
+
+  const handleMouseOver = () => setIsHovered(true);
+  const handleMouseOut = () => setIsHovered(false);
 
    useEffect(
       () => {
-         const node = ref.current;
+         const node = hoverRef.current;
          if (node) {
             node.addEventListener('mouseover', handleMouseOver);
             node.addEventListener('mouseout', handleMouseOut);
@@ -20,8 +25,8 @@ export const useHover = () => {
             };
          }
       },
-      [ref.current]
+      [hoverRef.current]
    );
 
-   return [ref, value];
+   return { hoverRef, isHovered };
 }

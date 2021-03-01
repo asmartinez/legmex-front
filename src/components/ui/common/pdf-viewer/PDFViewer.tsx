@@ -1,15 +1,14 @@
 import React, { useState } from 'react';
-import { Document, Page, pdfjs } from 'react-pdf';
+import { Document, Page } from 'react-pdf/dist/esm/entry.webpack';
 import Loader from 'components/ui/common/Loader';
 import ControlViewer from 'components/ui/common/pdf-viewer/ControlViewer';
 import { IPDFViewer } from 'shared/utils/interfaces';
 import { descriptiveRecordService } from 'services';
-pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`;
 
 const PDFViewer = (item: IPDFViewer) => {
    const [numPages, setNumPages] = useState(0);
    const [pageNumber, setPageNumber] = useState(1);
-   const [scale, setScale] = useState(0.75);
+   const [scale, setScale] = useState(1.0);
    const [isLoading, setIsLoading] = useState<boolean>(true);
 
    const onDocumentLoadSuccess = ({ numPages }: any) => {
@@ -22,7 +21,7 @@ const PDFViewer = (item: IPDFViewer) => {
          {/* isLoading && <Loader /> */}
          <Document
           file={{ url: descriptiveRecordService.getDocumentPDF(item.path), mode: 'no-cors'}}
-          onLoadSuccess={onDocumentLoadSuccess}>
+          onLoadSuccess={onDocumentLoadSuccess} >
             <Page pageNumber={pageNumber} scale={scale} width={500}/>
          </Document>
          <ControlViewer

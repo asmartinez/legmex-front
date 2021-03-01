@@ -2,6 +2,7 @@ import { RouteCustom } from "./shared/utils/interfaces";
 import Dashboard from './components/pages/admin_views/Dashboard';
 import Index from "./components/pages/public_views/Index";
 import Descriptive from "./components/pages/admin_views/Descriptive/Descriptive";
+import AffairComponent from "components/pages/admin_views/affair/affair.component";
 
 const routes: Array<RouteCustom> = [
    {
@@ -85,12 +86,20 @@ const routes: Array<RouteCustom> = [
       component: Descriptive
    },
    {
+      label: 'Asuntos',
+      iconType: 'bx',
+      iconName: 'bookmarks',
+      layout: '/admin',
+      routerLink: '/affair',
+      component: AffairComponent
+   },
+   /*{
       label: 'Colecciones',
       iconType: 'bx',
       iconName: 'collection',
       layout: '/admin',
       routerLink: '/panel',
-   },
+   },*/
    {
       label: 'Usuarios',
       iconType: 'bx',

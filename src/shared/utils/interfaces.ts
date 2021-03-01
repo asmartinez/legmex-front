@@ -66,8 +66,11 @@ export interface FieldLimitSearch {
 /*
    Models
 */
-export interface DescriptiveRecord {
-   id: number;
+interface Model {
+   id?: number;
+}
+
+export interface DescriptiveRecord extends Model{
    dispositionTitle: string;
    date: string;
    volume: string;
@@ -78,4 +81,8 @@ export interface DescriptiveRecord {
    dispositionNumber: string;
    dispositionTypeId: number;
    affairId: number;
+}
+
+export interface Affair extends Model{
+   affair: string;
 }
