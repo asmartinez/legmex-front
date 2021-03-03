@@ -14,7 +14,7 @@ export const catalogReducer = <T extends Model>() => (state: T[] = [], action: C
       case 'add':
          return [...state, action.payload as T];
       case 'delete':
-         return state.filter(s => s.id !== action.payload);
+         return state.filter(s => s.id !== action.payload as number);
       default:
          return state;
    }

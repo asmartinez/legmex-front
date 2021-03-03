@@ -60,10 +60,10 @@ const AffairComponent = () => {
       onCancel();
    }
 
-   const handleDelete = (data: Affair) => {
+   const handleDelete = (documentId: number) => {
       dispatch({
          type: 'delete',
-         payload: data
+         payload: documentId
       });
    }
 
@@ -128,7 +128,7 @@ const AffairComponent = () => {
                                                       Editar
                                                    </DropdownItem>
                                                    <DropdownItem
-                                                    onClick={ () => handleDelete(a)}>
+                                                    onClick={ () => handleDelete(a.id as number)}>
                                                       Borrar
                                                    </DropdownItem>
                                                 </DropdownMenu>
