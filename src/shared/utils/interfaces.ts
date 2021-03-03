@@ -69,7 +69,7 @@ export interface FieldLimitSearch {
 /*
    Models
 */
-interface Model {
+export interface Model {
    id?: number;
 }
 

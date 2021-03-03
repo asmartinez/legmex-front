@@ -1,7 +1,7 @@
 import axios from 'axios';
-import { ListResponse, SearchOptions } from 'shared/utils/interfaces';
+import { ListResponse, Model, SearchOptions } from 'shared/utils/interfaces';
 
-export default abstract class ApiService<T> {
+export default abstract class ApiService<T extends Model> {
    private readonly api: string = '/api';
 
    public abstract root(): string;

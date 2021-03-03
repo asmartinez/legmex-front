@@ -10,7 +10,7 @@ interface IColumn {
    colNumber: number
 }
 
-interface ITableLoader extends IColumn, IRow {}
+type ITableLoader = IColumn & IRow
 
 const Column = ({ colNumber }: IColumn) => {
    const columns = [];
