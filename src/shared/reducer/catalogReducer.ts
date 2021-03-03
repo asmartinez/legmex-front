@@ -2,7 +2,7 @@ type ActionType = 'add' | 'update' | 'delete' | 'add-list';
 
 interface CatalogAction<T> {
    type: ActionType,
-   payload: T | T[];
+   payload: T | T[] | number;
 }
 
 export const catalogReducer = <T>() => (state: T[] = [], action: CatalogAction<T>): T[] => {

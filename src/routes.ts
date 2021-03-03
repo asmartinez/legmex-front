@@ -1,8 +1,9 @@
 import { RouteCustom } from "./shared/utils/interfaces";
-import Dashboard from './components/pages/admin_views/Dashboard';
+// import Dashboard from './components/pages/admin_views/Dashboard';
 import Index from "./components/pages/public_views/Index";
 import DocumentComponent from "./components/pages/admin_views/document/document.component";
 import AffairComponent from "components/pages/admin_views/affair/affair.component";
+import DispositionTypeComponent from "components/pages/admin_views/dispositionType/disposition-type.component";
 
 const routes: Array<RouteCustom> = [
    {
@@ -13,7 +14,7 @@ const routes: Array<RouteCustom> = [
       routerLink: '/inicio',
       component: Index
    },
-   {
+   /*{
       label: 'Presentación',
       iconType: 'bx',
       iconName: 'slideshow', //spreadsheet
@@ -76,11 +77,11 @@ const routes: Array<RouteCustom> = [
       layout: '/admin',
       routerLink: '/dashboard',
       component: Dashboard
-   },
+   },*/
    {
       label: 'Documentos',
       iconType: 'bx',
-      iconName: 'bookmarks',
+      iconName: 'book-open',
       layout: '/admin',
       routerLink: '/documents',
       component: DocumentComponent
@@ -93,20 +94,28 @@ const routes: Array<RouteCustom> = [
       routerLink: '/affair',
       component: AffairComponent
    },
+   {
+      label: 'Tipos de Disposiones',
+      iconType: 'bx',
+      iconName: 'receipt',
+      layout: '/admin',
+      routerLink: '/disposition_types',
+      component: DispositionTypeComponent
+   },
    /*{
       label: 'Colecciones',
       iconType: 'bx',
       iconName: 'collection',
       layout: '/admin',
       routerLink: '/panel',
-   },*/
+   },
    {
       label: 'Usuarios',
       iconType: 'bx',
       iconName: 'user',
       layout: '/admin',
       routerLink: '/users'
-   }
+   }*/
 ];
 
 export default routes;

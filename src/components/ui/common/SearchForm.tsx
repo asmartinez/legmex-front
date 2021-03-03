@@ -1,4 +1,4 @@
-import React, { FormEvent, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import queryString from 'query-string';
 import {
@@ -15,7 +15,7 @@ import {
    Row
 } from 'reactstrap';
 import { useForm } from 'shared/hooks/useForm';
-import { FieldLimitSearch, HTMLEvent, SearchOptions } from 'shared/utils/interfaces';
+import { FieldLimitSearch, FormEventHTML, HTMLEvent, SearchOptions } from 'shared/utils/interfaces';
 interface IFormSearch {
    onSubmit(search: SearchOptions): void
 }
@@ -97,7 +97,7 @@ const SearchForm = ({ onSubmit }: IFormSearch) => {
    }, []);
 
    
-   const handleSearch = (event: FormEvent<HTMLFormElement>) => {
+   const handleSearch = (event: FormEventHTML) => {
       event.preventDefault();
       const fields = fieldsLS.filter(f => f.isChecked).map(f => f.key).toString();
       values.fields = fields;

@@ -1,8 +1,10 @@
-import { ChangeEvent, Dispatch, SetStateAction } from 'react';
+import { ChangeEvent, Dispatch, FormEvent, SetStateAction } from 'react';
 
 export type TypeFooter = 'line' | 'card';
 
 export type HTMLEvent = ChangeEvent<HTMLInputElement>;
+
+export type FormEventHTML = FormEvent<HTMLFormElement>;
 
 export type TypeLayout = '/admin' | '/auth' | '/public';
 
@@ -86,4 +88,9 @@ export interface Document extends Model{
 
 export interface Affair extends Model{
    affair: string;
+}
+
+export interface DispositionType extends Model{
+   clave: number;
+   dispositionType: string;
 }

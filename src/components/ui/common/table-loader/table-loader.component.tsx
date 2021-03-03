@@ -1,25 +1,59 @@
 import React from 'react';
 import './table.loader.component.css';
 
-const tableSkeleton = [1,1,1,1,1,1];
-const tdSkeleton = [1,1];
+interface IRow {
+   rowNumber: number,
+   colNumber: number
+}
 
-const TableLoaderComponent = () => {
+interface IColumn {
+   colNumber: number
+}
+
+interface ITableLoader extends IColumn, IRow {}
+
+const Column = ({ colNumber }: IColumn) => {
+   const columns = [];
+
+   for (let indexCol = 0; indexCol < colNumber; indexCol++) {
+      columns.push(
+         <td className="table-loader" key={ indexCol }>
+            <div className="line-loader"></div>
+         </td>
+      );
+   }
+
+   return (
+      <>
+         { columns.map(col => col) }
+      </>
+   );
+};
+
+const Row = ({ rowNumber, colNumber }: IRow) => {
+   const rows = [];
+
+   for (let indexRow = 0; indexRow < rowNumber; indexRow++) {
+      rows.push(
+         <tr key={indexRow}>
+            <Column colNumber={ colNumber }/>
+         </tr>
+      );
+   }
+
    return (
       <>
          {
-            tableSkeleton.map((tableSln, indexTr) => {
-               return <tr key={indexTr}>
-                        {
-                           tdSkeleton.map((tdSln, indexTd) => {
-                              return <td className="table-loader" key={indexTd}>
-                                       <div className="line-loader"></div>{/**  *ngFor="let tdSln of tdSkeleton" */}
-                                    </td>
-                           })
-                        } 
-                     </tr>
-            })
-         } 
+            rows.map(row =>  row)
+         }
+      </>
+   );
+};
+
+const TableLoaderComponent = ({ rowNumber, colNumber }: ITableLoader) => {
+   return (
+      <>
+         <Row rowNumber={ rowNumber } colNumber={ colNumber }/>
       </>
    )
 }

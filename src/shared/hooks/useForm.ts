@@ -4,6 +4,10 @@ import { HTMLEvent } from '../utils/interfaces';
 export const useForm = <T>(initialState: T) => {
    const [values, setValues] = useState(initialState);
 
+   const reset = () => {
+      setValues(initialState);
+   }
+
    const handleInputChange = (event: HTMLEvent) => {
       const { target } = event;
       setValues({
@@ -12,5 +16,5 @@ export const useForm = <T>(initialState: T) => {
       })
    }
 
-   return { values, handleInputChange };
+   return { values, handleInputChange, reset };
 }

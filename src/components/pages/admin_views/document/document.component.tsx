@@ -7,6 +7,9 @@ import {
    CardHeader,
    Col,
    Container,
+   DropdownItem,
+   DropdownMenu,
+   DropdownToggle,
    FormGroup,
    Input,
    InputGroup,
@@ -14,7 +17,8 @@ import {
    InputGroupText,
    Modal,
    Row,
-   Table
+   Table,
+   UncontrolledDropdown
 } from 'reactstrap';
 import ReactDatetime from 'react-datetime';
 import { Moment } from 'moment';
@@ -111,21 +115,47 @@ const DocumentComponent = () => {
                               <th scope="col">Fecha</th>
                               <th scope="col">Volumen</th>
                               <th scope="col">Paginas</th>
-                              <th scope="col">Opciones</th>
+                              <th className="text-right">Opciones</th>
                            </tr>
                         </thead>
                         <tbody>
                            {
                               !isLoading ? (documents.map(document => {
                                  return <tr key={document.id}>
-                                    <th scope="row">{document.dispositionTitle}</th>
-                                    <td>{document.date}</td>
-                                    <td>{document.volume}</td>
-                                    <td>{document.pageNumbers}</td>
-                                    <td></td>
-                                 </tr>
+                                          <td>{document.dispositionTitle}</td>
+                                          <td>{document.date}</td>
+                                          <td>{document.volume}</td>
+                                          <td>{document.pageNumbers}</td>
+                                          <td className="text-right">
+                                             <UncontrolledDropdown>
+                                                <DropdownToggle
+                                                 className="btn-icon-only text-light"
+                                                 href="_blank"
+                                                 role="button"
+                                                 size="sm"
+                                                 color=""
+                                                 onClick={e => e.preventDefault()}>
+                                                <i className="fas fa-ellipsis-v" />
+                                                </DropdownToggle>
+                                                <DropdownMenu className="dropdown-menu-arrow" right>
+                                                   <DropdownItem
+                                                    onClick={e => e.preventDefault()}>
+                                                      Editar
+                                                   </DropdownItem>
+                                                   <DropdownItem
+                                                    onClick={e => e.preventDefault()}>
+                                                      Borrar
+                                                   </DropdownItem>
+                                                   <DropdownItem
+                                                    href={documentService.getDocumentPDF(document.legislationTranscriptOriginal)} download={document.dispositionTitle}>
+                                                      Descargar pdf
+                                                   </DropdownItem>
+                                                </DropdownMenu>
+                                             </UncontrolledDropdown>
+                                          </td>
+                                       </tr>
                               }))
-                              : (<TableLoaderComponent />)
+                              : (<TableLoaderComponent colNumber={5} rowNumber={9} />)
                            }
                         </tbody>
                      </Table>

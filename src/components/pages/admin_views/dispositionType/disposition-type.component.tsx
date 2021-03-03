@@ -10,7 +10,6 @@ import {
    DropdownItem,
    DropdownMenu,
    DropdownToggle,
-   Form,
    FormGroup,
    Input,
    Modal,
@@ -18,24 +17,28 @@ import {
    Table,
    UncontrolledDropdown
 } from 'reactstrap';
-import { Affair, FormEventHTML } from 'shared/utils/interfaces';
-import { affairService } from 'services';
+import { DispositionType } from 'shared/utils/interfaces';
+import { dispositionTypeService } from 'services';
 import TableLoaderComponent from 'components/ui/common/table-loader/table-loader.component';
 import { catalogReducer } from 'shared/reducer/catalogReducer';
-import { useForm } from 'shared/hooks/useForm';
 
 
-const AffairComponent = () => {
+const DispositionTypeComponent = () => {
    const [toggleDialog, setToggleDialog] = useState<boolean>(false);
    const [isLoading, setIsLoading] = useState<boolean>(true);
-   const { values, handleInputChange, reset } = useForm<Affair>({
-      affair: ''
-   });
-   const reducer = catalogReducer<Affair>();
-   const [affairs, dispatch] = useReducer(reducer, []);
+   const reducer = catalogReducer<DispositionType>();
+   const [dispositionTypes, dispatch] = useReducer(reducer, []);
+
+   /*const handleChange = (event: HTMLEvent)=>{
+      const { name, value } = event.target;
+      setDescriptiveRecord( values =>({
+        ...values,
+        [name]: value
+      }));
+   }*/
 
    useEffect(() => {
-      affairService.list()
+      dispositionTypeService.list()
        .then(response => {
          setIsLoading(false);
          dispatch({
@@ -47,24 +50,14 @@ const AffairComponent = () => {
    }, []);
 
    const openDialog = (update: boolean = false, id?: string) => {
-      setToggleDialog(!toggleDialog);
+      setToggleDialog(true);
+
+      if (update) {
+      } 
    }
 
-   const handleSubmit = (event: FormEventHTML) => {
-      event.preventDefault();
-      dispatch({
-         type: 'add',
-         payload: values
-      });
-      reset();
-      onCancel();
-   }
+   const saveEntity = () => {
 
-   const handleDelete = (data: Affair) => {
-      dispatch({
-         type: 'delete',
-         payload: data
-      });
    }
 
    const onCancel = () => {
@@ -101,16 +94,18 @@ const AffairComponent = () => {
                         <thead className="thead-light">
                            <tr>
                               <th scope="col">No.</th>
-                              <th scope="col">Tipo de asunto</th>
+                              <th scope="col">Nombre del Tipo de Disposición</th>
+                              <th scope="col">Número de control</th>
                               <th className="text-right">Opciones</th>
                            </tr>
                         </thead>
                         <tbody>
                            {
-                              !isLoading ? (affairs.map((a, index) => {
+                              !isLoading ? (dispositionTypes.map((a, index) => {
                                  return<tr key={a.id}>
                                           <td>{index + 1}</td>
-                                          <td>{a.affair}</td>
+                                          <td>{a.dispositionType}</td>
+                                          <td>{a.clave}</td>
                                           <td className="text-right">
                                              <UncontrolledDropdown>
                                                 <DropdownToggle
@@ -128,7 +123,7 @@ const AffairComponent = () => {
                                                       Editar
                                                    </DropdownItem>
                                                    <DropdownItem
-                                                    onClick={ () => handleDelete(a)}>
+                                                    onClick={e => e.preventDefault()}>
                                                       Borrar
                                                    </DropdownItem>
                                                 </DropdownMenu>
@@ -136,7 +131,7 @@ const AffairComponent = () => {
                                           </td>
                                        </tr>
                               }))
-                              : (<TableLoaderComponent colNumber={3} rowNumber={9}/>)
+                              : (<TableLoaderComponent colNumber={4} rowNumber={9}/>)
                            }
                            
                         </tbody>
@@ -149,9 +144,9 @@ const AffairComponent = () => {
           size="lg"
           isOpen={toggleDialog}
           toggle={() => openDialog()}
-          backdrop='static'>
+          backdrop='static'
+         >
             <div className="modal-body p-0">
-            <Form role="form" onSubmit={handleSubmit}>
                <Card className="bg-secondary shadow border-0">
                   <CardHeader className="bg-white border-0">
                      <Row className="align-items-center">
@@ -170,20 +165,17 @@ const AffairComponent = () => {
                                placeholder="Ingrese un nombre del tipo de asunto..."
                                type="text"
                                autoComplete="off"
-                               name="affair"
-                               value={values.affair}
-                               onChange={handleInputChange}
+                               name="dispositionTitle"
                               />
                            </FormGroup>
                         </Col>
                      </Row>
                   </CardBody>
                   <CardFooter>
-                     <Button size="sm" type="submit" color="primary">Guardar</Button>
+                     <Button size="sm" type="button" color="primary" onClick={saveEntity}>Guardar</Button>
                      <Button size="sm" type="button" color="secondary" onClick={onCancel}>Cancelar</Button>
                   </CardFooter>
                </Card>
-               </Form>
             </div>
          </Modal>
       </>
@@ -191,4 +183,4 @@ const AffairComponent = () => {
 }
 
 
-export default AffairComponent; 
+export default DispositionTypeComponent; 
