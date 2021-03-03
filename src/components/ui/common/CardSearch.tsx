@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { Card, CardBody, Col, Row } from 'reactstrap';
-import { DescriptiveRecord } from '../../../shared/utils/interfaces';
+import { Document } from '../../../shared/utils/interfaces';
 import Badge from './Badge';
 
 const styleCard = {
@@ -9,7 +9,7 @@ const styleCard = {
    overflow: 'hidden',
 }
 
-const CardSearch = (item: DescriptiveRecord) => {
+const CardSearch = (item: Document) => {
    return (
       <>
          <Row style={{marginTop: '40px'}}>

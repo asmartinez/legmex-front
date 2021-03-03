@@ -1,8 +1,8 @@
 
 import ApiService from 'shared/services/api.service';
-import { DescriptiveRecord } from 'shared/utils/interfaces';
+import { Document } from 'shared/utils/interfaces';
 
-export class DescriptiveRecordService extends ApiService<DescriptiveRecord> {
+export class DocumentService extends ApiService<Document> {
    public root(): string {
       return 'document';
    }

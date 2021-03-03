@@ -2,16 +2,16 @@ import classnames from 'classnames';
 import React, { useEffect, useState } from 'react';
 import { Redirect, useParams } from 'react-router-dom';
 import { Card, CardBody, Col, Container, Nav, NavItem, NavLink, Row, TabContent, TabPane } from 'reactstrap';
-import { descriptiveRecordService } from 'services';
-import { DescriptiveRecord } from 'shared/utils/interfaces';
+import { documentService } from 'services';
+import { Document } from 'shared/utils/interfaces';
 import Badge from './Badge';
 import EditorViewer from './editor-viewer/EditorViewer';
 import PDFViewer from './pdf-viewer/PDFViewer';
 
-const DispositionScreen = () => {
-   const { dispositionId }: any = useParams();
+const DocumentScreen = () => {
+   const { documentId }: any = useParams();
 
-   const [descriptiveRecord, setDescriptiveRecord] = useState<DescriptiveRecord>();
+   const [document, setDocument] = useState<Document>();
    const [tabIndex, setTabIndex] = useState<number>(1);
 
    const toggleNavs = (e: { preventDefault: () => void; }, state: any, index: any) => {
@@ -20,16 +20,16 @@ const DispositionScreen = () => {
    };
 
    useEffect(() => {
-      descriptiveRecordService.single(dispositionId)
-       .then(response => setDescriptiveRecord(response))
+      documentService.single(documentId)
+       .then(response => setDocument(response))
        .catch(error => console.log(error));
-   }, [dispositionId]);
+   }, [documentId]);
 
-   if (!dispositionId) {
+   if (!documentId) {
       <Redirect to="public/inicio" />
    }
 
-   if (!descriptiveRecord) {
+   if (!document) {
       return null;
    }
 
@@ -40,25 +40,25 @@ const DispositionScreen = () => {
                <Col xl={3} md={3} xs={12}>
                   <Card>
                      <CardBody>
-                        <h4 className="h3 text-uppercase">{ descriptiveRecord.dispositionTitle }</h4>
+                        <h4 className="h3 text-uppercase">{ document.dispositionTitle }</h4>
                         <Row className="justify-content-center">
                            <Col xl={12} md={12} xs={12}>
-                              <Badge title="Disposición No:" value={ descriptiveRecord.dispositionTitle }/>
+                              <Badge title="Disposición No:" value={ document.dispositionTitle }/>
                            </Col>
                            <Col xl={12} md={12} xs={12}>
                               <Badge title="Tipo de Disposición:" value="Decreto"/>
                            </Col>
                            <Col xl={12} md={12} xs={12}>
-                              <Badge title="Lugar:" value={ descriptiveRecord.place }/>
+                              <Badge title="Lugar:" value={ document.place }/>
                            </Col>
                            <Col xl={12} md={12} xs={12}>
-                              <Badge title="Fecha:" value={ descriptiveRecord.date }/>
+                              <Badge title="Fecha:" value={ document.date }/>
                            </Col>
                            <Col xl={12} md={12} xs={12}>
-                              <Badge title="Volumen:" value={ descriptiveRecord.volume }/>
+                              <Badge title="Volumen:" value={ document.volume }/>
                            </Col>
                            <Col xl={12} md={12} xs={12}>
-                              <Badge title="Páginas:" value={ descriptiveRecord.pageNumbers }/>
+                              <Badge title="Páginas:" value={ document.pageNumbers }/>
                            </Col>
                         </Row>
                      </CardBody>
@@ -100,10 +100,10 @@ const DispositionScreen = () => {
                         </Nav>
                         <TabContent activeTab={"tabs" + tabIndex}>
                            <TabPane tabId="tabs1">
-                              <PDFViewer path={descriptiveRecord.legislationTranscriptOriginal}/>
+                              <PDFViewer path={ document.legislationTranscriptOriginal }/>
                            </TabPane>
                            <TabPane tabId="tabs2">
-                              <EditorViewer text={descriptiveRecord.legislationTranscriptCopy}/>
+                              <EditorViewer text={ document.legislationTranscriptCopy }/>
                            </TabPane>
                            </TabContent>
                      </CardBody>
@@ -115,4 +115,4 @@ const DispositionScreen = () => {
    )
 }
 
-export default DispositionScreen;
+export default DocumentScreen;

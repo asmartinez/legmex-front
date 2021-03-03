@@ -13,6 +13,7 @@ export type TextViewer = {
 export interface SearchOptions {
    globalText: string;
    fields?: string;
+   disposition?: string;
 }
 
 export interface ListResponse<T> {
@@ -70,7 +71,7 @@ interface Model {
    id?: number;
 }
 
-export interface DescriptiveRecord extends Model{
+export interface Document extends Model{
    dispositionTitle: string;
    date: string;
    volume: string;

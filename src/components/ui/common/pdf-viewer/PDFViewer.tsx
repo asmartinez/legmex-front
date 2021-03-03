@@ -3,7 +3,7 @@ import { Document, Page } from 'react-pdf/dist/esm/entry.webpack';
 import Loader from 'components/ui/common/Loader';
 import ControlViewer from 'components/ui/common/pdf-viewer/ControlViewer';
 import { IPDFViewer } from 'shared/utils/interfaces';
-import { descriptiveRecordService } from 'services';
+import { documentService } from 'services';
 
 const PDFViewer = (item: IPDFViewer) => {
    const [numPages, setNumPages] = useState(0);
@@ -20,7 +20,7 @@ const PDFViewer = (item: IPDFViewer) => {
       <div className="d-flex flex-column align-items-center w-100" style={{marginTop: '10px'}}>
          {/* isLoading && <Loader /> */}
          <Document
-          file={{ url: descriptiveRecordService.getDocumentPDF(item.path), mode: 'no-cors'}}
+          file={{ url: documentService.getDocumentPDF(item.path), mode: 'no-cors'}}
           onLoadSuccess={onDocumentLoadSuccess} >
             <Page pageNumber={pageNumber} scale={scale} width={500}/>
          </Document>

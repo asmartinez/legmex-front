@@ -1,7 +1,7 @@
-import SearchScreen from 'components/pages/public_views/SearchScreen';
+import SearchScreen from 'components/pages/public_views/search-screen.component';
 import React, { useEffect } from 'react';
 import { Redirect, Route, Switch } from 'react-router-dom';
-import DispositionScreen from 'components/ui/common/DispositionScreen';
+import DocumentScreen from 'components/ui/common/document-screen.component';
 import Sidebar from 'components/ui/Sidebar';
 import routes from 'routes';
 import { filterRoute } from 'shared/utils/filter';
@@ -26,7 +26,7 @@ const PublicRoutes = () => {
                {getRoutes(publicRoutes)}
                {/** Route Temporary */}
                <Route exact path="/public/search" component={ SearchScreen }/>
-               <Route exact path="/public/document/:dispositionId" component={ DispositionScreen }/>
+               <Route exact path="/public/document/:documentId" component={ DocumentScreen }/>
                <Redirect from="*" to="/public/inicio"/>
             </Switch>
          </div>

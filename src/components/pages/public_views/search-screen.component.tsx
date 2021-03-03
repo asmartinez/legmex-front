@@ -1,11 +1,11 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import queryString from 'query-string';
 import { useHistory, useLocation } from 'react-router-dom';
-import { DescriptiveRecord, SearchOptions } from 'shared/utils/interfaces';
+import { Document, SearchOptions } from 'shared/utils/interfaces';
 import { Col, Container, Row } from 'reactstrap';
 import SearchForm from '../../ui/common/SearchForm';
 import CardSearch from '../../ui/common/CardSearch';
-import { descriptiveRecordService } from 'services';
+import { documentService } from 'services';
 import Loader from 'components/ui/common/Loader';
 
 const SearchScreen = () => {
@@ -13,12 +13,12 @@ const SearchScreen = () => {
    const history = useHistory();
    const { q = '', fields = ''} = queryString.parse(location.search);
    const [isLoading, setIsLoading] = useState<boolean>(true);
-   const [descriptiveRecords, setDescriptiveRecords] = useState<DescriptiveRecord[]>([]);
+   const [documents, setDocuments] = useState<Document[]>([]);
 
 
    const getDescriptiveRecord = (search: SearchOptions) => {
-      descriptiveRecordService.list(search).then(response => {
-         setDescriptiveRecords(response.entities);
+      documentService.list(search).then(response => {
+         setDocuments(response.entities);
          setIsLoading(false);
       }).catch(error => console.log(error));
    }
@@ -41,7 +41,7 @@ const SearchScreen = () => {
          getDescriptiveRecord(search);
       }
 
-      return () => setDescriptiveRecords([]);
+      return () => setDocuments([]);
    }, [q, fields]);
 
    return (
@@ -56,20 +56,20 @@ const SearchScreen = () => {
                ?
                   (<Loader />)
                :
-                  (descriptiveRecords.map(descriptiveRecord => {
+                  (documents.map(document => {
                      return <CardSearch
-                              key={ descriptiveRecord.id } 
-                              id={ descriptiveRecord.id }
-                              dispositionTitle={ descriptiveRecord.dispositionTitle }
-                              date={ descriptiveRecord.date }
-                              volume= { descriptiveRecord.volume }
-                              pageNumbers={ descriptiveRecord.pageNumbers }
-                              legislationTranscriptOriginal={ descriptiveRecord.legislationTranscriptOriginal }
-                              legislationTranscriptCopy={ descriptiveRecord.legislationTranscriptCopy }
-                              place={ descriptiveRecord.place }
-                              dispositionNumber= {descriptiveRecord.dispositionNumber}
-                              dispositionTypeId={ descriptiveRecord.dispositionTypeId }
-                              affairId={ descriptiveRecord.affairId }/>
+                              key={ document.id } 
+                              id={ document.id }
+                              dispositionTitle={ document.dispositionTitle }
+                              date={ document.date }
+                              volume= { document.volume }
+                              pageNumbers={ document.pageNumbers }
+                              legislationTranscriptOriginal={ document.legislationTranscriptOriginal }
+                              legislationTranscriptCopy={ document.legislationTranscriptCopy }
+                              place={ document.place }
+                              dispositionNumber= {document.dispositionNumber}
+                              dispositionTypeId={ document.dispositionTypeId }
+                              affairId={ document.affairId }/>
                   }))
             }
          </Container>

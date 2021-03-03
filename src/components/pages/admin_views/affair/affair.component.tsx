@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useReducer, useState } from 'react';
 import {
    Button,
    Card,
@@ -16,14 +16,14 @@ import {
 import { Affair } from 'shared/utils/interfaces';
 import { affairService } from 'services';
 import TableLoaderComponent from 'components/ui/common/table-loader/table-loader.component';
+import { catalogReducer } from 'shared/reducer/catalogReducer';
 
 
 const AffairComponent = () => {
    const [toggleDialog, setToggleDialog] = useState<boolean>(false);
    const [isLoading, setIsLoading] = useState<boolean>(true);
-   const [affairs, setAffairs] = useState<Affair[]>([]);
-   // const reducer = catalogReducer<Affair>();
-   // const [affairs, dispatch] = useReducer(reducer, []);
+   const reducer = catalogReducer<Affair>();
+   const [affairs, dispatch] = useReducer(reducer, []);
 
    /*const handleChange = (event: HTMLEvent)=>{
       const { name, value } = event.target;
@@ -37,7 +37,10 @@ const AffairComponent = () => {
       affairService.list()
        .then(response => {
          setIsLoading(false);
-         setAffairs(response.entities);
+         dispatch({
+            type: 'add-list',
+            payload: response.entities
+         });
        })
        .catch(error => console.log(error));
    }, []);

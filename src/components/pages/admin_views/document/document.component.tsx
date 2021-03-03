@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useReducer, useState } from 'react';
 import {
    Button,
    Card,
@@ -18,46 +18,43 @@ import {
 } from 'reactstrap';
 import ReactDatetime from 'react-datetime';
 import { Moment } from 'moment';
-import { DescriptiveRecord, HTMLEvent } from 'shared/utils/interfaces';
-import { affairService/*, descriptiveRecordService*/ } from 'services';
+import { Document, HTMLEvent } from 'shared/utils/interfaces';
+import { documentService } from 'services';
+import { catalogReducer } from 'shared/reducer/catalogReducer';
+import TableLoaderComponent from 'components/ui/common/table-loader/table-loader.component';
 
-const Descriptive = () => {
+const DocumentComponent = () => {
    const [toggleDialog, setToggleDialog] = useState<boolean>(false);
-   const initDescriptiveRecord: DescriptiveRecord = {
-      dispositionTitle: '',
-      date: '',
-      volume: '',
-      pageNumbers: 0,
-      legislationTranscriptOriginal: '',
-      legislationTranscriptCopy: '',
-      place: '',
-      dispositionNumber: '',
-      dispositionTypeId: 0,
-      affairId: 0
-   };
-   const [descriptiveRecord, setDescriptiveRecord] = useState<DescriptiveRecord>(initDescriptiveRecord);
-   const [descriptiveRecords, setDescriptiveRecords] = useState<DescriptiveRecord[]>([]);
+   const [isLoading, setIsLoading] = useState<boolean>(true);
+   const reducer = catalogReducer<Document>();
+   const [documents, dispatch] = useReducer(reducer, []);
 
-   const handleChange = (event: HTMLEvent)=>{
+   /*const handleChange = (event: HTMLEvent)=>{
       const { name, value } = event.target;
       setDescriptiveRecord( values =>({
         ...values,
         [name]: value
       }));
-   }
+   }*/
 
    useEffect(() => {
-      affairService.list()
-       .then(response => console.log(response))
+      documentService.list()
+       .then(response => {
+         setIsLoading(false);
+         dispatch({
+            type: 'add-list',
+            payload: response.entities
+         });
+       })
        .catch(error => console.log(error));
    }, []);
 
-   const handleChangeDataPicker = (event: Moment | string) => {
+   /*const handleChangeDataPicker = (event: Moment | string) => {
       descriptiveRecord.date = event.toString();
       setDescriptiveRecord( prevState =>({
          ...prevState
       }));
-   }
+   }*/
 
    const openDialog = (update: boolean = false, id?: string) => {
       setToggleDialog(true);
@@ -71,13 +68,13 @@ const Descriptive = () => {
       setToggleDialog(false);
    }
 
-   const addElement = () => {
-      descriptiveRecord.id = 1
+   const addDocument = () => {
+      /*descriptiveRecord.id = 1
       setDescriptiveRecords([
          ...descriptiveRecords,
          descriptiveRecord,
       ]);
-      setDescriptiveRecord(initDescriptiveRecord);
+      setDescriptiveRecord(initDescriptiveRecord);*/
       setToggleDialog(false);
    }
 
@@ -114,18 +111,21 @@ const Descriptive = () => {
                               <th scope="col">Fecha</th>
                               <th scope="col">Volumen</th>
                               <th scope="col">Paginas</th>
+                              <th scope="col">Opciones</th>
                            </tr>
                         </thead>
                         <tbody>
                            {
-                              descriptiveRecords.map( descriptive => {
-                                 return <tr key={descriptive.id}>
-                                    <th scope="row">{descriptive.dispositionTitle}</th>
-                                    <td>{descriptive.date}</td>
-                                    <td>{descriptive.volume}</td>
-                                    <td>{descriptive.pageNumbers}</td>
+                              !isLoading ? (documents.map(document => {
+                                 return <tr key={document.id}>
+                                    <th scope="row">{document.dispositionTitle}</th>
+                                    <td>{document.date}</td>
+                                    <td>{document.volume}</td>
+                                    <td>{document.pageNumbers}</td>
+                                    <td></td>
                                  </tr>
-                              })
+                              }))
+                              : (<TableLoaderComponent />)
                            }
                         </tbody>
                      </Table>
@@ -145,12 +145,12 @@ const Descriptive = () => {
                   <CardHeader className="bg-white border-0">
                      <Row className="align-items-center">
                         <Col xs="12">
-                           <h3 className="mb-0">Nuevo registro descriptivo</h3>
+                           <h3 className="mb-0">Nuevo documento</h3>
                         </Col>
                      </Row>
                   </CardHeader>
                   <CardBody>
-                     <Row>
+                     {/*<Row>
                         <Col lg="12" md="12">
                            <FormGroup>
                               <label className="form-control-label">Título de la disposición</label>
@@ -242,10 +242,10 @@ const Descriptive = () => {
                               />
                            </FormGroup>
                         </Col>
-                     </Row>
+                     </Row>*/}
                   </CardBody>
                   <CardFooter>
-                     <Button size="sm" type="button" color="primary" onClick={addElement}>Guardar</Button>
+                     <Button size="sm" type="button" color="primary" onClick={addDocument}>Guardar</Button>
                      <Button size="sm" type="button" color="secondary" onClick={onCancel}>Cancelar</Button>
                   </CardFooter>
                </Card>
@@ -256,4 +256,4 @@ const Descriptive = () => {
 }
 
 
-export default Descriptive; 
+export default DocumentComponent; 
