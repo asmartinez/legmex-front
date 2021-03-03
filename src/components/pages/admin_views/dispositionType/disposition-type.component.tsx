@@ -10,6 +10,7 @@ import {
    DropdownItem,
    DropdownMenu,
    DropdownToggle,
+   Form,
    FormGroup,
    Input,
    Modal,
@@ -17,10 +18,11 @@ import {
    Table,
    UncontrolledDropdown
 } from 'reactstrap';
-import { DispositionType } from 'shared/utils/interfaces';
+import { DispositionType, FormEventHTML } from 'shared/utils/interfaces';
 import { dispositionTypeService } from 'services';
 import TableLoaderComponent from 'components/ui/common/table-loader/table-loader.component';
 import { catalogReducer } from 'shared/reducer/catalogReducer';
+import { useForm } from 'shared/hooks/useForm';
 
 
 const DispositionTypeComponent = () => {
@@ -28,14 +30,10 @@ const DispositionTypeComponent = () => {
    const [isLoading, setIsLoading] = useState<boolean>(true);
    const reducer = catalogReducer<DispositionType>();
    const [dispositionTypes, dispatch] = useReducer(reducer, []);
-
-   /*const handleChange = (event: HTMLEvent)=>{
-      const { name, value } = event.target;
-      setDescriptiveRecord( values =>({
-        ...values,
-        [name]: value
-      }));
-   }*/
+   const { values, handleInputChange, reset } = useForm<DispositionType>({
+      dispositionType: '',
+      clave: 0
+   });
 
    useEffect(() => {
       dispositionTypeService.list()
@@ -56,8 +54,29 @@ const DispositionTypeComponent = () => {
       } 
    }
 
-   const saveEntity = () => {
+   const handleSubmit = (event: FormEventHTML) => {
+      event.preventDefault();
+      dispositionTypeService.store(values)
+      .then(response => {
+         dispatch({
+            type: 'add',
+            payload: response
+         });
+         reset();
+         onCancel();
+      })
+      .catch(error => console.log(error));
+   }
 
+   const handleDelete = (dispositionTypeId: number) => {
+      dispositionTypeService.delete(dispositionTypeId)
+      .then(response => {
+         dispatch({
+            type: 'delete',
+            payload: dispositionTypeId
+         });
+      })
+      .catch(error => console.log(error));
    }
 
    const onCancel = () => {
@@ -123,7 +142,7 @@ const DispositionTypeComponent = () => {
                                                       Editar
                                                    </DropdownItem>
                                                    <DropdownItem
-                                                    onClick={e => e.preventDefault()}>
+                                                    onClick={ () => handleDelete(a.id as number)}>
                                                       Borrar
                                                    </DropdownItem>
                                                 </DropdownMenu>
@@ -144,38 +163,55 @@ const DispositionTypeComponent = () => {
           size="lg"
           isOpen={toggleDialog}
           toggle={() => openDialog()}
-          backdrop='static'
-         >
+          backdrop='static'>
             <div className="modal-body p-0">
-               <Card className="bg-secondary shadow border-0">
-                  <CardHeader className="bg-white border-0">
-                     <Row className="align-items-center">
-                        <Col xs="12">
-                           <h3 className="mb-0">Nuevo Tipo de Asunto</h3>
-                        </Col>
-                     </Row>
-                  </CardHeader>
-                  <CardBody>
-                     <Row>
-                        <Col lg="12" md="12">
-                           <FormGroup>
-                              <label className="form-control-label">Nombre del tipo</label>
-                              <Input
-                               className="form-control-alternative"
-                               placeholder="Ingrese un nombre del tipo de asunto..."
-                               type="text"
-                               autoComplete="off"
-                               name="dispositionTitle"
-                              />
-                           </FormGroup>
-                        </Col>
-                     </Row>
-                  </CardBody>
-                  <CardFooter>
-                     <Button size="sm" type="button" color="primary" onClick={saveEntity}>Guardar</Button>
-                     <Button size="sm" type="button" color="secondary" onClick={onCancel}>Cancelar</Button>
-                  </CardFooter>
-               </Card>
+               <Form role="form" onSubmit={handleSubmit}>
+                  <Card className="bg-secondary shadow border-0">
+                     <CardHeader className="bg-white border-0">
+                        <Row className="align-items-center">
+                           <Col xs="12">
+                              <h3 className="mb-0">Nuevo Tipo de Asunto</h3>
+                           </Col>
+                        </Row>
+                     </CardHeader>
+                     <CardBody>
+                        <Row>
+                           <Col lg="6" md="6">
+                              <FormGroup>
+                                 <label className="form-control-label">Nombre del tipo</label>
+                                 <Input
+                                  className="form-control-alternative"
+                                  placeholder="Ingrese un nombre del tipo de disposición..."
+                                  type="text"
+                                  autoComplete="off"
+                                  name="dispositionType"
+                                  value={values.dispositionType}
+                                  onChange={handleInputChange}
+                                 />
+                              </FormGroup>
+                           </Col>
+                           <Col lg="6" md="6">
+                              <FormGroup>
+                                 <label className="form-control-label">Número de control</label>
+                                 <Input
+                                  className="form-control-alternative"
+                                  placeholder="Ingrese un nombre del tipo de disposición..."
+                                  type="number"
+                                  autoComplete="off"
+                                  name="clave"
+                                  value={values.clave}
+                                  onChange={handleInputChange}
+                                 />
+                              </FormGroup>
+                           </Col>
+                        </Row>
+                     </CardBody>
+                     <CardFooter>
+                        <Button size="sm" type="submit" color="primary">Guardar</Button>
+                        <Button size="sm" type="button" color="secondary" onClick={onCancel}>Cancelar</Button>
+                     </CardFooter>
+                  </Card>
+               </Form>
             </div>
          </Modal>
       </>

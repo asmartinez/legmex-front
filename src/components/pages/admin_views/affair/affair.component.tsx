@@ -52,19 +52,27 @@ const AffairComponent = () => {
 
    const handleSubmit = (event: FormEventHTML) => {
       event.preventDefault();
-      dispatch({
-         type: 'add',
-         payload: values
-      });
-      reset();
-      onCancel();
+      affairService.store(values)
+      .then(response => {
+         dispatch({
+            type: 'add',
+            payload: response
+         });
+         reset();
+         onCancel();
+      })
+      .catch(error => console.log(error));
    }
 
    const handleDelete = (documentId: number) => {
-      dispatch({
-         type: 'delete',
-         payload: documentId
-      });
+      affairService.delete(documentId)
+      .then(response => {
+         dispatch({
+            type: 'delete',
+            payload: documentId
+         });
+      })
+      .catch(error => console.log(error));
    }
 
    const onCancel = () => {
@@ -151,38 +159,38 @@ const AffairComponent = () => {
           toggle={() => openDialog()}
           backdrop='static'>
             <div className="modal-body p-0">
-            <Form role="form" onSubmit={handleSubmit}>
-               <Card className="bg-secondary shadow border-0">
-                  <CardHeader className="bg-white border-0">
-                     <Row className="align-items-center">
-                        <Col xs="12">
-                           <h3 className="mb-0">Nuevo Tipo de Asunto</h3>
-                        </Col>
-                     </Row>
-                  </CardHeader>
-                  <CardBody>
-                     <Row>
-                        <Col lg="12" md="12">
-                           <FormGroup>
-                              <label className="form-control-label">Nombre del tipo</label>
-                              <Input
-                               className="form-control-alternative"
-                               placeholder="Ingrese un nombre del tipo de asunto..."
-                               type="text"
-                               autoComplete="off"
-                               name="affair"
-                               value={values.affair}
-                               onChange={handleInputChange}
-                              />
-                           </FormGroup>
-                        </Col>
-                     </Row>
-                  </CardBody>
-                  <CardFooter>
-                     <Button size="sm" type="submit" color="primary">Guardar</Button>
-                     <Button size="sm" type="button" color="secondary" onClick={onCancel}>Cancelar</Button>
-                  </CardFooter>
-               </Card>
+               <Form role="form" onSubmit={handleSubmit}>
+                  <Card className="bg-secondary shadow border-0">
+                     <CardHeader className="bg-white border-0">
+                        <Row className="align-items-center">
+                           <Col xs="12">
+                              <h3 className="mb-0">Nuevo Tipo de Asunto</h3>
+                           </Col>
+                        </Row>
+                     </CardHeader>
+                     <CardBody>
+                        <Row>
+                           <Col lg="12" md="12">
+                              <FormGroup>
+                                 <label className="form-control-label">Nombre del tipo</label>
+                                 <Input
+                                  className="form-control-alternative"
+                                  placeholder="Ingrese un nombre del tipo de asunto..."
+                                  type="text"
+                                  autoComplete="off"
+                                  name="affair"
+                                  value={values.affair}
+                                  onChange={handleInputChange}
+                                 />
+                              </FormGroup>
+                           </Col>
+                        </Row>
+                     </CardBody>
+                     <CardFooter>
+                        <Button size="sm" type="submit" color="primary">Guardar</Button>
+                        <Button size="sm" type="button" color="secondary" onClick={onCancel}>Cancelar</Button>
+                     </CardFooter>
+                  </Card>
                </Form>
             </div>
          </Modal>

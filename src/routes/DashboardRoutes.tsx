@@ -16,7 +16,7 @@ const DashboardRoutes = () => {
          <div className="main-content">
             <Switch>
                { getRoutes(privateRoutes) }
-               <Redirect from="*" to="/admin/dashboard" />
+               <Redirect from="*" to="/admin/documents" />{/*dashboard*/}
             </Switch>
          </div>
       </div>
