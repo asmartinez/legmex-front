@@ -11,7 +11,6 @@ export type TypeLayout = '/admin' | '/auth' | '/public';
 export type TextViewer = {
    text: string
 };
-
 export interface SearchOptions {
    globalText: string;
    fields?: string;
@@ -66,8 +65,8 @@ export interface FieldLimitSearch {
    isChecked: boolean
 }
 
-/*
-   Models
+/**
+ * Models
 */
 export interface Model {
    id?: number;
