@@ -11,7 +11,7 @@ import Loader from 'components/ui/common/Loader';
 const SearchScreen = () => {
    const location = useLocation();
    const history = useHistory();
-   const { q = '', fields = ''} = queryString.parse(location.search);
+   const { q = '', fields = '', disposition = '' } = queryString.parse(location.search);
    const [isLoading, setIsLoading] = useState<boolean>(true);
    const [documents, setDocuments] = useState<Document[]>([]);
 
@@ -25,8 +25,9 @@ const SearchScreen = () => {
 
    const handleSearch = useCallback(
       (search: SearchOptions) => {
-         const searchByFields = `&fields=${search.fields}`;
-         history.push(`/public/search?q=${search.globalText}${ search.fields && search.fields.length > 0 ? searchByFields : '' }`);
+         const searchByFields = search.fields && search.fields.length > 0 ? `&fields=${search.fields}` : '';
+         const searchByDisposition = search.disposition && search.disposition.length > 0 ? `&disposition=${search.disposition}` : '';
+         history.push(`/public/search?q=${search.globalText}${searchByFields}${searchByDisposition}`);
          getDescriptiveRecord(search);
       },
       [history]
@@ -36,13 +37,14 @@ const SearchScreen = () => {
       if (q){
          const search: SearchOptions = {
             globalText: q as string,
-            fields: fields as string
+            fields: fields as string,
+            disposition: disposition as string
          }
          getDescriptiveRecord(search);
       }
 
       return () => setDocuments([]);
-   }, [q, fields]);
+   }, [q, fields, disposition]);
 
    return (
       <>

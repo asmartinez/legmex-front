@@ -32,13 +32,23 @@ export default abstract class ApiService<T extends Model> {
       const params: string[] = [];
    
       if (search) {
-         const { globalText, fields } = search;
-         params.push(`?search=${globalText}`);
-         params.push(fields ? `&fields=${fields}` : '');
+         const { globalText, fields, disposition } = search;
+         if (globalText) {
+            params.push(`?search=${globalText}`);
+
+            if (fields) {
+               params.push(`&fields=${fields}`);
+            }
+
+            if (disposition) {
+               params.push(`&disposition=${disposition}`);
+            }
+         }
       }
    
       try {
-         const { data } = await axios.get<T[]>(`${this.uri}${params.length > 0 ? params.toString() : ''}`);
+
+         const { data } = await axios.get<T[]>(`${this.uri}${params.reduce((prev, current) => prev + current, '')}`);
          return {
             entities: data
          }

@@ -10,8 +10,9 @@ const Index = () => {
 
    const handleSearch = useCallback(
       (search: SearchOptions) => {
-         const searchByFields = `&fields=${search.fields}`;
-         history.push(`/public/search?q=${search.globalText}${ search.fields && search.fields.length > 0 ? searchByFields : '' }`);
+         const searchByFields = search.fields && search.fields.length > 0 ? `&fields=${search.fields}` : '';
+         const searchByDisposition = search.disposition && search.disposition.length > 0 ? `&disposition=${search.disposition}` : '';
+         history.push(`/public/search?q=${search.globalText}${searchByFields}${searchByDisposition}`);
       },
       [history]
    );
