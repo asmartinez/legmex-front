@@ -206,9 +206,9 @@ const DispositionTypeComponent = () => {
                            </Col>
                         </Row>
                      </CardBody>
-                     <CardFooter>
-                        <Button size="sm" type="submit" color="primary">Guardar</Button>
+                     <CardFooter className="t-center">
                         <Button size="sm" type="button" color="secondary" onClick={onCancel}>Cancelar</Button>
+                        <Button size="sm" type="submit" color="primary">Guardar</Button>
                      </CardFooter>
                   </Card>
                </Form>

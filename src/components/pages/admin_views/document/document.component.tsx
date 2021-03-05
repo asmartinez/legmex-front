@@ -26,12 +26,36 @@ import { Document, HTMLEvent } from 'shared/utils/interfaces';
 import { documentService } from 'services';
 import { catalogReducer } from 'shared/reducer/catalogReducer';
 import TableLoaderComponent from 'components/ui/common/table-loader/table-loader.component';
+import Stepper from '@material-ui/core/Stepper';
+import Step from '@material-ui/core/Step';
+import StepLabel from '@material-ui/core/StepLabel';
+import StepConnector from '@material-ui/core/StepConnector';
+import { useStyles } from 'shared/hooks/useStyle';
+
+const getSteps = () => {
+   return ['Datos del documento', 'Legislación Original', 'Transcripción de la legislación'];
+}
 
 const DocumentComponent = () => {
+   const classes = useStyles();
+   const steps = getSteps();
+   const reducer = catalogReducer<Document>();
    const [toggleDialog, setToggleDialog] = useState<boolean>(false);
    const [isLoading, setIsLoading] = useState<boolean>(true);
-   const reducer = catalogReducer<Document>();
+   const [activeStep, setActiveStep] = useState(0);
    const [documents, dispatch] = useReducer(reducer, []);
+
+   const handleNext = () => {
+      setActiveStep((prevActiveStep) => prevActiveStep + 1);
+   };
+
+   const handleBack = () => {
+      setActiveStep((prevActiveStep) => prevActiveStep - 1);
+   };
+
+   const handleReset = () => {
+      setActiveStep(0);
+   };
 
    /*const handleChange = (event: HTMLEvent)=>{
       const { name, value } = event.target;
@@ -164,7 +188,6 @@ const DocumentComponent = () => {
             </Row>
          </Container>
          <Modal
-          className="modal-dialog-centered"
           size="lg"
           isOpen={toggleDialog}
           toggle={() => openDialog()}
@@ -180,6 +203,15 @@ const DocumentComponent = () => {
                      </Row>
                   </CardHeader>
                   <CardBody>
+                     <div className={classes.root}>
+                        <Stepper alternativeLabel activeStep={activeStep}>
+                        {steps.map((label) => (
+                           <Step key={label}>
+                              <StepLabel>{label}</StepLabel>
+                           </Step>
+                        ))}
+                        </Stepper>
+                     </div>
                      {/*<Row>
                         <Col lg="12" md="12">
                            <FormGroup>
@@ -274,9 +306,9 @@ const DocumentComponent = () => {
                         </Col>
                      </Row>*/}
                   </CardBody>
-                  <CardFooter>
-                     <Button size="sm" type="button" color="primary" onClick={addDocument}>Guardar</Button>
+                  <CardFooter className="t-center">
                      <Button size="sm" type="button" color="secondary" onClick={onCancel}>Cancelar</Button>
+                     <Button size="sm" type="button" color="primary" onClick={addDocument}>Guardar</Button>
                   </CardFooter>
                </Card>
             </div>
@@ -286,4 +318,4 @@ const DocumentComponent = () => {
 }
 
 
-export default DocumentComponent; 
+export default DocumentComponent;
