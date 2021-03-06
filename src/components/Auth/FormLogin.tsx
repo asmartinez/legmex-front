@@ -43,7 +43,7 @@ const FormLogin = () => {
             </FormGroup>
             <FormGroup className="w-100 mb-3 m-width">
                <label className="form-control-label">Contraseña</label>
-               {/*eslint-disable-next-line jsx-a11y/anchor-is-valid*/}
+               {/*
                <a
                 className="text-jam"
                 style={{
@@ -54,7 +54,7 @@ const FormLogin = () => {
                 id="forget-mode"
                 onClick={handleForgetPassword}>
                <small>Se te olvidó tu contraseña</small>
-            </a>
+               </a>*/}
                <InputGroup className="input-group-alternative">
                   <InputGroupAddon addonType="prepend">
                      <InputGroupText>

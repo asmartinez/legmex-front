@@ -31,10 +31,24 @@ import Step from '@material-ui/core/Step';
 import StepLabel from '@material-ui/core/StepLabel';
 import StepConnector from '@material-ui/core/StepConnector';
 import { useStyles } from 'shared/hooks/useStyle';
+import { Typography } from '@material-ui/core';
 
 const getSteps = () => {
    return ['Datos del documento', 'Legislación Original', 'Transcripción de la legislación'];
 }
+
+function getStepContent(stepIndex: number) {
+   switch (stepIndex) {
+     case 0:
+       return 'Select campaign settings...';
+     case 1:
+       return 'What is an ad group anyways?';
+     case 2:
+       return 'This is the bit I really care about!';
+     default:
+       return 'Unknown stepIndex';
+   }
+ }
 
 const DocumentComponent = () => {
    const classes = useStyles();
@@ -212,6 +226,83 @@ const DocumentComponent = () => {
                         ))}
                         </Stepper>
                      </div>
+                     <Row>
+                        {
+                           activeStep === 0
+                           ? (<>
+                              <Col lg="12" md="12">
+                              <FormGroup>
+                                 <label className="form-control-label">Título de la disposición</label>
+                                 <Input
+                                  className="form-control-alternative"
+                                  placeholder="Ingrese un título"
+                                  type="text"
+                                  autoComplete="off"
+                                  name="dispositionTitle"
+                                 />
+                              </FormGroup>
+                           </Col>
+                           <Col lg="6" md="6">
+                              <FormGroup>
+                                 <label className="form-control-label">Fecha</label>
+                                 <InputGroup className="input-group-alternative">
+                                    <InputGroupAddon addonType="prepend">
+                                       <InputGroupText>
+                                          <i className="ni ni-calendar-grid-58" />
+                                       </InputGroupText>
+                                    </InputGroupAddon>
+                                    <ReactDatetime
+                                     inputProps={{
+                                       placeholder: "Seleccione una fecha"
+                                     }}
+                                     timeFormat={false}
+                                    />
+                                 </InputGroup>
+                              </FormGroup>
+                           </Col>
+                           <Col lg="6" md="6">
+                              <FormGroup>
+                                 <label className="form-control-label">Lugar</label>
+                                 <Input
+                                  className="form-control-alternative"
+                                  placeholder="Ingrese el lugar"
+                                  type="text"
+                                  
+                                  name="place"
+                                  autoComplete="off"
+                                 />
+                              </FormGroup>
+                           </Col>
+                           <Col lg="6" md="6">
+                              <FormGroup>
+                                 <label className="form-control-label">Volumen</label>
+                                 <Input
+                                  className="form-control-alternative"
+                                  placeholder="Ingrese un volumen"
+                                  type="text"
+                                  
+                                  name="volume"
+                                  autoComplete="off"
+                                 />
+                              </FormGroup>
+                           </Col>
+                           <Col lg="6" md="6">
+                              <FormGroup>
+                                 <label className="form-control-label">No. de páginas</label>
+                                 <Input
+                                  className="form-control-alternative"
+                                  placeholder="0"
+                                  type="number"
+                                  
+                                  name="pageNumbers"
+                                  autoComplete="off"
+                                 />
+                              </FormGroup>
+                           </Col></>
+                           )
+                           :(<>f</>)
+                        }
+                     </Row>
                      {/*<Row>
                         <Col lg="12" md="12">
                            <FormGroup>
@@ -307,8 +398,12 @@ const DocumentComponent = () => {
                      </Row>*/}
                   </CardBody>
                   <CardFooter className="t-center">
-                     <Button size="sm" type="button" color="secondary" onClick={onCancel}>Cancelar</Button>
-                     <Button size="sm" type="button" color="primary" onClick={addDocument}>Guardar</Button>
+                     <Button size="sm" type="button" color="secondary" onClick={ activeStep === 0 ? onCancel : handleBack }>
+                        { activeStep === 0 ? 'Cancelar' : 'Anterior' }
+                     </Button>
+                     <Button size="sm" type="button" color="primary" onClick={ activeStep === steps.length - 1 ? addDocument : handleNext }>
+                        { activeStep === steps.length - 1 ? 'Guardar' : 'Siguiente' }
+                     </Button>
                   </CardFooter>
                </Card>
             </div>
