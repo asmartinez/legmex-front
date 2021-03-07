@@ -67,34 +67,31 @@ const DocumentScreen = () => {
                <Col xl={9} md={9} xs={12}>
                   <Card className="shadow">
                      <CardBody className="height-86">
-                     <Nav
-                           className="nav-fill flex-column flex-sm-row"
-                           id="tabs-text"
-                           pills
-                           role="tablist"
-                        >
+                        <Nav
+                         className="nav-fill flex-column flex-sm-row"
+                         id="tabs-text"
+                         pills
+                         role="tablist">
                            <NavItem>
                               <NavLink
-                              aria-selected={tabIndex === 1}
-                              className={classnames("mb-sm-3 mb-md-0", {
+                               aria-selected={tabIndex === 1}
+                               className={classnames("mb-sm-3 mb-md-0", {
                                  active: tabIndex === 1
-                              })}
-                              onClick={e => toggleNavs(e, "navPills", 1)}
-                              role="tab"
-                              >
-                              Legislación Original
+                               })}
+                               onClick={e => toggleNavs(e, "navPills", 1)}
+                               role="tab">
+                                 Legislación Original
                               </NavLink>
                            </NavItem>
                            <NavItem>
                               <NavLink
-                              aria-selected={tabIndex === 2}
-                              className={classnames("mb-sm-3 mb-md-0", {
-                                 active: tabIndex === 2
+                               aria-selected={tabIndex === 2}
+                               className={classnames("mb-sm-3 mb-md-0", {
+                                  active: tabIndex === 2
                               })}
-                              onClick={e => toggleNavs(e, "navPills", 2)}
-                              role="tab"
-                              >
-                              Legislación Copia
+                               onClick={e => toggleNavs(e, "navPills", 2)}
+                               role="tab">
+                                 Legislación Copia
                               </NavLink>
                            </NavItem>
                         </Nav>
@@ -105,7 +102,7 @@ const DocumentScreen = () => {
                            <TabPane tabId="tabs2">
                               <EditorViewer text={ document.legislationTranscriptCopy }/>
                            </TabPane>
-                           </TabContent>
+                        </TabContent>
                      </CardBody>
                   </Card>
                </Col>
