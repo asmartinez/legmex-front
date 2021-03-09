@@ -23,6 +23,7 @@ import { dispositionTypeService } from 'services';
 import TableLoaderComponent from 'components/ui/common/table-loader/table-loader.component';
 import { catalogReducer } from 'shared/reducer/catalogReducer';
 import { useForm } from 'shared/hooks/useForm';
+import SwalAlert from 'sweetalert2'
 
 const DispositionTypeComponent = () => {
    const [toggleDialog, setToggleDialog] = useState<boolean>(false);
@@ -32,7 +33,7 @@ const DispositionTypeComponent = () => {
    const [dispositionTypes, dispatch] = useReducer(reducer, []);
    const { values, setValues, handleInputChange, reset } = useForm<DispositionType>({
       dispositionType: '',
-      clave: 0
+      /*clave: 0*/
    });
 
    useEffect(() => {
@@ -82,8 +83,19 @@ const DispositionTypeComponent = () => {
             });
             reset();
             onCancel();
+            SwalAlert.fire({
+               title: 'Oops',
+               text: 'Correcto',
+               showCancelButton: false,
+               confirmButtonText: 'Aceptar',
+               width: '23em',
+               allowOutsideClick: false,
+               allowEscapeKey: false
+            }).then((result) => {
+            });
           })
-          .catch(error => console.log(error));
+          .catch(error => {
+          });
       }
    }
 
@@ -134,7 +146,7 @@ const DispositionTypeComponent = () => {
                            <tr>
                               <th scope="col">No.</th>
                               <th scope="col">Nombre del Tipo de Disposición</th>
-                              <th scope="col">Número de control</th>
+                              {/*<th scope="col">Número de control</th>*/}
                               <th className="text-right">Opciones</th>
                            </tr>
                         </thead>
@@ -144,7 +156,7 @@ const DispositionTypeComponent = () => {
                                  return<tr key={disposition.id}>
                                           <td>{index + 1}</td>
                                           <td>{disposition.dispositionType}</td>
-                                          <td>{disposition.clave}</td>
+                                          {/*<td>{disposition.clave}</td>*/}
                                           <td className="text-right">
                                              <UncontrolledDropdown>
                                                 <DropdownToggle
@@ -162,7 +174,7 @@ const DispositionTypeComponent = () => {
                                                       Editar
                                                    </DropdownItem>
                                                    <DropdownItem
-                                                    onClick={ () => handleDelete(disposition.id as number)}>
+                                                    onClick={ () => handleDelete(disposition.id as number) }>
                                                       Borrar
                                                    </DropdownItem>
                                                 </DropdownMenu>
@@ -196,7 +208,7 @@ const DispositionTypeComponent = () => {
                      </CardHeader>
                      <CardBody>
                         <Row>
-                           <Col lg="6" md="6">
+                           <Col lg="12" md="12">
                               <FormGroup>
                                  <label className="form-control-label">Nombre del tipo</label>
                                  <Input
@@ -211,7 +223,7 @@ const DispositionTypeComponent = () => {
                                  />
                               </FormGroup>
                            </Col>
-                           <Col lg="6" md="6">
+                        {/*<Col lg="6" md="6">
                               <FormGroup>
                                  <label className="form-control-label">Número de control</label>
                                  <Input
@@ -227,7 +239,7 @@ const DispositionTypeComponent = () => {
                                   max={9}
                                  />
                               </FormGroup>
-                           </Col>
+                           </Col>*/}
                         </Row>
                      </CardBody>
                      <CardFooter className="t-center">

@@ -21,7 +21,7 @@ import {
    UncontrolledDropdown
 } from 'reactstrap';
 import ReactDatetime from 'react-datetime';
-import { Document } from 'shared/utils/interfaces';
+import { ActionModal, Document } from 'shared/utils/interfaces';
 import { documentService } from 'services';
 import { catalogReducer } from 'shared/reducer/catalogReducer';
 import TableLoaderComponent from 'components/ui/common/table-loader/table-loader.component';
@@ -42,16 +42,11 @@ import 'moment/locale/es';
 const getSteps = () => {
    return ['Datos del documento', 'Legislación Original', 'Transcripción de la legislación'];
 }
+
 let fileSelected: File;
 const handleFile = (file: File) => {
-   console.log(file);
    fileSelected = file;
-   console.log(fileSelected);
 }
-
-const success = (file: any) => console.log('uploaded', file);
-
-const isExceed = (file: File) => {console.log('exced', file)};
 
 const componentConfig: DropzoneComponentConfig = {
    iconFiletypes: ['.pdf'],
@@ -67,9 +62,7 @@ const djsConfig: Dropzone.DropzoneOptions = {
 }
 
 const eventHandlers: DropzoneComponentHandlers = { 
-   addedfile: handleFile,
-   success: success,
-   maxfilesexceeded: isExceed
+   addedfile: handleFile
 }
 
 const DocumentComponent = () => {
@@ -78,6 +71,7 @@ const DocumentComponent = () => {
    const reducer = catalogReducer<Document>();
    const [toggleDialog, setToggleDialog] = useState<boolean>(false);
    const [isLoading, setIsLoading] = useState<boolean>(true);
+   const [typeActionModal, setTypeActionModal] = useState<ActionModal>('create');
    const [activeStep, setActiveStep] = useState(0);
    const [documents, dispatch] = useReducer(reducer, []);
    let { values, setValues, handleInputChange, reset } = useForm<Document>({
@@ -126,6 +120,7 @@ const DocumentComponent = () => {
       reset();
       if (update) {
          setValues(document as Document);
+         setTypeActionModal('edit');
       }
       setToggleDialog(true);
    }
@@ -134,15 +129,56 @@ const DocumentComponent = () => {
       setToggleDialog(false);
    }
 
-   const addDocument = () => {
-      /*descriptiveRecord.id = 1
-      setDescriptiveRecords([
-         ...descriptiveRecords,
-         descriptiveRecord,
-      ]);
-      setDescriptiveRecord(initDescriptiveRecord);*/
-      setToggleDialog(false);
-      setActiveStep(0);
+   const handleSubmit = () => {
+      if (typeActionModal === 'create') {
+         const formData = new FormData();
+         formData.append('dispositionTitle',values.dispositionTitle);
+         formData.append('date',values.date);
+         formData.append('volume',values.volume);
+         formData.append('pageNumbers', `${values.pageNumbers}`);
+         formData.append('legislationTranscriptOriginal', fileSelected);
+         formData.append('legislationTranscriptCopy',values.legislationTranscriptCopy);
+         formData.append('place',values.place);
+         formData.append('dispositionNumber',values.dispositionNumber);
+         formData.append('dispositionTypeId', `${values.dispositionTypeId}`);
+         formData.append('affairId', `${values.affairId}`);
+
+         documentService.storeFormData(formData)
+          .then(response => {
+            dispatch({
+               type: 'add',
+               payload: response
+            });
+            reset();
+            onCancel();
+          })
+          .catch(error => console.log(error));
+      } else {
+         documentService.update(values.id as number, values)
+          .then(response => {
+            dispatch({
+               type: 'update',
+               payload: {
+                  id: values.id as number,
+                  data: response
+               }
+            });
+            reset();
+            onCancel();
+          })
+          .catch(error => console.log(error));
+      }
+   }
+
+   const handleDelete = (documentId: number) => {
+      documentService.delete(documentId)
+      .then(response => {
+         dispatch({
+            type: 'delete',
+            payload: documentId
+         });
+      })
+      .catch(error => console.log(error));
    }
 
    return (
@@ -206,7 +242,7 @@ const DocumentComponent = () => {
                                                       Editar
                                                    </DropdownItem>
                                                    <DropdownItem
-                                                    onClick={e => e.preventDefault()}>
+                                                    onClick={ () => handleDelete(document.id as number) }>
                                                       Borrar
                                                    </DropdownItem>
                                                    <DropdownItem
@@ -312,6 +348,49 @@ const DocumentComponent = () => {
                                         value={values.volume}
                                         name="volume"
                                         autoComplete="off"
+                                        onChange={handleInputChange}
+                                        required/>
+                                    </FormGroup>
+                                 </Col>
+                                 <Col lg="6" md="6">
+                                    <FormGroup>
+                                       <label className="form-control-label">Numero de disposición</label>
+                                       <Input
+                                        className="form-control-alternative"
+                                        placeholder="Ingrese un nombre del tipo de disposición..."
+                                        type="number"
+                                        autoComplete="off"
+                                        name="dispositionNumber"
+                                        value={values.dispositionNumber}
+                                        onChange={handleInputChange}
+                                        required
+                                        min={1}
+                                        max={9}/>
+                                    </FormGroup>
+                                 </Col>
+                                 <Col lg="6" md="6">
+                                    <FormGroup>
+                                       <label className="form-control-label">Tipo de disposición</label>
+                                       <Input
+                                         className="form-control-alternative"
+                                         placeholder="Ingrese el lugar"
+                                         type="text"
+                                         value={values.dispositionTypeId}
+                                         name="dispositionTypeId"
+                                         autoComplete="off"
+                                         onChange={handleInputChange}/>
+                                    </FormGroup>
+                                 </Col>
+                                 <Col lg="6" md="6">
+                                    <FormGroup>
+                                       <label className="form-control-label">Asunto</label>
+                                       <Input
+                                        className="form-control-alternative"
+                                        placeholder="Ingrese un volumen"
+                                        type="text"
+                                        value={values.affairId}
+                                        name="affairId"
+                                        autoComplete="off"
                                         onChange={handleInputChange}/>
                                     </FormGroup>
                                  </Col>
@@ -353,7 +432,7 @@ const DocumentComponent = () => {
                      <Button size="md" type="button" color="secondary" onClick={ activeStep === 0 ? onCancel : handleBack }>
                         { activeStep === 0 ? 'Cancelar' : 'Anterior' }
                      </Button>
-                     <Button size="md" type="button" color="primary" onClick={ activeStep === steps.length - 1 ? addDocument : handleNext }>
+                     <Button size="md" type="button" color="primary" onClick={ activeStep === steps.length - 1 ? handleSubmit : handleNext }>
                         { activeStep === steps.length - 1 ? 'Guardar' : 'Siguiente' }
                      </Button>
                   </CardFooter>

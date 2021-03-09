@@ -25,10 +25,12 @@ const EditorViewer = (viewer: TextViewer) => {
 
    return (
       <>
-         <div style={{marginTop: '10px'}} ref={selectedRef}>
-            {viewer.text}
+         <div
+          style={{marginTop: '10px', overflow: 'auto', height: '550px'}}
+          ref={selectedRef}
+          dangerouslySetInnerHTML={{__html: viewer.text}}>
          </div>
-         { existElement && <Blockquote paragraph={blockq.paragraph} title={blockq.title} /> }
+         {/* existElement && <Blockquote paragraph={blockq.paragraph} title={blockq.title} /> */}
       </>
    )
 }

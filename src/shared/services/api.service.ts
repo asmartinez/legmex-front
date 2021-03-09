@@ -1,4 +1,4 @@
-import axios from 'axios';
+import axios, { AxiosRequestConfig } from 'axios';
 import { ListResponse, Model, SearchOptions } from 'shared/utils/interfaces';
 
 export default abstract class ApiService<T extends Model> {
@@ -12,7 +12,7 @@ export default abstract class ApiService<T extends Model> {
    * @internal
    */
    protected get uri(): string {
-      return `${process.env.REACT_APP_API_URL}${this.api}/${this.root()}/`;
+      return `${process.env.REACT_APP_API_URL}/${this.root()}/`;
    }
    
    /**
@@ -62,7 +62,7 @@ export default abstract class ApiService<T extends Model> {
 
    public single = async (id: number): Promise<T> => {
       try {
-         const { data } = await axios.get<T>(`${this.uri}${id}${this.root() === 'document' ? '/' : ''}`);
+         const { data } = await axios.get<T>(`${this.uri}${id}/`);
          return data;
       }
       catch {
@@ -73,6 +73,21 @@ export default abstract class ApiService<T extends Model> {
    public store = async (entity: T): Promise<T> => {
       try {
          const { data } = await axios.post<T>(this.uri, entity);
+         return data;
+      }
+      catch {
+         return {} as T;
+      }
+   }
+
+   public storeFormData =  async (form: FormData): Promise<T> => {
+      try {
+         const config: AxiosRequestConfig = {
+            headers: {
+               'content-type': 'multipart/form-data'
+            }
+         }
+         const { data } = await axios.post<T>(this.uri, form, config);
          return data;
       }
       catch {

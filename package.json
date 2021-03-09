@@ -34,8 +34,10 @@
     "react-pdf": "^5.1.0",
     "react-router-dom": "^5.1.2",
     "react-scripts": "4.0.0",
+    "react-toastify": "^7.0.3",
     "react-use": "^15.3.4",
     "reactstrap": "^8.4.1",
+    "sweetalert2": "^10.15.5",
     "typescript": "^4.0.5",
     "web-vitals": "^0.2.4",
     "zotero-api-client": "^0.33.0"

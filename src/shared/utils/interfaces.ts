@@ -98,7 +98,7 @@ export interface Affair extends Model{
 }
 
 export interface DispositionType extends Model{
-   clave: number;
+   // clave: number;
    dispositionType: string;
    /** @internal */
    isChecked?: boolean

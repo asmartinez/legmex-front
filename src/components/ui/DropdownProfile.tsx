@@ -23,10 +23,10 @@ const DropdownProfile = () => {
             <DropdownItem className="noti-title" header tag="div">
                <h6 className="text-overflow m-0">Bienvenido!</h6>
             </DropdownItem>
-            <DropdownItem to="/admin/user-profile" tag={Link}>
+            {/*<DropdownItem to="/admin/user-profile" tag={Link}>
                <i className="bx bx-user" />
                <span>Mi perfil</span>
-            </DropdownItem>
+            </DropdownItem>*/}
             <DropdownItem divider />
             <DropdownItem onClick={handleLogout}>
                <i className="bx bx-log-out" />

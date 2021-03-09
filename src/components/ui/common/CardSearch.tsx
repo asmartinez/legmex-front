@@ -28,9 +28,7 @@ const CardSearch = (item: Document) => {
                         <Badge title="Vol:" value={ item.volume } />
                         <Badge title="Páginas:" value={ item.pageNumbers } />
                      </div>
-                     <p className="description mt-3" style={styleCard}>
-                        { item.legislationTranscriptCopy }
-                     </p>
+                     <div className="description mt-3" style={styleCard} dangerouslySetInnerHTML={{__html: item.legislationTranscriptCopy}}></div>
                      <div>
                         <Link to={`/public/document/${item.id}`}>Leer más</Link>
                      </div>
