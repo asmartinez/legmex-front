@@ -8,6 +8,8 @@ export type FormEventHTML = FormEvent<HTMLFormElement>;
 
 export type TypeLayout = '/admin' | '/auth' | '/public';
 
+export type ActionModal = 'create' | 'edit';
+
 export type TextViewer = {
    text: string
 };
@@ -83,6 +85,12 @@ export interface Document extends Model{
    dispositionNumber: string;
    dispositionTypeId: number;
    affairId: number;
+   /** @internal */
+   file?: File
+   /** @internal */
+   dispositionType?: DispositionType
+   /** @internal */
+   affair?: Affair
 }
 
 export interface Affair extends Model{

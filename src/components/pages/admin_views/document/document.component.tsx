@@ -21,34 +21,56 @@ import {
    UncontrolledDropdown
 } from 'reactstrap';
 import ReactDatetime from 'react-datetime';
-import { Moment } from 'moment';
-import { Document, HTMLEvent } from 'shared/utils/interfaces';
+import { Document } from 'shared/utils/interfaces';
 import { documentService } from 'services';
 import { catalogReducer } from 'shared/reducer/catalogReducer';
 import TableLoaderComponent from 'components/ui/common/table-loader/table-loader.component';
 import Stepper from '@material-ui/core/Stepper';
 import Step from '@material-ui/core/Step';
 import StepLabel from '@material-ui/core/StepLabel';
-import StepConnector from '@material-ui/core/StepConnector';
 import { useStyles } from 'shared/hooks/useStyle';
-import { Typography } from '@material-ui/core';
+import Editor from 'components/ui/common/editor/editor.component';
+import { DropzoneComponent, DropzoneComponentConfig, DropzoneComponentHandlers } from 'react-dropzone-component';
+import 'react-dropzone-component/styles/filepicker.css';
+import 'dropzone/dist/min/dropzone.min.css';
+import './document.component.css';
+import { useForm } from 'shared/hooks/useForm';
+import moment, { Moment } from 'moment';
+import 'moment/locale/es';
+
 
 const getSteps = () => {
    return ['Datos del documento', 'Legislación Original', 'Transcripción de la legislación'];
 }
+let fileSelected: File;
+const handleFile = (file: File) => {
+   console.log(file);
+   fileSelected = file;
+   console.log(fileSelected);
+}
 
-function getStepContent(stepIndex: number) {
-   switch (stepIndex) {
-     case 0:
-       return 'Select campaign settings...';
-     case 1:
-       return 'What is an ad group anyways?';
-     case 2:
-       return 'This is the bit I really care about!';
-     default:
-       return 'Unknown stepIndex';
-   }
- }
+const success = (file: any) => console.log('uploaded', file);
+
+const isExceed = (file: File) => {console.log('exced', file)};
+
+const componentConfig: DropzoneComponentConfig = {
+   iconFiletypes: ['.pdf'],
+   showFiletypeIcon: true,
+   postUrl: 'no-url'
+};
+
+const djsConfig: Dropzone.DropzoneOptions = {
+   autoProcessQueue: false,
+   acceptedFiles: 'application/pdf',
+   addRemoveLinks: true,
+   maxFiles: 1,
+}
+
+const eventHandlers: DropzoneComponentHandlers = { 
+   addedfile: handleFile,
+   success: success,
+   maxfilesexceeded: isExceed
+}
 
 const DocumentComponent = () => {
    const classes = useStyles();
@@ -58,6 +80,22 @@ const DocumentComponent = () => {
    const [isLoading, setIsLoading] = useState<boolean>(true);
    const [activeStep, setActiveStep] = useState(0);
    const [documents, dispatch] = useReducer(reducer, []);
+   let { values, setValues, handleInputChange, reset } = useForm<Document>({
+      dispositionTitle: '',
+      date: '',
+      volume: '',
+      pageNumbers: 0,
+      legislationTranscriptOriginal: '',
+      legislationTranscriptCopy: '',
+      place: '',
+      dispositionNumber: '',
+      dispositionTypeId: 0,
+      affairId: 0
+   });
+
+	const handleTextAreaChange = (newTextAreaValue: string) => {
+		values.legislationTranscriptCopy = newTextAreaValue;
+	}
 
    const handleNext = () => {
       setActiveStep((prevActiveStep) => prevActiveStep + 1);
@@ -66,18 +104,6 @@ const DocumentComponent = () => {
    const handleBack = () => {
       setActiveStep((prevActiveStep) => prevActiveStep - 1);
    };
-
-   const handleReset = () => {
-      setActiveStep(0);
-   };
-
-   /*const handleChange = (event: HTMLEvent)=>{
-      const { name, value } = event.target;
-      setDescriptiveRecord( values =>({
-        ...values,
-        [name]: value
-      }));
-   }*/
 
    useEffect(() => {
       documentService.list()
@@ -91,19 +117,17 @@ const DocumentComponent = () => {
        .catch(error => console.log(error));
    }, []);
 
-   /*const handleChangeDataPicker = (event: Moment | string) => {
-      descriptiveRecord.date = event.toString();
-      setDescriptiveRecord( prevState =>({
-         ...prevState
-      }));
-   }*/
+   const handleChangeDataPicker = (event: Moment | string) => {
+      const newDate = event as Moment;
+      values.date = moment(newDate).format("DD/MM/YYYY");
+   }
 
-   const openDialog = (update: boolean = false, id?: string) => {
-      setToggleDialog(true);
-
+   const openDialog = (update: boolean = false, document?: Document) => {
+      reset();
       if (update) {
-
-      } 
+         setValues(document as Document);
+      }
+      setToggleDialog(true);
    }
 
    const onCancel = () => {
@@ -118,6 +142,7 @@ const DocumentComponent = () => {
       ]);
       setDescriptiveRecord(initDescriptiveRecord);*/
       setToggleDialog(false);
+      setActiveStep(0);
    }
 
    return (
@@ -177,7 +202,7 @@ const DocumentComponent = () => {
                                                 </DropdownToggle>
                                                 <DropdownMenu className="dropdown-menu-arrow" right>
                                                    <DropdownItem
-                                                    onClick={e => e.preventDefault()}>
+                                                    onClick={() => openDialog(true, document)}>
                                                       Editar
                                                    </DropdownItem>
                                                    <DropdownItem
@@ -229,179 +254,106 @@ const DocumentComponent = () => {
                      <Row>
                         {
                            activeStep === 0
-                           ? (<>
-                              <Col lg="12" md="12">
-                              <FormGroup>
-                                 <label className="form-control-label">Título de la disposición</label>
-                                 <Input
-                                  className="form-control-alternative"
-                                  placeholder="Ingrese un título"
-                                  type="text"
-                                  autoComplete="off"
-                                  name="dispositionTitle"
-                                 />
-                              </FormGroup>
-                           </Col>
-                           <Col lg="6" md="6">
-                              <FormGroup>
-                                 <label className="form-control-label">Fecha</label>
-                                 <InputGroup className="input-group-alternative">
-                                    <InputGroupAddon addonType="prepend">
-                                       <InputGroupText>
-                                          <i className="ni ni-calendar-grid-58" />
-                                       </InputGroupText>
-                                    </InputGroupAddon>
-                                    <ReactDatetime
-                                     inputProps={{
-                                       placeholder: "Seleccione una fecha"
-                                     }}
-                                     timeFormat={false}
-                                    />
-                                 </InputGroup>
-                              </FormGroup>
-                           </Col>
-                           <Col lg="6" md="6">
-                              <FormGroup>
-                                 <label className="form-control-label">Lugar</label>
-                                 <Input
-                                  className="form-control-alternative"
-                                  placeholder="Ingrese el lugar"
-                                  type="text"
-                                  
-                                  name="place"
-                                  autoComplete="off"
-                                 />
-                              </FormGroup>
-                           </Col>
-                           <Col lg="6" md="6">
-                              <FormGroup>
-                                 <label className="form-control-label">Volumen</label>
-                                 <Input
-                                  className="form-control-alternative"
-                                  placeholder="Ingrese un volumen"
-                                  type="text"
-                                  
-                                  name="volume"
-                                  autoComplete="off"
-                                 />
-                              </FormGroup>
-                           </Col>
-                           <Col lg="6" md="6">
-                              <FormGroup>
-                                 <label className="form-control-label">No. de páginas</label>
-                                 <Input
-                                  className="form-control-alternative"
-                                  placeholder="0"
-                                  type="number"
-                                  
-                                  name="pageNumbers"
-                                  autoComplete="off"
-                                 />
-                              </FormGroup>
-                           </Col></>
+                           ? <>
+                                 <Col lg="12" md="12">
+                                    <FormGroup>
+                                       <label className="form-control-label">Título de la disposición</label>
+                                       <Input
+                                        className="form-control-alternative"
+                                        placeholder="Ingrese un título"
+                                        type="text"
+                                        autoComplete="off"
+                                        name="dispositionTitle"
+                                        value={values.dispositionTitle}
+                                        onChange={handleInputChange}/>
+                                    </FormGroup>
+                                 </Col>
+                                 <Col lg="6" md="6">
+                                    <FormGroup>
+                                       <label className="form-control-label">Fecha</label>
+                                       <InputGroup className="input-group-alternative">
+                                          <InputGroupAddon addonType="prepend">
+                                             <InputGroupText>
+                                                <i className="ni ni-calendar-grid-58" />
+                                             </InputGroupText>
+                                          </InputGroupAddon>
+                                          <ReactDatetime
+                                           inputProps={{
+                                             placeholder: "Seleccione una fecha"
+                                           }}
+                                           timeFormat={false}
+                                           value={values.date}
+                                           locale="es"
+                                           onChange={handleChangeDataPicker}
+                                          />
+                                       </InputGroup>
+                                    </FormGroup>
+                                 </Col>
+                                 <Col lg="6" md="6">
+                                    <FormGroup>
+                                       <label className="form-control-label">Lugar</label>
+                                       <Input
+                                         className="form-control-alternative"
+                                         placeholder="Ingrese el lugar"
+                                         type="text"
+                                         value={values.place}
+                                         name="place"
+                                         autoComplete="off"
+                                         onChange={handleInputChange}/>
+                                    </FormGroup>
+                                 </Col>
+                                 <Col lg="6" md="6">
+                                    <FormGroup>
+                                       <label className="form-control-label">Volumen</label>
+                                       <Input
+                                        className="form-control-alternative"
+                                        placeholder="Ingrese un volumen"
+                                        type="text"
+                                        value={values.volume}
+                                        name="volume"
+                                        autoComplete="off"
+                                        onChange={handleInputChange}/>
+                                    </FormGroup>
+                                 </Col>
+                                 <Col lg="6" md="6">
+                                    <FormGroup>
+                                       <label className="form-control-label">No. de páginas</label>
+                                       <Input
+                                        className="form-control-alternative"
+                                        placeholder="0"
+                                        type="number"
+                                        value={values.pageNumbers}
+                                        name="pageNumbers"
+                                        autoComplete="off"
+                                        onChange={handleInputChange}/>
+                                    </FormGroup>
+                                 </Col>
+                              </>
+                           :
+                           (
+                              activeStep === 1
+                              ?
+                                 <Col lg="12" md="12">
+                                     <DropzoneComponent
+                                      config={componentConfig}
+                                      eventHandlers={eventHandlers}
+                                      djsConfig={djsConfig}/>
+                                 </Col>
+                              :
+                                 (activeStep === 2) && <Col lg="12" md="12">
+                                    <Editor
+                                     onChange={handleTextAreaChange}
+                                     value={values.legislationTranscriptCopy}/>
+                                 </Col>
                            )
-                           :(<>f</>)
                         }
                      </Row>
-                     {/*<Row>
-                        <Col lg="12" md="12">
-                           <FormGroup>
-                              <label className="form-control-label">Título de la disposición</label>
-                              <Input
-                               className="form-control-alternative"
-                               placeholder="Ingrese un título"
-                               type="text"
-                               autoComplete="off"
-                               onChange={handleChange}
-                               name="dispositionTitle"
-                               value={descriptiveRecord.dispositionTitle}
-                              />
-                           </FormGroup>
-                        </Col>
-                        <Col lg="6" md="6">
-                           <FormGroup>
-                              <label className="form-control-label">Fecha</label>
-                              <InputGroup className="input-group-alternative">
-                                 <InputGroupAddon addonType="prepend">
-                                    <InputGroupText>
-                                       <i className="ni ni-calendar-grid-58" />
-                                    </InputGroupText>
-                                 </InputGroupAddon>
-                                 <ReactDatetime
-                                  inputProps={{
-                                    placeholder: "Seleccione una fecha"
-                                  }}
-                                  timeFormat={false}
-                                  onChange={handleChangeDataPicker}              
-                                  value={descriptiveRecord.date}
-                                 />
-                              </InputGroup>
-                           </FormGroup>
-                        </Col>
-                        <Col lg="6" md="6">
-                           <FormGroup>
-                              <label className="form-control-label">Lugar</label>
-                              <Input
-                               className="form-control-alternative"
-                               placeholder="Ingrese el lugar"
-                               type="text"
-                               onChange={handleChange}
-                               name="place"
-                               value={descriptiveRecord.place}
-                               autoComplete="off"
-                              />
-                           </FormGroup>
-                        </Col>
-                        <Col lg="6" md="6">
-                           <FormGroup>
-                              <label className="form-control-label">Volumen</label>
-                              <Input
-                               className="form-control-alternative"
-                               placeholder="Ingrese un volumen"
-                               type="text"
-                               onChange={handleChange}
-                               name="volume"
-                               value={descriptiveRecord.volume}
-                               autoComplete="off"
-                              />
-                           </FormGroup>
-                        </Col>
-                        <Col lg="6" md="6">
-                           <FormGroup>
-                              <label className="form-control-label">No. de páginas</label>
-                              <Input
-                               className="form-control-alternative"
-                               placeholder="0"
-                               type="number"
-                               onChange={handleChange}
-                               name="pageNumbers"
-                               value={descriptiveRecord.pageNumbers}
-                               autoComplete="off"
-                              />
-                           </FormGroup>
-                        </Col>
-                        <Col lg="12" md="12">
-                           <FormGroup>
-                              <label className="form-control-label">Transcripción de la legislación</label>
-                              <Input
-                               className="form-control-alternative"
-                               placeholder="Ingrese todos los datos de la transcripción"
-                               rows="4"
-                               type="textarea"
-                               onChange={handleChange}
-                               autoComplete="off"
-                               name="legislationTranscript"
-                               value={descriptiveRecord.legislationTranscriptOriginal}
-                              />
-                           </FormGroup>
-                        </Col>
-                     </Row>*/}
                   </CardBody>
                   <CardFooter className="t-center">
-                     <Button size="sm" type="button" color="secondary" onClick={ activeStep === 0 ? onCancel : handleBack }>
+                     <Button size="md" type="button" color="secondary" onClick={ activeStep === 0 ? onCancel : handleBack }>
                         { activeStep === 0 ? 'Cancelar' : 'Anterior' }
                      </Button>
-                     <Button size="sm" type="button" color="primary" onClick={ activeStep === steps.length - 1 ? addDocument : handleNext }>
+                     <Button size="md" type="button" color="primary" onClick={ activeStep === steps.length - 1 ? addDocument : handleNext }>
                         { activeStep === steps.length - 1 ? 'Guardar' : 'Siguiente' }
                      </Button>
                   </CardFooter>

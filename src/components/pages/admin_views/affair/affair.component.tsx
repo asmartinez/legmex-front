@@ -18,7 +18,7 @@ import {
    Table,
    UncontrolledDropdown
 } from 'reactstrap';
-import { Affair, FormEventHTML } from 'shared/utils/interfaces';
+import { ActionModal, Affair, FormEventHTML } from 'shared/utils/interfaces';
 import { affairService } from 'services';
 import TableLoaderComponent from 'components/ui/common/table-loader/table-loader.component';
 import { catalogReducer } from 'shared/reducer/catalogReducer';
@@ -28,7 +28,8 @@ import { useForm } from 'shared/hooks/useForm';
 const AffairComponent = () => {
    const [toggleDialog, setToggleDialog] = useState<boolean>(false);
    const [isLoading, setIsLoading] = useState<boolean>(true);
-   const { values, handleInputChange, reset } = useForm<Affair>({
+   const [typeActionModal, setTypeActionModal] = useState<ActionModal>('create');
+   const { values, setValues, handleInputChange, reset } = useForm<Affair>({
       affair: ''
    });
    const reducer = catalogReducer<Affair>();
@@ -46,22 +47,43 @@ const AffairComponent = () => {
        .catch(error => console.log(error));
    }, []);
 
-   const openDialog = (update: boolean = false, id?: string) => {
-      setToggleDialog(!toggleDialog);
+   const openDialog = (update: boolean = false, affair?: Affair) => {
+      reset();
+      if (update) {
+         setValues(affair as Affair);
+         setTypeActionModal('edit');
+      }
+      setToggleDialog(true);
    }
 
    const handleSubmit = (event: FormEventHTML) => {
       event.preventDefault();
-      affairService.store(values)
-      .then(response => {
-         dispatch({
-            type: 'add',
-            payload: response
-         });
-         reset();
-         onCancel();
-      })
-      .catch(error => console.log(error));
+      if (typeActionModal === 'create') {
+         affairService.store(values)
+          .then(response => {
+            dispatch({
+               type: 'add',
+               payload: response
+            });
+            reset();
+            onCancel();
+          })
+          .catch(error => console.log(error));
+      } else {
+         affairService.update(values.id as number, values)
+          .then(response => {
+            dispatch({
+               type: 'update',
+               payload: {
+                  id: values.id as number,
+                  data: response
+               }
+            });
+            reset();
+            onCancel();
+          })
+          .catch(error => console.log(error));
+      }
    }
 
    const handleDelete = (documentId: number) => {
@@ -132,7 +154,7 @@ const AffairComponent = () => {
                                                 </DropdownToggle>
                                                 <DropdownMenu className="dropdown-menu-arrow" right>
                                                    <DropdownItem
-                                                    onClick={e => e.preventDefault()}>
+                                                    onClick={() => openDialog(true, a)}>
                                                       Editar
                                                    </DropdownItem>
                                                    <DropdownItem
@@ -181,6 +203,7 @@ const AffairComponent = () => {
                                   name="affair"
                                   value={values.affair}
                                   onChange={handleInputChange}
+                                  required
                                  />
                               </FormGroup>
                            </Col>

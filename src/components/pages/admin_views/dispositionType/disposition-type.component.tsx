@@ -18,19 +18,19 @@ import {
    Table,
    UncontrolledDropdown
 } from 'reactstrap';
-import { DispositionType, FormEventHTML } from 'shared/utils/interfaces';
+import { ActionModal, DispositionType, FormEventHTML } from 'shared/utils/interfaces';
 import { dispositionTypeService } from 'services';
 import TableLoaderComponent from 'components/ui/common/table-loader/table-loader.component';
 import { catalogReducer } from 'shared/reducer/catalogReducer';
 import { useForm } from 'shared/hooks/useForm';
 
-
 const DispositionTypeComponent = () => {
    const [toggleDialog, setToggleDialog] = useState<boolean>(false);
    const [isLoading, setIsLoading] = useState<boolean>(true);
+   const [typeActionModal, setTypeActionModal] = useState<ActionModal>('create');
    const reducer = catalogReducer<DispositionType>();
    const [dispositionTypes, dispatch] = useReducer(reducer, []);
-   const { values, handleInputChange, reset } = useForm<DispositionType>({
+   const { values, setValues, handleInputChange, reset } = useForm<DispositionType>({
       dispositionType: '',
       clave: 0
    });
@@ -47,25 +47,44 @@ const DispositionTypeComponent = () => {
        .catch(error => console.log(error));
    }, []);
 
-   const openDialog = (update: boolean = false, id?: string) => {
-      setToggleDialog(true);
-
+   const openDialog = (update: boolean = false, disposition?: DispositionType) => {
+      reset();
       if (update) {
-      } 
+         setValues(disposition as DispositionType);
+         setTypeActionModal('edit');
+      }
+      setToggleDialog(true);
    }
 
    const handleSubmit = (event: FormEventHTML) => {
       event.preventDefault();
-      dispositionTypeService.store(values)
-      .then(response => {
-         dispatch({
-            type: 'add',
-            payload: response
-         });
-         reset();
-         onCancel();
-      })
-      .catch(error => console.log(error));
+
+      if (typeActionModal === 'create') {
+         dispositionTypeService.store(values)
+          .then(response => {
+            dispatch({
+               type: 'add',
+               payload: response
+            });
+            reset();
+            onCancel();
+          })
+          .catch(error => console.log(error));
+      } else {
+         dispositionTypeService.update(values.id as number, values)
+          .then(response => {
+            dispatch({
+               type: 'update',
+               payload: {
+                  id: values.id as number,
+                  data: response
+               }
+            });
+            reset();
+            onCancel();
+          })
+          .catch(error => console.log(error));
+      }
    }
 
    const handleDelete = (dispositionTypeId: number) => {
@@ -81,6 +100,7 @@ const DispositionTypeComponent = () => {
 
    const onCancel = () => {
       setToggleDialog(false);
+      setTypeActionModal('create');
    }
 
    return (
@@ -120,11 +140,11 @@ const DispositionTypeComponent = () => {
                         </thead>
                         <tbody>
                            {
-                              !isLoading ? (dispositionTypes.map((a, index) => {
-                                 return<tr key={a.id}>
+                              !isLoading ? (dispositionTypes.map((disposition, index) => {
+                                 return<tr key={disposition.id}>
                                           <td>{index + 1}</td>
-                                          <td>{a.dispositionType}</td>
-                                          <td>{a.clave}</td>
+                                          <td>{disposition.dispositionType}</td>
+                                          <td>{disposition.clave}</td>
                                           <td className="text-right">
                                              <UncontrolledDropdown>
                                                 <DropdownToggle
@@ -138,11 +158,11 @@ const DispositionTypeComponent = () => {
                                                 </DropdownToggle>
                                                 <DropdownMenu className="dropdown-menu-arrow" right>
                                                    <DropdownItem
-                                                    onClick={e => e.preventDefault()}>
+                                                    onClick={() => openDialog(true, disposition)}>
                                                       Editar
                                                    </DropdownItem>
                                                    <DropdownItem
-                                                    onClick={ () => handleDelete(a.id as number)}>
+                                                    onClick={ () => handleDelete(disposition.id as number)}>
                                                       Borrar
                                                    </DropdownItem>
                                                 </DropdownMenu>
@@ -187,6 +207,7 @@ const DispositionTypeComponent = () => {
                                   name="dispositionType"
                                   value={values.dispositionType}
                                   onChange={handleInputChange}
+                                  required
                                  />
                               </FormGroup>
                            </Col>
@@ -201,14 +222,17 @@ const DispositionTypeComponent = () => {
                                   name="clave"
                                   value={values.clave}
                                   onChange={handleInputChange}
+                                  required
+                                  min={1}
+                                  max={9}
                                  />
                               </FormGroup>
                            </Col>
                         </Row>
                      </CardBody>
                      <CardFooter className="t-center">
-                        <Button size="sm" type="button" color="secondary" onClick={onCancel}>Cancelar</Button>
-                        <Button size="sm" type="submit" color="primary">Guardar</Button>
+                        <Button size="md" type="button" color="secondary" onClick={onCancel}>Cancelar</Button>
+                        <Button size="md" type="submit" color="primary">Guardar</Button>
                      </CardFooter>
                   </Card>
                </Form>

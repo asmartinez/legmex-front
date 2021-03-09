@@ -1,12 +1,29 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import queryString from 'query-string';
 import { useHistory, useLocation } from 'react-router-dom';
-import { Document, SearchOptions } from 'shared/utils/interfaces';
+import { Affair, DispositionType, Document, SearchOptions } from 'shared/utils/interfaces';
 import { Col, Container, Row } from 'reactstrap';
 import SearchForm from '../../ui/common/SearchForm';
 import CardSearch from '../../ui/common/CardSearch';
-import { documentService } from 'services';
+import { affairService, dispositionTypeService, documentService } from 'services';
 import Loader from 'components/ui/common/Loader';
+import { findEntity } from 'shared/utils/find';
+
+let dispositionTypes: DispositionType[];
+let affairs: Affair[];
+
+const loadSingles = () => {
+   dispositionTypeService.list().then(response => {
+      dispositionTypes = response.entities;
+   }).catch(error => console.log(error));
+
+   affairService.list().then(response => {
+      affairs = response.entities;
+   }).catch(error => console.log(error));
+}
+
+loadSingles();
+
 
 const SearchScreen = () => {
    const location = useLocation();
@@ -69,9 +86,11 @@ const SearchScreen = () => {
                               legislationTranscriptOriginal={ document.legislationTranscriptOriginal }
                               legislationTranscriptCopy={ document.legislationTranscriptCopy }
                               place={ document.place }
-                              dispositionNumber= {document.dispositionNumber}
+                              dispositionNumber={ document.dispositionNumber }
                               dispositionTypeId={ document.dispositionTypeId }
-                              affairId={ document.affairId }/>
+                              affairId={ document.affairId }
+                              dispositionType={ findEntity(dispositionTypes, document.dispositionTypeId) }
+                              affair={ findEntity(affairs, document.affairId) }/>
                   }))
             }
          </Container>

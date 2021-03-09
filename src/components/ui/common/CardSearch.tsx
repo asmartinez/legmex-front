@@ -20,12 +20,13 @@ const CardSearch = (item: Document) => {
                         { item.dispositionTitle }
                      </h4>
                      <div>
-                        <Badge title="Disposición No:" value="2305"/>
-                        <Badge title="Tipo de Disposición:" value="Decreto"/>
-                        <Badge title="Lugar:" value={ item.place }/>
-                        <Badge title="Fecha:" value={ item.date }/>
-                        <Badge title="Vol:" value={ item.volume }/>
-                        <Badge title="Páginas:" value={ item.pageNumbers }/>
+                        <Badge title="Disposición No:" value={ item.dispositionNumber } />
+                        <Badge title="Tipo de Disposición:" value={ item.dispositionType?.dispositionType || '' } />
+                        <Badge title="Asunto:" value={ item.affair?.affair || '' } />
+                        <Badge title="Lugar:" value={ item.place } />
+                        <Badge title="Fecha:" value={ item.date } />
+                        <Badge title="Vol:" value={ item.volume } />
+                        <Badge title="Páginas:" value={ item.pageNumbers } />
                      </div>
                      <p className="description mt-3" style={styleCard}>
                         { item.legislationTranscriptCopy }

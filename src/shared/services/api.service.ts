@@ -62,7 +62,7 @@ export default abstract class ApiService<T extends Model> {
 
    public single = async (id: number): Promise<T> => {
       try {
-         const { data } = await axios.get<T>(`${this.uri}${id}/`);
+         const { data } = await axios.get<T>(`${this.uri}${id}${this.root() === 'document' ? '/' : ''}`);
          return data;
       }
       catch {
@@ -82,7 +82,7 @@ export default abstract class ApiService<T extends Model> {
 
    public update = async (id: number, entity: T): Promise<T> => {
       try {
-         const { data } = await axios.post<T>(`${this.uri}${id}`, entity);
+         const { data } = await axios.put<T>(`${this.uri}${id}`, entity);
          return data;
       }
       catch {

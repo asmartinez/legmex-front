@@ -2,8 +2,8 @@ import classnames from 'classnames';
 import React, { useEffect, useState } from 'react';
 import { Redirect, useParams } from 'react-router-dom';
 import { Card, CardBody, Col, Container, Nav, NavItem, NavLink, Row, TabContent, TabPane } from 'reactstrap';
-import { documentService } from 'services';
-import { Document } from 'shared/utils/interfaces';
+import { dispositionTypeService, documentService } from 'services';
+import { DispositionType, Document } from 'shared/utils/interfaces';
 import Badge from './Badge';
 import EditorViewer from './editor-viewer/EditorViewer';
 import PDFViewer from './pdf-viewer/PDFViewer';
@@ -12,6 +12,7 @@ const DocumentScreen = () => {
    const { documentId }: any = useParams();
 
    const [document, setDocument] = useState<Document>();
+   const [disposition, setDisposition] = useState<DispositionType>();
    const [tabIndex, setTabIndex] = useState<number>(1);
 
    const toggleNavs = (e: { preventDefault: () => void; }, state: any, index: any) => {
@@ -21,8 +22,15 @@ const DocumentScreen = () => {
 
    useEffect(() => {
       documentService.single(documentId)
-       .then(response => setDocument(response))
+       .then(response => {
+         setDocument(response);
+         dispositionTypeService.single(response.dispositionTypeId)
+          .then(response => setDisposition(response))
+          .catch(error => console.log(error))
+       })
        .catch(error => console.log(error));
+
+      
    }, [documentId]);
 
    if (!documentId) {
@@ -43,10 +51,10 @@ const DocumentScreen = () => {
                         <h4 className="h3 text-uppercase">{ document.dispositionTitle }</h4>
                         <Row className="justify-content-center">
                            <Col xl={12} md={12} xs={12}>
-                              <Badge title="Disposición No:" value={ document.dispositionTitle }/>
+                              <Badge title="Disposición No:" value={ document.dispositionNumber }/>
                            </Col>
                            <Col xl={12} md={12} xs={12}>
-                              <Badge title="Tipo de Disposición:" value="Decreto"/>
+                              <Badge title="Tipo de Disposición:" value={ disposition?.dispositionType || '' }/>
                            </Col>
                            <Col xl={12} md={12} xs={12}>
                               <Badge title="Lugar:" value={ document.place }/>
