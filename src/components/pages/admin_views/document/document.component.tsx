@@ -21,8 +21,8 @@ import {
    UncontrolledDropdown
 } from 'reactstrap';
 import ReactDatetime from 'react-datetime';
-import { ActionModal, Document } from 'shared/utils/interfaces';
-import { documentService } from 'services';
+import { ActionModal, Affair, DispositionType, Document } from 'shared/utils/interfaces';
+import { affairService, dispositionTypeService, documentService } from 'services';
 import { catalogReducer } from 'shared/reducer/catalogReducer';
 import TableLoaderComponent from 'components/ui/common/table-loader/table-loader.component';
 import Stepper from '@material-ui/core/Stepper';
@@ -37,7 +37,8 @@ import './document.component.css';
 import { useForm } from 'shared/hooks/useForm';
 import moment, { Moment } from 'moment';
 import 'moment/locale/es';
-
+import SwalAlert from 'sweetalert2';
+import Select from 'react-select';
 
 const getSteps = () => {
    return ['Datos del documento', 'Legislación Original', 'Transcripción de la legislación'];
@@ -64,6 +65,21 @@ const djsConfig: Dropzone.DropzoneOptions = {
 const eventHandlers: DropzoneComponentHandlers = { 
    addedfile: handleFile
 }
+
+let dispositionTypes: DispositionType[];
+let affairs: Affair[];
+
+const loadSingles = () => {
+   dispositionTypeService.list().then(response => {
+      dispositionTypes = response.entities;
+   }).catch(error => console.log(error));
+
+   affairService.list().then(response => {
+      affairs = response.entities;
+   }).catch(error => console.log(error));
+}
+
+loadSingles();
 
 const DocumentComponent = () => {
    const classes = useStyles();
@@ -127,6 +143,8 @@ const DocumentComponent = () => {
 
    const onCancel = () => {
       setToggleDialog(false);
+      setTypeActionModal('create');
+      setActiveStep(0);
    }
 
    const handleSubmit = () => {
@@ -139,7 +157,7 @@ const DocumentComponent = () => {
          formData.append('legislationTranscriptOriginal', fileSelected);
          formData.append('legislationTranscriptCopy',values.legislationTranscriptCopy);
          formData.append('place',values.place);
-         formData.append('dispositionNumber',values.dispositionNumber);
+         formData.append('dispositionNumber', `${values.dispositionTypeId}`);
          formData.append('dispositionTypeId', `${values.dispositionTypeId}`);
          formData.append('affairId', `${values.affairId}`);
 
@@ -151,10 +169,28 @@ const DocumentComponent = () => {
             });
             reset();
             onCancel();
+            SwalAlert.fire({
+               position: 'center',
+               icon: 'success',
+               title: 'Guardado correctamente',
+               showConfirmButton: false,
+               timer: 1500
+            });
           })
           .catch(error => console.log(error));
       } else {
-         documentService.update(values.id as number, values)
+         const formDataUpdate = new FormData();
+         formDataUpdate.append('dispositionTitle',values.dispositionTitle);
+         formDataUpdate.append('date',values.date);
+         formDataUpdate.append('volume',values.volume);
+         formDataUpdate.append('pageNumbers', `${values.pageNumbers}`);
+         formDataUpdate.append('legislationTranscriptCopy',values.legislationTranscriptCopy);
+         formDataUpdate.append('place',values.place);
+         formDataUpdate.append('dispositionNumber', `${values.dispositionTypeId}`);
+         formDataUpdate.append('dispositionTypeId', `${values.dispositionTypeId}`);
+         formDataUpdate.append('affairId', `${values.affairId}`);
+
+         documentService.updateFormData(values.id as number, formDataUpdate)
           .then(response => {
             dispatch({
                type: 'update',
@@ -162,6 +198,13 @@ const DocumentComponent = () => {
                   id: values.id as number,
                   data: response
                }
+            });
+            SwalAlert.fire({
+               position: 'center',
+               icon: 'success',
+               title: 'Actualizado correctamente',
+               showConfirmButton: false,
+               timer: 1500
             });
             reset();
             onCancel();
@@ -171,14 +214,32 @@ const DocumentComponent = () => {
    }
 
    const handleDelete = (documentId: number) => {
-      documentService.delete(documentId)
-      .then(response => {
-         dispatch({
-            type: 'delete',
-            payload: documentId
-         });
-      })
-      .catch(error => console.log(error));
+      SwalAlert.fire({
+         title: 'Desea eliminar el registro',
+         icon: 'error',
+         showCancelButton: true,
+         confirmButtonColor: '#3085d6',
+         cancelButtonColor: '#d33',
+         confirmButtonText: 'Confirmar'
+       }).then((result) => {
+         if (result.isConfirmed) {
+            documentService.delete(documentId)
+            .then(response => {
+               dispatch({
+                  type: 'delete',
+                  payload: documentId
+               });
+               SwalAlert.fire({
+                  position: 'center',
+                  icon: 'success',
+                  title: 'Eliminado correctamente',
+                  showConfirmButton: false,
+                  timer: 1500
+               })
+            })
+            .catch(error => console.log(error));
+         }
+       })
    }
 
    return (
@@ -190,7 +251,7 @@ const DocumentComponent = () => {
                      <CardHeader className="border-0">
                         <Row className="align-items-center">
                            <div className="col">
-                              <h3 className="mb-0">Lista de documentos</h3>
+                              <h3 className="mb-0">Lista de Documentos</h3>
                            </div>
                            <div className="col text-right">
                               <Button
@@ -273,7 +334,7 @@ const DocumentComponent = () => {
                   <CardHeader className="bg-white border-0">
                      <Row className="align-items-center">
                         <Col xs="12">
-                           <h3 className="mb-0">Nuevo documento</h3>
+                           <h3 className="mb-0"> { typeActionModal === 'create' ? 'Nuevo' : 'Editar' } documento</h3>
                         </Col>
                      </Row>
                   </CardHeader>
@@ -354,26 +415,20 @@ const DocumentComponent = () => {
                                  </Col>
                                  <Col lg="6" md="6">
                                     <FormGroup>
-                                       <label className="form-control-label">Numero de disposición</label>
-                                       <Input
-                                        className="form-control-alternative"
-                                        placeholder="Ingrese un nombre del tipo de disposición..."
-                                        type="number"
-                                        autoComplete="off"
-                                        name="dispositionNumber"
-                                        value={values.dispositionNumber}
-                                        onChange={handleInputChange}
-                                        required
-                                        min={1}
-                                        max={9}/>
-                                    </FormGroup>
-                                 </Col>
-                                 <Col lg="6" md="6">
-                                    <FormGroup>
                                        <label className="form-control-label">Tipo de disposición</label>
+                                       {/*<Select
+                                        className="basic-single"
+                                        classNamePrefix="select"
+                                        isDisabled={false}
+                                        isLoading={false}
+                                        isClearable={false}
+                                        isRtl={false}
+                                        isSearchable={true}
+                                        name="dispositionTypes"
+                                        options={dispositionTypes}/>*/}
                                        <Input
                                          className="form-control-alternative"
-                                         placeholder="Ingrese el lugar"
+                                         placeholder="0"
                                          type="text"
                                          value={values.dispositionTypeId}
                                          name="dispositionTypeId"
@@ -384,14 +439,24 @@ const DocumentComponent = () => {
                                  <Col lg="6" md="6">
                                     <FormGroup>
                                        <label className="form-control-label">Asunto</label>
+                                       {/*<Select
+                                        className="basic-single"
+                                        classNamePrefix="select"
+                                        isDisabled={false}
+                                        isLoading={false}
+                                        isClearable={false}
+                                        isRtl={false}
+                                        isSearchable={true}
+                                        name="affairs"
+                                        options={affairs}/>*/}
                                        <Input
-                                        className="form-control-alternative"
-                                        placeholder="Ingrese un volumen"
-                                        type="text"
-                                        value={values.affairId}
-                                        name="affairId"
-                                        autoComplete="off"
-                                        onChange={handleInputChange}/>
+                                         className="form-control-alternative"
+                                         placeholder="0"
+                                         type="text"
+                                         value={values.affairId}
+                                         name="affairId"
+                                         autoComplete="off"
+                                         onChange={handleInputChange}/>
                                     </FormGroup>
                                  </Col>
                                  <Col lg="6" md="6">

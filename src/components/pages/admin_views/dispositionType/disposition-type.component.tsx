@@ -23,7 +23,7 @@ import { dispositionTypeService } from 'services';
 import TableLoaderComponent from 'components/ui/common/table-loader/table-loader.component';
 import { catalogReducer } from 'shared/reducer/catalogReducer';
 import { useForm } from 'shared/hooks/useForm';
-import SwalAlert from 'sweetalert2'
+import SwalAlert from 'sweetalert2';
 
 const DispositionTypeComponent = () => {
    const [toggleDialog, setToggleDialog] = useState<boolean>(false);
@@ -67,6 +67,13 @@ const DispositionTypeComponent = () => {
                type: 'add',
                payload: response
             });
+            SwalAlert.fire({
+               position: 'center',
+               icon: 'success',
+               title: 'Guardado correctamente',
+               showConfirmButton: false,
+               timer: 1500
+            });
             reset();
             onCancel();
           })
@@ -81,18 +88,15 @@ const DispositionTypeComponent = () => {
                   data: response
                }
             });
+            SwalAlert.fire({
+               position: 'center',
+               icon: 'success',
+               title: 'Actualizado correctamente',
+               showConfirmButton: false,
+               timer: 1500
+            });
             reset();
             onCancel();
-            SwalAlert.fire({
-               title: 'Oops',
-               text: 'Correcto',
-               showCancelButton: false,
-               confirmButtonText: 'Aceptar',
-               width: '23em',
-               allowOutsideClick: false,
-               allowEscapeKey: false
-            }).then((result) => {
-            });
           })
           .catch(error => {
           });
@@ -100,14 +104,32 @@ const DispositionTypeComponent = () => {
    }
 
    const handleDelete = (dispositionTypeId: number) => {
-      dispositionTypeService.delete(dispositionTypeId)
-      .then(response => {
-         dispatch({
-            type: 'delete',
-            payload: dispositionTypeId
-         });
-      })
-      .catch(error => console.log(error));
+      SwalAlert.fire({
+         title: 'Desea eliminar el registro',
+         icon: 'error',
+         showCancelButton: true,
+         confirmButtonColor: '#3085d6',
+         cancelButtonColor: '#d33',
+         confirmButtonText: 'Confirmar'
+       }).then((result) => {
+         if (result.isConfirmed) {
+            dispositionTypeService.delete(dispositionTypeId)
+            .then(response => {
+               dispatch({
+                  type: 'delete',
+                  payload: dispositionTypeId
+               });
+               SwalAlert.fire({
+                  position: 'center',
+                  icon: 'success',
+                  title: 'Eliminado correctamente',
+                  showConfirmButton: false,
+                  timer: 1500
+               })
+            })
+            .catch(error => console.log(error));
+         }
+       })
    }
 
    const onCancel = () => {
@@ -124,7 +146,7 @@ const DispositionTypeComponent = () => {
                      <CardHeader className="border-0">
                         <Row className="align-items-center">
                            <div className="col">
-                              <h3 className="mb-0">Lista de Tipos de Asuntos</h3>
+                              <h3 className="mb-0">Lista de Tipos de Disposiciones</h3>
                            </div>
                            <div className="col text-right">
                               <Button
@@ -182,7 +204,7 @@ const DispositionTypeComponent = () => {
                                           </td>
                                        </tr>
                               }))
-                              : (<TableLoaderComponent colNumber={4} rowNumber={9}/>)
+                              : (<TableLoaderComponent colNumber={3} rowNumber={9}/>)
                            }
                            
                         </tbody>
@@ -202,7 +224,7 @@ const DispositionTypeComponent = () => {
                      <CardHeader className="bg-white border-0">
                         <Row className="align-items-center">
                            <Col xs="12">
-                              <h3 className="mb-0">Nuevo Tipo de Asunto</h3>
+                              <h3 className="mb-0">{ typeActionModal === 'create' ? 'Nuevo' : 'Editar' } Tipo de Asunto</h3>
                            </Col>
                         </Row>
                      </CardHeader>

@@ -14,20 +14,7 @@ export default abstract class ApiService<T extends Model> {
    protected get uri(): string {
       return `${process.env.REACT_APP_API_URL}/${this.root()}/`;
    }
-   
-   /**
-    * 
-    * @param root 
-    * @param search 
-    *  * **Example:**
-    * 
-    * ```ts
-    * export const MyComponent = () => {
-    *    const { entities, loading, error } = useList<DescriptiveRecord[]>('search', { search: 'engine' } );
-    *    ...
-    * }
-    * ```
-    */
+
    public list = async (search?: SearchOptions): Promise<ListResponse<T>> => {
       const params: string[] = [];
    
@@ -80,7 +67,7 @@ export default abstract class ApiService<T extends Model> {
       }
    }
 
-   public storeFormData =  async (form: FormData): Promise<T> => {
+   public storeFormData = async (form: FormData): Promise<T> => {
       try {
          const config: AxiosRequestConfig = {
             headers: {
@@ -88,6 +75,22 @@ export default abstract class ApiService<T extends Model> {
             }
          }
          const { data } = await axios.post<T>(this.uri, form, config);
+         return data;
+      }
+      catch {
+         return {} as T;
+      }
+   }
+
+
+   public updateFormData = async (id: number, form: FormData): Promise<T> => {
+      try {
+         const config: AxiosRequestConfig = {
+            headers: {
+               'content-type': 'multipart/form-data'
+            }
+         }
+         const { data } = await axios.put<T>(`${this.uri}${id}`, form, config);
          return data;
       }
       catch {

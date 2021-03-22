@@ -1,5 +1,9 @@
-import { createContext, useContext } from 'react';
+import { createContext } from 'react';
+import { AuthAction, AuthResponse } from 'shared/reducer/authReducer';
 
-export const AuthContext = createContext(null);
-
-export const useAuth = () => useContext(AuthContext);
+export interface IAuthContext {
+   authData: AuthResponse;
+   dispatch: React.Dispatch<AuthAction>;
+}
+ 
+export const AuthContext = createContext<IAuthContext>({} as IAuthContext);

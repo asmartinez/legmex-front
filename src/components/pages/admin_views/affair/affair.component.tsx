@@ -23,6 +23,7 @@ import { affairService } from 'services';
 import TableLoaderComponent from 'components/ui/common/table-loader/table-loader.component';
 import { catalogReducer } from 'shared/reducer/catalogReducer';
 import { useForm } from 'shared/hooks/useForm';
+import SwalAlert from 'sweetalert2';
 
 
 const AffairComponent = () => {
@@ -67,6 +68,13 @@ const AffairComponent = () => {
             });
             reset();
             onCancel();
+            SwalAlert.fire({
+               position: 'center',
+               icon: 'success',
+               title: 'Guardado correctamente',
+               showConfirmButton: false,
+               timer: 1500
+            });
           })
           .catch(error => console.log(error));
       } else {
@@ -81,20 +89,45 @@ const AffairComponent = () => {
             });
             reset();
             onCancel();
+            SwalAlert.fire({
+               position: 'center',
+               icon: 'success',
+               title: 'Actualizado correctamente',
+               showConfirmButton: false,
+               timer: 1500
+            });
           })
           .catch(error => console.log(error));
       }
    }
 
    const handleDelete = (documentId: number) => {
-      affairService.delete(documentId)
-      .then(response => {
-         dispatch({
-            type: 'delete',
-            payload: documentId
-         });
-      })
-      .catch(error => console.log(error));
+      SwalAlert.fire({
+         title: 'Desea eliminar el registro',
+         icon: 'error',
+         showCancelButton: true,
+         confirmButtonColor: '#3085d6',
+         cancelButtonColor: '#d33',
+         confirmButtonText: 'Confirmar'
+       }).then((result) => {
+         if (result.isConfirmed) {
+            affairService.delete(documentId)
+            .then(response => {
+               dispatch({
+                  type: 'delete',
+                  payload: documentId
+               });
+               SwalAlert.fire({
+                  position: 'center',
+                  icon: 'success',
+                  title: 'Eliminado correctamente',
+                  showConfirmButton: false,
+                  timer: 1500
+               })
+            })
+            .catch(error => console.log(error));
+         }
+       })
    }
 
    const onCancel = () => {
@@ -186,7 +219,7 @@ const AffairComponent = () => {
                      <CardHeader className="bg-white border-0">
                         <Row className="align-items-center">
                            <Col xs="12">
-                              <h3 className="mb-0">Nuevo Tipo de Asunto</h3>
+                              <h3 className="mb-0">{ typeActionModal === 'create' ? 'Nuevo' : 'Editar' } Tipo de Asunto</h3>
                            </Col>
                         </Row>
                      </CardHeader>

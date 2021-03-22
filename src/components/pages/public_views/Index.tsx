@@ -1,12 +1,14 @@
-import React, { useCallback } from 'react';
+import React, { useCallback, useContext } from 'react';
 import { NavLink as NavLinkRRD, useHistory } from 'react-router-dom';
 import { Col, Container, NavLink, Row } from 'reactstrap';
 import { SearchOptions } from 'shared/utils/interfaces';
 import { Title } from 'shared/utils/constants';
 import SearchForm from 'components/ui/common/SearchForm';
+import { AuthContext } from 'shared/context/AuthContext';
 
 const Index = () => {
    const history = useHistory();
+   const { authData } = useContext(AuthContext);
 
    const handleSearch = useCallback(
       (search: SearchOptions) => {
@@ -20,18 +22,21 @@ const Index = () => {
    return (
       <>
          <Container>
-            <Row className="session justify-content-end">
-               <Col xl={2} md={3} xs={6}>
-                  <NavLink
-                   className="btn btn-light-primary btn-sm"
-                   to="/auth"
-                   tag={ NavLinkRRD }
-                   id="login12">
-                     <i className="bx bx-log-in"/>
-                     <span className="nav__name">Iniciar Sesión</span>
-                  </NavLink>
-               </Col>
-            </Row>
+            {
+               !authData.logged &&
+               <Row className="session justify-content-end">
+                  <Col xl={2} md={3} xs={6}>
+                     <NavLink
+                     className="btn btn-light-primary btn-sm"
+                     to="/auth"
+                     tag={ NavLinkRRD }
+                     id="login12">
+                        <i className="bx bx-log-in"/>
+                        <span className="nav__name">Iniciar Sesión</span>
+                     </NavLink>
+                  </Col>
+               </Row>
+            }
             <Row className="justify-content-center">
                <Col xl={8} md={8} xs={12}>
                   <h4 className ="text-index">{ Title }</h4>
