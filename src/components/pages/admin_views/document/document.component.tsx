@@ -38,7 +38,6 @@ import { useForm } from 'shared/hooks/useForm';
 import moment, { Moment } from 'moment';
 import 'moment/locale/es';
 import SwalAlert from 'sweetalert2';
-import Select from 'react-select';
 
 const getSteps = () => {
    return ['Datos del documento', 'Legislación Original', 'Transcripción de la legislación'];
